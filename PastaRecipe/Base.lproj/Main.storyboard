@@ -466,7 +466,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="AddCardViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="eEz-q8-2x1" customClass="AddCardViewController" customModule="PastaRecipe" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="PO6-kc-FoO">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <sections>
@@ -726,7 +726,7 @@
             <objects>
                 <viewController storyboardIdentifier="ConfirmOrderViewController" id="hDn-uA-MPd" customClass="ConfirmOrderViewController" customModule="PastaRecipe" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gmz-nz-8cf">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dUC-Wt-Py4">
@@ -871,7 +871,7 @@
             <objects>
                 <viewController storyboardIdentifier="SubscriptionTBViewController" id="PYY-gu-L2n" customClass="SubscriptionTBViewController" customModule="PastaRecipe" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kGh-jK-Lc8">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5hM-sD-Sit">
@@ -1078,7 +1078,7 @@
             <objects>
                 <viewController storyboardIdentifier="subscrpionplanViewController" id="CJV-sY-rum" customClass="subscrpionplanViewController" customModule="PastaRecipe" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Yqh-56-KYe">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YyV-ko-T1F">
@@ -1403,7 +1403,7 @@
             <objects>
                 <viewController modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" id="ofd-eV-DYs" customClass="SubscriptionPopupViewController" customModule="PastaRecipe" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JgN-qp-bSI">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AOf-jx-pzn">
@@ -1530,7 +1530,7 @@
             <objects>
                 <viewController storyboardIdentifier="homeExploreViewController" id="6re-RJ-oOS" customClass="homeExploreViewController" customModule="PastaRecipe" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="iKg-oP-vbk">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ninno" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kr3-Ca-RsX">
@@ -1597,15 +1597,6 @@
                                     <constraint firstAttribute="height" constant="21" id="pNZ-df-jKD"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subscribe" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FaW-M0-eMu">
-                                <rect key="frame" x="276" y="228" width="75" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="vg8-5b-pMb"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -1763,14 +1754,12 @@
                             <constraint firstItem="EPV-Vs-6xn" firstAttribute="top" secondItem="Lsz-fp-KUC" secondAttribute="bottom" constant="4" id="LIT-Dv-prw"/>
                             <constraint firstItem="fg6-Ud-WeL" firstAttribute="bottom" secondItem="EPV-Vs-6xn" secondAttribute="bottom" id="PEM-9O-rZK"/>
                             <constraint firstItem="fg6-Ud-WeL" firstAttribute="bottom" secondItem="dbS-iM-SYE" secondAttribute="bottom" constant="4" id="Qoq-Se-bBL"/>
-                            <constraint firstItem="FaW-M0-eMu" firstAttribute="trailing" secondItem="Lsz-fp-KUC" secondAttribute="trailing" id="V24-XR-jfr"/>
                             <constraint firstItem="wWs-a2-Qc9" firstAttribute="leading" secondItem="fg6-Ud-WeL" secondAttribute="leading" constant="24" id="Zmw-RG-8Y6"/>
                             <constraint firstItem="Gm5-YQ-aku" firstAttribute="top" secondItem="Kr3-Ca-RsX" secondAttribute="bottom" constant="8" id="biG-Et-OM6"/>
                             <constraint firstItem="fg6-Ud-WeL" firstAttribute="trailing" secondItem="Kr3-Ca-RsX" secondAttribute="trailing" constant="24" id="cEP-rR-zuG"/>
                             <constraint firstItem="fg6-Ud-WeL" firstAttribute="trailing" secondItem="Gm5-YQ-aku" secondAttribute="trailing" constant="24" id="cWW-8Q-udV"/>
                             <constraint firstItem="fg6-Ud-WeL" firstAttribute="trailing" secondItem="Lsz-fp-KUC" secondAttribute="trailing" constant="24" id="cYD-8B-VaZ"/>
                             <constraint firstItem="Lsz-fp-KUC" firstAttribute="top" secondItem="wWs-a2-Qc9" secondAttribute="bottom" constant="8" id="iU3-ro-zcd"/>
-                            <constraint firstItem="FaW-M0-eMu" firstAttribute="centerY" secondItem="Lsz-fp-KUC" secondAttribute="centerY" id="k9L-1x-9JO"/>
                             <constraint firstItem="Lsz-fp-KUC" firstAttribute="leading" secondItem="fg6-Ud-WeL" secondAttribute="leading" constant="24" id="lOt-GN-gRf"/>
                             <constraint firstItem="Gm5-YQ-aku" firstAttribute="leading" secondItem="fg6-Ud-WeL" secondAttribute="leading" constant="24" id="rFG-wF-RQ4"/>
                         </constraints>
@@ -1819,7 +1808,7 @@
             <objects>
                 <viewController id="Xxt-pY-5KR" customClass="CookWithChefVC" customModule="PastaRecipe" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="nLf-eD-cF7">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Sap-vD-EbQ">
@@ -2014,7 +2003,7 @@
             <objects>
                 <viewController id="c9z-sH-OMx" customClass="AddToCartViewController" customModule="PastaRecipe" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="51Q-ud-Nb6">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="suv-kZ-5O9">
@@ -2315,7 +2304,7 @@
             <objects>
                 <viewController wantsFullScreenLayout="YES" modalPresentationStyle="fullScreen" id="4xY-uT-tKb" customClass="GeoLocationVC" customModule="PastaRecipe" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4Ql-5i-uI5">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AmO-xp-6sb" customClass="GMSMapView">
@@ -3038,7 +3027,7 @@
             <objects>
                 <viewController id="Apb-T4-oOz" customClass="ProductsViewController" customModule="PastaRecipe" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="I5s-1Y-xgN">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Vcq-y5-kq6">

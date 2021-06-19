@@ -14,7 +14,7 @@ class subscrpionplanViewController: UIViewController {
     @IBOutlet weak var easyDropdown: DropDown!
     @IBOutlet weak var priceLbl: UILabel!
     
-    var selectedMonth = ""
+    var selectedMonth = "1"
     var selectedSubs = OrdersModel()
     //var totalPrice = 0
     
@@ -24,7 +24,7 @@ class subscrpionplanViewController: UIViewController {
         easyDropdown.selectedIndex = 0
         easyDropdown.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         easyDropdown.didSelect{(selectedText , index , id) in
-            self.selectedMonth = selectedText
+            self.selectedMonth = String(index + 1)
         }
         if let price = selectedSubs.purchasingcoins{
             self.priceLbl.text = "$\(price)"

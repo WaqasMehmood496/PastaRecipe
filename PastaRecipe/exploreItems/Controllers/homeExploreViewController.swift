@@ -115,15 +115,16 @@ extension homeExploreViewController{
             }
         }
     }
-    
 }
-extension homeExploreViewController:WebServiceResponseDelegate{
 
+extension homeExploreViewController:WebServiceResponseDelegate{
+    
     func callWebService(_ url:webserviceUrl,hud: JGProgressHUD){
         let helper = WebServicesHelper(serviceToCall: url, withMethod: .post, havingParameters: self.dataDic, relatedViewController: self,hud: hud)
         helper.delegateForWebServiceResponse = self
         helper.callWebService()
     }
+    
     func webServiceDataParsingOnResponseReceived(url: webserviceUrl?, viewControllerObj: UIViewController?, dataDict: Any, hud: JGProgressHUD) {
         switch url {
         case .getPlans:

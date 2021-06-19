@@ -49,7 +49,8 @@ enum webserviceUrl: String {
     delete_card = "/delete_card",
     laterpayment = "/laterpayment",
     addformdata = "/addformdata",
-    customer_Support = "/customer_Support"
+    customer_Support = "/customer_Support",
+    addpasteapurchyase = "/addpasteapurchyase"
     
     func url() -> String {
         return Constant.mainUrl + self.rawValue

@@ -208,7 +208,7 @@ extension ProductsViewController:UICollectionViewDelegate,UICollectionViewDataSo
         }else{
             self.plansArray[sender.tag].isAddToCart = true
             // ADD INTO CART ARRAY
-            cartArray.append(CartModel(image: self.plansArray[sender.tag].image_url, title: self.plansArray[sender.tag].plan_name, coins: self.plansArray[sender.tag].no_of_coins, quantity: "1", price: self.plansArray[sender.tag].amount))
+            cartArray.append(CartModel(id: self.plansArray[sender.tag].plan_id, image: self.plansArray[sender.tag].image_url, title: self.plansArray[sender.tag].plan_name, coins: self.plansArray[sender.tag].no_of_coins, quantity: "1", price: self.plansArray[sender.tag].amount))
         }
         self.ChefRecipeCV.reloadItems(at: [IndexPath(row: sender.tag, section: 0)])
     }

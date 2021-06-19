@@ -30,11 +30,11 @@ class AddToCartViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? subscrpionplanViewController{
-//            if let userId = CommonHelper.getCachedUserData()?.user_id{
+            if let userId = CommonHelper.getCachedUserData()?.user_id{
 //                if let id = Int64(userId){
-                    destination.selectedSubs = OrdersModel(user_id: 0 , SubscriptionId: 0, order_date: "", order_time: "", order_address: "", order_lat: "", purchasingcoins: "\(SubTotal+1)", order_lng: "")
+                destination.selectedSubs = OrdersModel(user_id: 0 , SubscriptionId: 0, order_date: "", order_time: "", order_address: "", order_lat: "", purchasingcoins: "\(SubTotal+1)", order_lng: "")
 //                }
-//            }
+            }
         }
     }
 }
