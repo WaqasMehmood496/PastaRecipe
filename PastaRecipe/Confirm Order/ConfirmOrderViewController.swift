@@ -8,12 +8,12 @@
 
 import UIKit
 import JGProgressHUD
-
+import iOSDropDown
 class ConfirmOrderViewController: UIViewController, PassDataDelegate {
     
     @IBOutlet weak var NameTF: UITextField!
     @IBOutlet weak var EmailTF: UITextField!
-    @IBOutlet weak var ZipCodeTF: UITextField!
+    @IBOutlet weak var ZipCodeTF: DropDown!
     @IBOutlet weak var StateTF: UITextField!
     @IBOutlet weak var CityTF: UITextField!
     @IBOutlet weak var addressTf: UITextField!
@@ -21,7 +21,7 @@ class ConfirmOrderViewController: UIViewController, PassDataDelegate {
     
     var selectedPlan = OrdersModel()
     var dataDic = [String:Any]()
-    
+    var selectedZip = "33133"
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setUpUI()
@@ -54,6 +54,16 @@ class ConfirmOrderViewController: UIViewController, PassDataDelegate {
             self.ZipCodeTF.text = user.zipcode
             self.StateTF.text = user.state
             self.CityTF.text = user.city
+        }
+        self.zipCodeSetupOnDropDown()
+    }
+    
+    func zipCodeSetupOnDropDown() {
+        ZipCodeTF.optionArray = ["33133","33176","33157","33012","33156","33181","33140","33014","33166","33147","33158","33054","33132","33034","33172","33168","33056","33190","33178","33184","33154","33141","33018","33189","33174","33196","33016","33169","33175","33015","33134","33143","33187","33031","33129","33010","33130","33179","33033","33109","33167","33165","33162","33125","33039","33127","33149","33139","33186","33170","33136","33013","33182","33155","33055","33137","33150","33173","33138","33131","33193","33144","33142","33177","33146","33135","33035","33185","33194","33032","33128","33180","33160","33145","33030","33126","33183","33122","33076","33067","33073","33442","33441","33065","33071","33063","33066","33064","33069","33060","33062","33321","33068","33351","33319","33309","33334","33308","33323","33322","33313","33311","33306","33305","33304","33301","33327","33326","33325","33324","33317","33312","33315","33316","33332","33331","33330","33328","33314","33004","33029","33028","33027","33026","33025","33024","33023","33021","33020","33009","33019"]
+        ZipCodeTF.selectedIndex = 0
+        ZipCodeTF.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        ZipCodeTF.didSelect{(selectedText , index , id) in
+            self.selectedZip = selectedText
         }
     }
     
@@ -91,7 +101,7 @@ class ConfirmOrderViewController: UIViewController, PassDataDelegate {
                 self.dataDic[Constant.shiping_month] = self.selectedPlan.order_date
                 self.dataDic[Constant.total_product] = "\(cartArray.count)"
                 self.dataDic[Constant.total_price] = "\(self.getPriceOfProducts())"
-                self.dataDic[Constant.zipcode] = self.ZipCodeTF.text!
+                self.dataDic[Constant.zipcode] = self.selectedZip
                 
                 for i in 0..<cartArray.count{
                     self.dataDic["\(Constant.product_id)\(i)"] = cartArray[i].id
