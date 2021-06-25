@@ -82,6 +82,7 @@ extension LoginVC{
                     else{
                         if let dic = dataDict as? Dictionary<String,Any>{
                             if let data = dic["user_detail"] as? NSDictionary{
+                                print(data)
                                 let user = LoginModel(dic: data as NSDictionary)
                                 
                                 CommonHelper.saveCachedUserData(user!)

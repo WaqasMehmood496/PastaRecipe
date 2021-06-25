@@ -398,11 +398,9 @@ class AddCardViewController: UITableViewController {
                     case .succeeded:
                         //self.displayAlert(title: "Payment succeeded", message: paymentIntent?.description ?? "", restartDemo: true)
                         self.stopAnimating()
-                        
-                        self.dismiss(animated: true) {
-                            self.delegate.booking()
-                        }
-                        PopupHelper.showAlertControllerWithSuccessBacktoRoot(forErrorMessage: "Your payment process is successfully completed", forViewController: self)
+                        self.delegate.booking()
+                        self.navigationController?.popViewController(animated: true)
+//                        PopupHelper.showAlertControllerWithSuccessBacktoRoot(forErrorMessage: "Your payment process is successfully completed", forViewController: self)
                         break
                     @unknown default:
                         fatalError()

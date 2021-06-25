@@ -129,7 +129,6 @@ extension SignupVC{
                                 CommonHelper.saveCachedUserData(user!)
                                 UserDefaults.standard.set(true, forKey: "userLoginStatus")
                                 hud.dismiss()
-                                
                                 CommonHelper.sharedInstance.ShowAlert(view: self, message: "Registered Successfully", Title: "Resgister")
                             }
                             else{

@@ -21,10 +21,12 @@ class profileVC: UIViewController{
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = true
         UserProfileImage.layer.cornerRadius = UserProfileImage.frame.height/2
-        guard let name = CommonHelper.getCachedUserData()?.user_name else {
+        guard let user = CommonHelper.getCachedUserData() else {
             return
         }
-        usernameLbl.text = name
+       // usernameLbl.text = name
+        print(user.user_id)
+        
     }
     
     @IBAction func yourPlanBtn(_ sender: Any) {

@@ -78,6 +78,8 @@
 		76B486A4261DD8E700856494 /* SubscriptionPlanModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B486A3261DD8E700856494 /* SubscriptionPlanModel.swift */; };
 		76B486AB261DE2DA00856494 /* SubscriptionPlanNameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B486AA261DE2DA00856494 /* SubscriptionPlanNameModel.swift */; };
 		76DE09732645D0CC0097B5CB /* CustomerSupportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DE09722645D0CC0097B5CB /* CustomerSupportViewController.swift */; };
+		76F27C202684C4D7001BE737 /* LocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F27C1E2684C4D7001BE737 /* LocationModel.swift */; };
+		76F27C242684C510001BE737 /* MapsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F27C232684C510001BE737 /* MapsViewController.swift */; };
 		773A0841258B3ED200A53EE3 /* ShopDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773A0840258B3ED200A53EE3 /* ShopDetailVC.swift */; };
 		776030D7263339DF00DF8132 /* profileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 776030D6263339DD00DF8132 /* profileVC.swift */; };
 		77727CCF2588CD1C0001EB05 /* MapMarkerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77727CCE2588CD1C0001EB05 /* MapMarkerModel.swift */; };
@@ -165,6 +167,8 @@
 		76B486A3261DD8E700856494 /* SubscriptionPlanModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionPlanModel.swift; sourceTree = "<group>"; };
 		76B486AA261DE2DA00856494 /* SubscriptionPlanNameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionPlanNameModel.swift; sourceTree = "<group>"; };
 		76DE09722645D0CC0097B5CB /* CustomerSupportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerSupportViewController.swift; sourceTree = "<group>"; };
+		76F27C1E2684C4D7001BE737 /* LocationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationModel.swift; sourceTree = "<group>"; };
+		76F27C232684C510001BE737 /* MapsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapsViewController.swift; sourceTree = "<group>"; };
 		773A0840258B3ED200A53EE3 /* ShopDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopDetailVC.swift; sourceTree = "<group>"; };
 		776030D6263339DD00DF8132 /* profileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = profileVC.swift; sourceTree = "<group>"; };
 		77727CCE2588CD1C0001EB05 /* MapMarkerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarkerModel.swift; sourceTree = "<group>"; };
@@ -237,6 +241,7 @@
 				76B0C0BC266A73B400782A08 /* Products */,
 				76B0C0AC266A6BB100782A08 /* Add To Cart */,
 				76758B7C266A4E7600E7268F /* Subscription Popup */,
+				76F27C1C2684C4D7001BE737 /* Location Map */,
 				76DE09702645D0A10097B5CB /* CustomerSupport */,
 				776030D5263339DD00DF8132 /* Profile */,
 				761682652631E97900A08B1C /* Confirm Order */,
@@ -638,6 +643,39 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
+		76F27C1C2684C4D7001BE737 /* Location Map */ = {
+			isa = PBXGroup;
+			children = (
+				76F27C222684C510001BE737 /* Controller */,
+				76F27C1D2684C4D7001BE737 /* Model */,
+				76F27C1F2684C4D7001BE737 /* View */,
+			);
+			path = "Location Map";
+			sourceTree = "<group>";
+		};
+		76F27C1D2684C4D7001BE737 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				76F27C1E2684C4D7001BE737 /* LocationModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		76F27C1F2684C4D7001BE737 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		76F27C222684C510001BE737 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				76F27C232684C510001BE737 /* MapsViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		776030D5263339DD00DF8132 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
@@ -856,6 +894,7 @@
 				76B0C0C0266A73E200782A08 /* ProductsViewController.swift in Sources */,
 				7616818E2631DBDF00A08B1C /* recipeViewcell.swift in Sources */,
 				762AB53B2630A9F5002723D4 /* UIViewController+Additions.swift in Sources */,
+				76F27C202684C4D7001BE737 /* LocationModel.swift in Sources */,
 				762AB5392630A9F5002723D4 /* UIImage+Additions.swift in Sources */,
 				762AB5362630A9F5002723D4 /* DataBaseHelper.swift in Sources */,
 				7616826B2631EACE00A08B1C /* OrderModel.swift in Sources */,
@@ -863,6 +902,7 @@
 				76B486AB261DE2DA00856494 /* SubscriptionPlanNameModel.swift in Sources */,
 				762AB52F2630A9F4002723D4 /* LanguageHelper.swift in Sources */,
 				76198AC02630B6FD00A832DA /* CustomStyle.swift in Sources */,
+				76F27C242684C510001BE737 /* MapsViewController.swift in Sources */,
 				76168290263202DD00A08B1C /* SubscriptionModel.swift in Sources */,
 				7629DE3C2657FEB9004D6364 /* LoginDelegate.swift in Sources */,
 				76198AC12630B6FD00A832DA /* InvoiceStripClient.swift in Sources */,

@@ -172,7 +172,7 @@ extension ProductsViewController:UICollectionViewDelegate,UICollectionViewDataSo
         let numberOfItemsPerRow:CGFloat = 2
         let spacingBetweenCellsIphone:CGFloat = 15
         let spacingBetweenCellsIpad:CGFloat = 30
-         
+        
         if UIDevice.current.userInterfaceIdiom == .phone{
             let totalSpacing = (2 * self.spacingIphone) + ((numberOfItemsPerRow - 1) * spacingBetweenCellsIphone) //Amount of total spacing in a row
             

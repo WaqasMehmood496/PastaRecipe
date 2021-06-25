@@ -26,7 +26,7 @@ class LoginModel: Codable {
     var city:String!
     var zipcode:String!
     
-    init(user_id: String,user_name:String,user_email:String,user_password:String,token_id:String,image_url:String,coins:String,plan_id:String,expired_date:String,user_type:String) {
+    init(user_id: String,user_name:String,user_email:String,user_password:String,token_id:String,image_url:String,coins:String,plan_id:String,expired_date:String,user_type:String,address_main:String,state:String,address_optional:String,city:String,zipcode:String) {
         self.user_id = user_id
         self.user_name = user_name
         self.user_email = user_email
@@ -37,6 +37,12 @@ class LoginModel: Codable {
         self.plan_id = plan_id
         self.expired_date = expired_date
         self.user_type = user_type
+        
+        self.address_main = address_main
+        self.state = state
+        self.address_optional = address_optional
+        self.city = city
+        self.zipcode = zipcode
     }
     init?(dic:NSDictionary) {
         
@@ -52,8 +58,15 @@ class LoginModel: Codable {
         let expired_date = (dic as AnyObject).value(forKey: Constant.expired_date) as? String
         let user_type = (dic as AnyObject).value(forKey: Constant.user_type) as? String
         
+        let address_main = (dic as AnyObject).value(forKey: Constant.address_main) as? String
+        let state = (dic as AnyObject).value(forKey: Constant.state) as? String
+        let address_optional = (dic as AnyObject).value(forKey: Constant.address_optional) as? String
+        let city = (dic as AnyObject).value(forKey: Constant.city) as? String
+        let zipcode = (dic as AnyObject).value(forKey: Constant.zipcode) as? String
+        
         self.user_id = user_id
         self.user_name = user_name
+        self.user_email = user_email
         self.user_password = user_password
         self.token_id = token_id
         self.image_url = image_url
@@ -61,6 +74,11 @@ class LoginModel: Codable {
         self.plan_id = plan_id
         self.expired_date = expired_date
         self.user_type = user_type
-
+        self.address_main = address_main
+        self.state = state
+        self.address_optional = address_optional
+        self.city = city
+        self.zipcode = zipcode
+        
     }
 }

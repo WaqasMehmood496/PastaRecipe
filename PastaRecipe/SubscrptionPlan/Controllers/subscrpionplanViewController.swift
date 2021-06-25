@@ -20,7 +20,7 @@ class subscrpionplanViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        easyDropdown.optionArray = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        easyDropdown.optionArray = ["Every Week","Every Month", "Every 3 Month", "Every 6 Month"]
         easyDropdown.selectedIndex = 0
         easyDropdown.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         easyDropdown.didSelect{(selectedText , index , id) in

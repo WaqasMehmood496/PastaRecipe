@@ -11,3 +11,7 @@ import Foundation
 protocol LoginDelegate {
     func loginSuccessDelegate()
 }
+
+protocol PassDataDelegate {
+    func passCurrentLocation(data:LocationModel)
+}

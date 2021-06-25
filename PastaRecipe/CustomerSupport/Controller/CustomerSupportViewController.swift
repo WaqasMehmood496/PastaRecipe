@@ -40,20 +40,13 @@ class CustomerSupportViewController: UIViewController {
         let message = MessageTF.text!
         
         if email != "" && email != " " && phone != "" && phone != " " && fname != "" && fname != " " && lname != "" && lname != " " && message != "" && message != " "{
-            
-//            print("email::::::\(email)","email::::::\(name)","email::::::\(password)")
-            
-            
             self.dataDic = [String:Any]()
-            
             self.dataDic[Constant.first_name] = fname
             self.dataDic[Constant.last_name] = lname
             self.dataDic[Constant.email] = email
             self.dataDic[Constant.phone_number] = phone
             self.dataDic[Constant.message] = message
-            
             self.callSignUpApi()
-            
         }
         else{
             
@@ -113,15 +106,5 @@ class CustomerSupportViewController: UIViewController {
         
         
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

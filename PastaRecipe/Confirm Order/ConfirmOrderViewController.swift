@@ -9,60 +9,101 @@
 import UIKit
 import JGProgressHUD
 
-class ConfirmOrderViewController: UIViewController {
+class ConfirmOrderViewController: UIViewController, PassDataDelegate {
     
-    @IBOutlet weak var detailstf: UITextField!
+    @IBOutlet weak var NameTF: UITextField!
+    @IBOutlet weak var EmailTF: UITextField!
+    @IBOutlet weak var ZipCodeTF: UITextField!
+    @IBOutlet weak var StateTF: UITextField!
+    @IBOutlet weak var CityTF: UITextField!
     @IBOutlet weak var addressTf: UITextField!
+    @IBOutlet weak var detailstf: UITextField!
     
     var selectedPlan = OrdersModel()
-    //var totalPrice = 0
     var dataDic = [String:Any]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        addressTf.attributedPlaceholder = NSAttributedString(string: "Address here", attributes: [NSAttributedString.Key.foregroundColor : UIColor(named: "Profile Label Color")!])
-        detailstf.attributedPlaceholder = NSAttributedString(string: "Payment delivery Instruction", attributes: [NSAttributedString.Key.foregroundColor : UIColor(named: "Profile Label Color")!])
+        self.setUpUI()
+        self.addTabGuestureOnLocationTextField()
     }
     
     @IBAction func confirmOrderBtn(_ sender: Any) {
-        let payment = storyboard?.instantiateViewController(identifier: "AddCardViewController") as! AddCardViewController
-        payment.delegate = self
-        //payment.orderDetail = selectedPlan
-        selectedPlan.order_address = self.addressTf.text!
-        payment.orderDetail = selectedPlan
-        self.navigationController?.pushViewController(payment, animated: true)
-    }
-    func booking() {
-        if addressTf.text! == "" || addressTf.text! == " "{
-            PopupHelper.alertWithOk(title: "Address field empty", message: "Address is required, please type your address in field", controler: self)
+        
+        if CommonHelper.getCachedUserData()?.user_id != nil{
+            if addressTf.text! == "" || addressTf.text! == " " , ZipCodeTF.text! == "" || ZipCodeTF.text! == " "{
+                PopupHelper.showAlertControllerWithError(forErrorMessage: "Zip code and address fields are required", forViewController: self)
+            }else{
+                self.moveToStripeVC()
+            }
         }else{
-            self.GetAllPlansApi()
+            if NameTF.text! == "" || NameTF.text! == " " || EmailTF.text! == "" || EmailTF.text! == " " || ZipCodeTF.text! == "" || ZipCodeTF.text! == " " || StateTF.text! == "" || StateTF.text! == " " || CityTF.text! == "" || CityTF.text! == " " || addressTf.text! == "" || addressTf.text! == " "{
+                PopupHelper.showAlertControllerWithError(forErrorMessage: "All fields are required", forViewController: self)
+            }else{
+                self.moveToStripeVC()
+            }
+            
         }
     }
     
-    func GetAllPlansApi() {
-        
-            showHUDView(hudIV: .indeterminate, text: .process) { (hud) in
-                hud.show(in: self.view, animated: true)
-                if Connectivity.isConnectedToNetwork(){
-                    
-                    self.dataDic = [String:Any]()
-                    guard let user = CommonHelper.getCachedUserData() else {return}
+    func setUpUI() {
+        if let user = CommonHelper.getCachedUserData(){
+            print(user)
+            self.NameTF.text = user.user_name
+            self.EmailTF.text = user.user_email
+            self.ZipCodeTF.text = user.zipcode
+            self.StateTF.text = user.state
+            self.CityTF.text = user.city
+        }
+    }
+    
+    func booking() {
+        self.AddPurchasedProduct()
+    }
+    func moveToStripeVC() {
+        let payment = storyboard?.instantiateViewController(identifier: "AddCardViewController") as! AddCardViewController
+        payment.delegate = self
+        selectedPlan.order_address = self.addressTf.text!
+        payment.orderDetail = selectedPlan
+        payment.orderDetail.user_id = 0
+        self.navigationController?.pushViewController(payment, animated: true)
+    }
+    
+    func AddPurchasedProduct() {
+        showHUDView(hudIV: .indeterminate, text: .process) { (hud) in
+            hud.show(in: self.view, animated: true)
+            if Connectivity.isConnectedToNetwork(){
+                self.dataDic = [String:Any]()
+                if let user = CommonHelper.getCachedUserData(){
+                    self.dataDic[Constant.name] = user.user_name
                     self.dataDic[Constant.user_id] = user.user_id
-                    self.dataDic[Constant.shipping_address] = self.addressTf.text!
-                    self.dataDic[Constant.shiping_month] = self.selectedPlan.order_date
-                    self.dataDic[Constant.total_product] = "\(cartArray.count)"
-                    self.dataDic[Constant.total_price] = "\(self.getPriceOfProducts())"
-                    for i in 0..<cartArray.count{
-                        self.dataDic["\(Constant.product_id)\(i)"] = cartArray[i].id
-                        self.dataDic["\(Constant.quantity)\(i)"] = cartArray[i].quantity
-                        self.dataDic["\(Constant.price)\(i)"] = cartArray[i].price
-                    }
-                    self.callWebService(.addpasteapurchyase, hud: hud)
+                    self.dataDic[Constant.email] = user.user_email
+                    self.dataDic[Constant.state] = user.state
+                    self.dataDic[Constant.city] = user.city
                 }else{
-                    hud.textLabel.text = "You are not connected to the internet. Please check your connection"
-                    hud.dismiss()
+                    self.dataDic[Constant.name] = self.NameTF.text!
+                    self.dataDic[Constant.user_id] = "0"
+                    self.dataDic[Constant.email] = self.EmailTF.text!
+                    self.dataDic[Constant.state] = self.StateTF.text!
+                    self.dataDic[Constant.city] = self.CityTF.text!
                 }
+                self.dataDic[Constant.shipping_address] = self.addressTf.text!
+                self.dataDic[Constant.shiping_month] = self.selectedPlan.order_date
+                self.dataDic[Constant.total_product] = "\(cartArray.count)"
+                self.dataDic[Constant.total_price] = "\(self.getPriceOfProducts())"
+                self.dataDic[Constant.zipcode] = self.ZipCodeTF.text!
+                
+                for i in 0..<cartArray.count{
+                    self.dataDic["\(Constant.product_id)\(i)"] = cartArray[i].id
+                    self.dataDic["\(Constant.quantity)\(i)"] = cartArray[i].quantity
+                    self.dataDic["\(Constant.price)\(i)"] = cartArray[i].price
+                }
+                self.callWebService(.addpasteapurchyase, hud: hud)
+            }else{
+                hud.textLabel.text = "You are not connected to the internet. Please check your connection"
+                hud.dismiss()
             }
+        }
     }
     
     func getPriceOfProducts() -> String{
@@ -75,6 +116,20 @@ class ConfirmOrderViewController: UIViewController {
         return String(price)
     }
     
+    //ADD TAP GUESTURE ON LOCATION TEXTFIELD FOR GETTING USER CURRENT LOCATION
+    func addTabGuestureOnLocationTextField() {
+        let tapGuesture = UITapGestureRecognizer(target: self, action: #selector(LocationTextFieldSelector(_:)))
+        self.addressTf.addGestureRecognizer(tapGuesture)
+    }
+    @objc func LocationTextFieldSelector(_ sender: UITextField){
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let mapController = storyboard.instantiateViewController(identifier: "MapsViewController") as! MapsViewController
+        mapController.delagate = self
+        self.present(mapController, animated: true, completion: nil)
+    }
+    func passCurrentLocation(data: LocationModel) {
+        self.addressTf.text = data.address
+    }
 }
 
 extension ConfirmOrderViewController:WebServiceResponseDelegate{
