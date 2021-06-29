@@ -8,7 +8,7 @@
 import UIKit
 import GoogleMaps
 
-class MapsViewController: UIViewController {
+class MapsViewController: UIViewController, GMSMapViewDelegate {
     //MARK: IBOUTLET'S
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var lblAddress: UITextField!
@@ -22,8 +22,8 @@ class MapsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setupGoogleMapFunctionality()
-        self.setupGoogleMapStyle()
+        self.mapStyle()
+        self.setupLocationManager()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -39,7 +39,7 @@ class MapsViewController: UIViewController {
 //MARK:- HELPING METHOD'S
 extension MapsViewController{
     // THIS METHOD WILL CHANGE GOOGLE MAP STYLE INTO DARK VIEW
-    func setupGoogleMapStyle() {
+    func mapStyle() {
         do {
             if let styleURL = Bundle.main.url(forResource: "style", withExtension: "json") {
                 self.mapView.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
@@ -52,13 +52,16 @@ extension MapsViewController{
         }
     }
     // THIS METHOD WILL GET THE CURRENT LOCATION AND SET THE POINTER TO IT
-    func setupGoogleMapFunctionality() {
+    func setupLocationManager() {
         locationManager = CLLocationManager()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestAlwaysAuthorization()
         locationManager.distanceFilter = 50
         locationManager.startUpdatingLocation()
         locationManager.delegate = self
+        
+        self.mapView.isMyLocationEnabled = true
+        self.mapView.delegate = self
     }
     //THIS METHOD WILL PLACE A MARK ON USER CURRENT LOCATION
     func placeMarkOnGoogleMap(location:CLLocation,address:String) {
@@ -82,6 +85,8 @@ extension MapsViewController{
 }
 
 extension MapsViewController: CLLocationManagerDelegate {
+    
+    
     
     // Handle incoming location events.
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -107,12 +112,11 @@ extension MapsViewController: CLLocationManagerDelegate {
                     return
                 }
                 let  v = address.lines!.joined(separator: "\n")
-                let marker = GMSMarker(position: location.coordinate)
-                marker.title = v
-                self.lblAddress.text = v
-                marker.map = self.mapView
-                
-                marker.icon = #imageLiteral(resourceName: "Search Location")
+//                let marker = GMSMarker(position: location.coordinate)
+//                marker.title = v
+//                self.lblAddress.text = v
+//                marker.map = self.mapView
+//                marker.icon = #imageLiteral(resourceName: "Search Location")
                 self.location.address_name = address.locality
                 self.location.address = v
                 self.location.street_address_1 = address.subLocality
@@ -121,6 +125,10 @@ extension MapsViewController: CLLocationManagerDelegate {
                 self.location.zipcode = address.postalCode
                 self.location.address_lat = location.coordinate.latitude
                 self.location.address_lng = location.coordinate.longitude
+                
+                
+                let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude,longitude: location.coordinate.longitude, zoom: self.zoomLevel)
+                self.mapView.camera = camera
             }
         }
     }

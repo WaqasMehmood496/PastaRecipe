@@ -25,7 +25,14 @@ class AddToCartViewController: UIViewController {
     
     //MARK: IBACTIONS'S
     @IBAction func CheckOutBtnAction(_ sender: Any) {
-        self.performSegue(withIdentifier: "toConfirmOrde", sender: nil)
+        let price = Int(self.TotalLabel.text!)
+        if let totalPrice = price{
+            if totalPrice > 6{
+                self.performSegue(withIdentifier: "toConfirmOrde", sender: nil)
+            }else{
+                PopupHelper.alertWithOk(title: "Message", message: "Purchases must be greater then $6", controler: self)
+            }
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

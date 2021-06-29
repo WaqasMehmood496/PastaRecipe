@@ -42,7 +42,6 @@ class ConfirmOrderViewController: UIViewController, PassDataDelegate {
             }else{
                 self.moveToStripeVC()
             }
-            
         }
     }
     

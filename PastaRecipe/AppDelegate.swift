@@ -21,7 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        GMSServices.provideAPIKey("AIzaSyBJFFGYs1UvChFsW-9Oq9dGw4rbdO38EEk")
+        //AIzaSyA9i83GVnp1G8WoB-YAdL8jyjPf44qryjA
+        GMSServices.provideAPIKey("AIzaSyA9i83GVnp1G8WoB-YAdL8jyjPf44qryjA")
         StripeAPI.defaultPublishableKey = "pk_test_51Iik5SJqRyRpBDcKucPVUT3phCXR9HOTUO7hVu2Awptat6K5olkX9G7pdkCuVQhxY5JlyM0CzwmuFl5NS2sT7d4c008k7drW98"
         FirebaseApp.configure()
         registerForPushNotifications()
