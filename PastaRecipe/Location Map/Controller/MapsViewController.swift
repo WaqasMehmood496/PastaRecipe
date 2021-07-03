@@ -38,7 +38,7 @@ class MapsViewController: UIViewController, GMSMapViewDelegate {
 
 //MARK:- HELPING METHOD'S
 extension MapsViewController{
-    // THIS METHOD WILL CHANGE GOOGLE MAP STYLE INTO DARK VIEW
+    /// - TAG: THIS METHOD WILL CHANGE GOOGLE MAP STYLE INTO DARK VIEW
     func mapStyle() {
         do {
             if let styleURL = Bundle.main.url(forResource: "style", withExtension: "json") {
@@ -51,7 +51,7 @@ extension MapsViewController{
             NSLog("One or more of the map styles failed to load. \(error)")
         }
     }
-    // THIS METHOD WILL GET THE CURRENT LOCATION AND SET THE POINTER TO IT
+    /// - TAG: THIS METHOD WILL GET THE CURRENT LOCATION AND SET THE POINTER TO IT
     func setupLocationManager() {
         locationManager = CLLocationManager()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -63,7 +63,7 @@ extension MapsViewController{
         self.mapView.isMyLocationEnabled = true
         self.mapView.delegate = self
     }
-    //THIS METHOD WILL PLACE A MARK ON USER CURRENT LOCATION
+    /// - TAG:THIS METHOD WILL PLACE A MARK ON USER CURRENT LOCATION
     func placeMarkOnGoogleMap(location:CLLocation,address:String) {
         let marker = GMSMarker(position: location.coordinate)
         marker.title = address
@@ -71,22 +71,40 @@ extension MapsViewController{
         marker.map = self.mapView
         marker.icon = UIImage(named: "Location")
     }
-    // THIS METHOD WILL SAVE USER CURRENT LOCATION DATA INTO OBJECT
-    func saveLocationDataInModel(location:CLLocation,address:GMSAddress,userAddress:String) {
+    
+    /// - TAG: Place marks on google map where user tap
+    func setupMark(address:String,coordinate:CLLocationCoordinate2D) {
+        let marker = GMSMarker(position: coordinate)
+        marker.title = address
+        self.lblAddress.text = address
+        marker.map = self.mapView
+        marker.icon = #imageLiteral(resourceName: "Search Location")
+    }
+    /// - TAG: Save user current or selected location in model
+    func saveLocation(addressStr:String,address:GMSAddress,coordinate:CLLocationCoordinate2D) {
         self.location.address_name = address.locality
-        self.location.address = userAddress
+        self.location.address = addressStr
         self.location.street_address_1 = address.subLocality
         self.location.street_address_2 = address.locality
         self.location.city = address.administrativeArea
         self.location.zipcode = address.postalCode
-        self.location.address_lat = location.coordinate.latitude
-        self.location.address_lng = location.coordinate.longitude
+        self.location.address_lat = coordinate.latitude
+        self.location.address_lng = coordinate.longitude
+        self.lblAddress.text = addressStr
     }
+    /// - TAG: Setup camera on map
+    func setupCamera(coordinate:CLLocationCoordinate2D) {
+        let camera = GMSCameraPosition.camera(withLatitude: coordinate.latitude,
+                                              longitude: coordinate.longitude,
+                                              zoom: zoomLevel)
+        
+        mapView.camera = camera
+        mapView.animate(to: camera)
+    }
+    
 }
 
 extension MapsViewController: CLLocationManagerDelegate {
-    
-    
     
     // Handle incoming location events.
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -95,15 +113,8 @@ extension MapsViewController: CLLocationManagerDelegate {
         }else{
             self.isLocationGet = true
             let location: CLLocation = locations.last!
-            print("Location: \(location)")
-            
             self.curentPosition = location.coordinate
-            let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude,
-                                                  longitude: location.coordinate.longitude,
-                                                  zoom: zoomLevel)
             
-            mapView.camera = camera
-            mapView.animate(to: camera)
             let geocoder = GMSGeocoder()
             geocoder.reverseGeocodeCoordinate(location.coordinate){response , error in
                 guard let address: GMSAddress = response?.firstResult()
@@ -111,24 +122,14 @@ extension MapsViewController: CLLocationManagerDelegate {
                 {
                     return
                 }
-                let  v = address.lines!.joined(separator: "\n")
-//                let marker = GMSMarker(position: location.coordinate)
-//                marker.title = v
-//                self.lblAddress.text = v
-//                marker.map = self.mapView
-//                marker.icon = #imageLiteral(resourceName: "Search Location")
-                self.location.address_name = address.locality
-                self.location.address = v
-                self.location.street_address_1 = address.subLocality
-                self.location.street_address_2 = address.locality
-                self.location.city = address.administrativeArea
-                self.location.zipcode = address.postalCode
-                self.location.address_lat = location.coordinate.latitude
-                self.location.address_lng = location.coordinate.longitude
+                let  addressStr = address.lines!.joined(separator: "\n")
                 
+                self.saveLocation(addressStr: addressStr, address: address, coordinate: location.coordinate)
                 
-                let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude,longitude: location.coordinate.longitude, zoom: self.zoomLevel)
-                self.mapView.camera = camera
+                //                let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude,longitude: location.coordinate.longitude, zoom: self.zoomLevel)
+                //                self.mapView.camera = camera
+                
+                self.setupCamera(coordinate: location.coordinate)
             }
         }
     }
@@ -154,5 +155,27 @@ extension MapsViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         locationManager.stopUpdatingLocation()
         print("Error: \(error)")
+    }
+    
+    
+    func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
+        print(coordinate)
+        let geocoder = GMSGeocoder()
+        geocoder.reverseGeocodeCoordinate(coordinate){response , error in
+            guard let address: GMSAddress = response?.firstResult()
+            else
+            {
+                return
+            }
+            
+            let  addressStr = address.lines!.joined(separator: "\n")
+            //place mark on google maps
+            self.setupMark(address: addressStr, coordinate: coordinate)
+            //Save location on model
+            self.saveLocation(addressStr: addressStr, address: address, coordinate: coordinate)
+            
+            let camera = GMSCameraPosition.camera(withLatitude: coordinate.latitude,longitude: coordinate.longitude, zoom: self.zoomLevel)
+            self.mapView.camera = camera
+        }
     }
 }

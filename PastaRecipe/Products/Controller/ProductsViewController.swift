@@ -151,8 +151,13 @@ extension ProductsViewController:UICollectionViewDelegate,UICollectionViewDataSo
         cell.recipeName.text = self.plansArray[indexPath.row].plan_name
         cell.recipedetails.text = self.plansArray[indexPath.row].plan_description
         cell.recipePrice.text = self.plansArray[indexPath.row].amount
+        
         cell.AddToCartBtn.addTarget(self, action: #selector(addToCartBtnAction(_:)), for: .touchUpInside)
+        
+        
         cell.AddToCartBtn.tag = indexPath.row
+        
+        
         if self.plansArray[indexPath.row].isAddToCart == true{
             cell.AddToCartBtn.setTitle("ADDED", for: .normal)
         }else{

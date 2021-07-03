@@ -25,7 +25,7 @@ class ConfirmOrderViewController: UIViewController, PassDataDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setUpUI()
-        self.addTabGuestureOnLocationTextField()
+        //self.addTabGuestureOnLocationTextField()
     }
     
     @IBAction func confirmOrderBtn(_ sender: Any) {
@@ -43,6 +43,12 @@ class ConfirmOrderViewController: UIViewController, PassDataDelegate {
                 self.moveToStripeVC()
             }
         }
+    }
+    @IBAction func openMapBtnAction(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let mapController = storyboard.instantiateViewController(identifier: "MapsViewController") as! MapsViewController
+        mapController.delagate = self
+        self.present(mapController, animated: true, completion: nil)
     }
     
     func setUpUI() {
@@ -125,17 +131,17 @@ class ConfirmOrderViewController: UIViewController, PassDataDelegate {
         return String(price)
     }
     
-    //ADD TAP GUESTURE ON LOCATION TEXTFIELD FOR GETTING USER CURRENT LOCATION
-    func addTabGuestureOnLocationTextField() {
-        let tapGuesture = UITapGestureRecognizer(target: self, action: #selector(LocationTextFieldSelector(_:)))
-        self.addressTf.addGestureRecognizer(tapGuesture)
-    }
-    @objc func LocationTextFieldSelector(_ sender: UITextField){
-        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        let mapController = storyboard.instantiateViewController(identifier: "MapsViewController") as! MapsViewController
-        mapController.delagate = self
-        self.present(mapController, animated: true, completion: nil)
-    }
+//    //ADD TAP GUESTURE ON LOCATION TEXTFIELD FOR GETTING USER CURRENT LOCATION
+//    func addTabGuestureOnLocationTextField() {
+//        let tapGuesture = UITapGestureRecognizer(target: self, action: #selector(LocationTextFieldSelector(_:)))
+//        self.addressTf.addGestureRecognizer(tapGuesture)
+//    }
+//    @objc func LocationTextFieldSelector(_ sender: UITextField){
+//        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+//        let mapController = storyboard.instantiateViewController(identifier: "MapsViewController") as! MapsViewController
+//        mapController.delagate = self
+//        self.present(mapController, animated: true, completion: nil)
+//    }
     func passCurrentLocation(data: LocationModel) {
         self.addressTf.text = data.address
     }

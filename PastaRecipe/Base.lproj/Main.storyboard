@@ -849,7 +849,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Address" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZCd-WL-iFF">
-                                                <rect key="frame" x="32" y="306" width="295" height="50"/>
+                                                <rect key="frame" x="32" y="306" width="235" height="50"/>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="PNu-yB-P0T"/>
@@ -878,6 +878,25 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </textField>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y1L-9T-YrJ">
+                                                <rect key="frame" x="277" y="306" width="50" height="50"/>
+                                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="0y7-Mp-HZv"/>
+                                                    <constraint firstAttribute="width" constant="50" id="NcB-rp-9Nu"/>
+                                                </constraints>
+                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <inset key="imageEdgeInsets" minX="6" minY="6" maxX="6" maxY="6"/>
+                                                <state key="normal" image="aim"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                        <real key="value" value="10"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="openMapBtnAction:" destination="hDn-uA-MPd" eventType="touchUpInside" id="3RS-B6-2hk"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -892,17 +911,19 @@
                                             <constraint firstItem="6O7-wI-mCg" firstAttribute="leading" secondItem="NwJ-UZ-4t8" secondAttribute="leading" constant="32" id="DfB-uM-RHC"/>
                                             <constraint firstItem="P8T-Jd-1Hk" firstAttribute="leading" secondItem="ZCd-WL-iFF" secondAttribute="leading" id="J8e-WZ-90v"/>
                                             <constraint firstItem="AKJ-Ra-k6U" firstAttribute="top" secondItem="IJd-PY-143" secondAttribute="bottom" constant="8" id="Li7-se-y5o"/>
+                                            <constraint firstItem="P8T-Jd-1Hk" firstAttribute="trailing" secondItem="Fyv-Va-FCl" secondAttribute="trailing" id="MNG-mc-CBF"/>
                                             <constraint firstItem="Fyv-Va-FCl" firstAttribute="top" secondItem="9K6-Of-qU2" secondAttribute="bottom" constant="8" id="R8k-pG-wth"/>
                                             <constraint firstItem="6O7-wI-mCg" firstAttribute="top" secondItem="NwJ-UZ-4t8" secondAttribute="top" constant="16" id="Rov-s9-F7y"/>
                                             <constraint firstItem="IJd-PY-143" firstAttribute="top" secondItem="6O7-wI-mCg" secondAttribute="bottom" constant="8" id="THX-Jk-ki5"/>
                                             <constraint firstItem="IJd-PY-143" firstAttribute="height" secondItem="6O7-wI-mCg" secondAttribute="height" id="X2N-Vs-kzP"/>
-                                            <constraint firstItem="ZCd-WL-iFF" firstAttribute="trailing" secondItem="Fyv-Va-FCl" secondAttribute="trailing" id="Y57-R8-eCv"/>
+                                            <constraint firstItem="y1L-9T-YrJ" firstAttribute="centerY" secondItem="ZCd-WL-iFF" secondAttribute="centerY" id="b0n-MW-M3b"/>
                                             <constraint firstItem="9K6-Of-qU2" firstAttribute="top" secondItem="AKJ-Ra-k6U" secondAttribute="bottom" constant="8" symbolic="YES" id="c8k-AF-9Ht"/>
                                             <constraint firstItem="AKJ-Ra-k6U" firstAttribute="trailing" secondItem="IJd-PY-143" secondAttribute="trailing" id="d8l-Rg-9yY"/>
                                             <constraint firstItem="9K6-Of-qU2" firstAttribute="leading" secondItem="AKJ-Ra-k6U" secondAttribute="leading" id="dLK-rx-jsS"/>
                                             <constraint firstItem="Fyv-Va-FCl" firstAttribute="trailing" secondItem="9K6-Of-qU2" secondAttribute="trailing" id="ePm-LJ-Ahu"/>
                                             <constraint firstItem="AKJ-Ra-k6U" firstAttribute="leading" secondItem="IJd-PY-143" secondAttribute="leading" id="jKO-j4-yHf"/>
-                                            <constraint firstItem="P8T-Jd-1Hk" firstAttribute="trailing" secondItem="ZCd-WL-iFF" secondAttribute="trailing" id="v3S-8R-LIZ"/>
+                                            <constraint firstItem="y1L-9T-YrJ" firstAttribute="trailing" secondItem="Fyv-Va-FCl" secondAttribute="trailing" id="n0y-IA-KEo"/>
+                                            <constraint firstItem="y1L-9T-YrJ" firstAttribute="leading" secondItem="ZCd-WL-iFF" secondAttribute="trailing" constant="10" id="run-OQ-mA3"/>
                                             <constraint firstAttribute="trailing" secondItem="6O7-wI-mCg" secondAttribute="trailing" constant="32" id="zxr-Oh-UgM"/>
                                         </constraints>
                                     </view>
@@ -3305,6 +3326,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="vK6-1f-3KN"/>
                                 </constraints>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <userDefinedRuntimeAttributes>
@@ -3358,6 +3380,7 @@
         <image name="Cross" width="32" height="32"/>
         <image name="Rounded Rectangle 3" width="316" height="225"/>
         <image name="Search Location" width="36" height="36"/>
+        <image name="aim" width="64" height="64"/>
         <image name="arrow.left" catalog="system" width="128" height="98"/>
         <image name="bg" width="316" height="585"/>
         <image name="cart" catalog="system" width="128" height="102"/>
