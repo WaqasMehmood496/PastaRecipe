@@ -9,9 +9,11 @@ import UIKit
 import GoogleMaps
 
 class MapsViewController: UIViewController, GMSMapViewDelegate {
+    
     //MARK: IBOUTLET'S
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var lblAddress: UITextField!
+    
     //MARK: VARIABLE'S
     var locationManager = CLLocationManager()
     var location = LocationModel()
@@ -25,6 +27,7 @@ class MapsViewController: UIViewController, GMSMapViewDelegate {
         self.mapStyle()
         self.setupLocationManager()
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }

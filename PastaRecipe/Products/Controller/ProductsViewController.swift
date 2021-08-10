@@ -14,11 +14,14 @@ import JGProgressHUD
 
 class ProductsViewController: UIViewController {
     
-    //MARK: IBOUTLET'S
+    // IBOUTLET'S
     @IBOutlet weak var ActivityIndicatorView: NVActivityIndicatorView!
     @IBOutlet weak var ChefRecipeCV: UICollectionView!
     
-    //MARK: VARIABLE'S
+    // Constant's
+    let toAddCartSegue = "toAddCart"
+    let internetConnectionMsg = "You are not connected to the internet. Please check your connection"
+    // VARIABLE'S
     var selectedIndex = 0
     var dataDic:[String:Any]!
     var plansArray = [SubscripeModel]()
@@ -35,7 +38,7 @@ class ProductsViewController: UIViewController {
     
     //MARK: ACTION'S
     @IBAction func CartBtnAction(_ sender: Any) {
-        self.performSegue(withIdentifier: "toAddCart", sender: nil)
+        self.performSegue(withIdentifier: toAddCartSegue, sender: nil)
     }
     
     deinit {
@@ -52,7 +55,7 @@ extension ProductsViewController{
                 self.dataDic = [String:Any]()
                 self.callWebService(.getPlans, hud: hud)
             }else{
-                hud.textLabel.text = "You are not connected to the internet. Please check your connection"
+                hud.textLabel.text = self.internetConnectionMsg
                 hud.indicatorView = JGProgressHUDErrorIndicatorView()
                 hud.dismiss(afterDelay: 2, animated: true)
             }
@@ -79,8 +82,7 @@ extension ProductsViewController{
         return nil
     }
     
-    func find(value searchValue: String, in array: [CartModel]) -> Int?
-    {
+    func find(value searchValue: String, in array: [CartModel]) -> Int? {
         for (index, value) in array.enumerated()
         {
             if value.title == searchValue {
@@ -109,7 +111,7 @@ extension ProductsViewController{
         self.ChefRecipeCV?.collectionViewLayout = layout
     }
 }
-extension ProductsViewController:WebServiceResponseDelegate{
+extension ProductsViewController:WebServiceResponseDelegate {
     
     func callWebService(_ url:webserviceUrl,hud: JGProgressHUD){
         let helper = WebServicesHelper(serviceToCall: url, withMethod: .post, havingParameters: self.dataDic, relatedViewController: self,hud: hud)
@@ -144,27 +146,27 @@ extension ProductsViewController:UICollectionViewDelegate,UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! recipeViewcell
-        
         if let url = self.plansArray[indexPath.row].image_url{
-            cell.recipeImages.sd_setImage(with: URL(string: url), placeholderImage:  #imageLiteral(resourceName: "101"))
+            cell.recipeImages.sd_setImage (
+                with: URL(string: url),
+                placeholderImage:  #imageLiteral(resourceName: "101")
+            )
         }
         cell.recipeName.text = self.plansArray[indexPath.row].plan_name
         cell.recipedetails.text = self.plansArray[indexPath.row].plan_description
         cell.recipePrice.text = self.plansArray[indexPath.row].amount
-        
-        cell.AddToCartBtn.addTarget(self, action: #selector(addToCartBtnAction(_:)), for: .touchUpInside)
-        
-        
+        cell.AddToCartBtn.addTarget (
+            self,
+            action: #selector(addToCartBtnAction(_:)),
+            for: .touchUpInside
+        )
         cell.AddToCartBtn.tag = indexPath.row
-        
         
         if self.plansArray[indexPath.row].isAddToCart == true{
             cell.AddToCartBtn.setTitle("ADDED", for: .normal)
         }else{
             cell.AddToCartBtn.setTitle("ADD TO CART", for: .normal)
         }
-        
-        
         return cell
     }
     

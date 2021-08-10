@@ -9,13 +9,19 @@
 import UIKit
 
 class AddToCartViewController: UIViewController {
-    //MARK: IBOUTLET'S
+    
+    // IBOUTLET'S
     @IBOutlet weak var ItemsTableView: UITableView!
     @IBOutlet weak var SubTotalLabel: UILabel!
     @IBOutlet weak var DeliveryChargesLabel: UILabel!
     @IBOutlet weak var TotalLabel: UILabel!
     
-    //MARK: VARIABLE'S
+    // CONSTANT'S
+    let toConfirmOrdeSegue = "toConfirmOrde"
+    let messageTitle = "Message"
+    let itemsCellIdentifier = "ItemsCell"
+    
+    // VARIABLE'S
     var SubTotal = 0
     
     override func viewDidLoad() {
@@ -26,35 +32,54 @@ class AddToCartViewController: UIViewController {
     //MARK: IBACTIONS'S
     @IBAction func CheckOutBtnAction(_ sender: Any) {
         let price = Int(self.TotalLabel.text!)
-        if let totalPrice = price{
-            if totalPrice > 6{
-                self.performSegue(withIdentifier: "toConfirmOrde", sender: nil)
-            }else{
-                PopupHelper.alertWithOk(title: "Message", message: "Purchases must be greater then $6", controler: self)
+        if let totalPrice = price {
+            if totalPrice > 6 {
+                self.performSegue(withIdentifier: toConfirmOrdeSegue, sender: nil)
+            } else {
+                PopupHelper.alertWithOk(
+                    title: messageTitle,
+                    message: "Purchases must be greater then $6",
+                    controler: self
+                )
             }
         }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let destination = segue.destination as? subscrpionplanViewController{
-            if let userId = CommonHelper.getCachedUserData()?.user_id{
-                if let id = Int64(userId){
-                destination.selectedSubs = OrdersModel(user_id:  id, SubscriptionId: 0, order_date: "", order_time: "", order_address: "", order_lat: "", purchasingcoins: "\(SubTotal+1)", order_lng: "")
-                }
-            }
-            else{
-                destination.selectedSubs = OrdersModel(user_id: 0 , SubscriptionId: 0, order_date: "", order_time: "", order_address: "", order_lat: "", purchasingcoins: "\(SubTotal+1)", order_lng: "")
+        if let destination = segue.destination as? subscrpionplanViewController {
+            if let userId = CommonHelper.getCachedUserData()?.user_detail.user_id {
+                destination.selectedSubs = OrdersModel (
+                    user_id:  Int64(userId),
+                    SubscriptionId: 0,
+                    order_date: "",
+                    order_time: "",
+                    order_address: "",
+                    order_lat: "",
+                    purchasingcoins: "\(SubTotal+1)",
+                    order_lng: ""
+                )
+            } else {
+                destination.selectedSubs = OrdersModel (
+                    user_id: 0 ,
+                    SubscriptionId: 0,
+                    order_date: "",
+                    order_time: "",
+                    order_address: "",
+                    order_lat: "",
+                    purchasingcoins: "\(SubTotal+1)",
+                    order_lng: ""
+                )
             }
         }
     }
 }
 
 //MARK:- FUNCTION'S/METHOD'S EXTENSION
-extension AddToCartViewController{
+extension AddToCartViewController {
     
     func calculateValue() {
         self.SubTotal = 0
-        for data in cartArray{
+        for data in cartArray {
             let converIntoInt = Int(data.price)
             if let price = converIntoInt{
                 SubTotal = SubTotal + price
@@ -75,7 +100,7 @@ extension AddToCartViewController{
     
     func DecrementValue(price:String) {
         let priceInInt = Int(price)
-        if let productPrice = priceInInt{
+        if let productPrice = priceInInt {
             SubTotal = SubTotal - productPrice
             self.SubTotalLabel.text = String(SubTotal)
             self.TotalLabel.text = "\(SubTotal+1)"
@@ -91,9 +116,13 @@ extension AddToCartViewController:UITableViewDelegate,UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ItemsCell", for: indexPath) as! CartItemsTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: itemsCellIdentifier, for: indexPath) as! CartItemsTableViewCell
         cell.Coins.text = cartArray[indexPath.row].price
-        cell.ItemImage.sd_setImage(with: URL(string: cartArray[indexPath.row].image), placeholderImage: #imageLiteral(resourceName: "101"))
+        cell.ItemImage.sd_setImage (
+            with: URL (
+                string: cartArray[indexPath.row].image
+            ),placeholderImage: #imageLiteral(resourceName: "101")
+        )
         cell.ItemQuantity.text = cartArray[indexPath.row].quantity
         cell.ItemTilte.text = cartArray[indexPath.row].title
         

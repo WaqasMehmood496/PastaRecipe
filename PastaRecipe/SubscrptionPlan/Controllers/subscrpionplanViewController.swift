@@ -11,28 +11,17 @@ import iOSDropDown
 
 class subscrpionplanViewController: UIViewController {
     
+    // IBOUTLET'S
     @IBOutlet weak var easyDropdown: DropDown!
     @IBOutlet weak var priceLbl: UILabel!
     
+    // VARIABLE'S
     var selectedMonth = "1"
     var selectedSubs = OrdersModel()
-    //var totalPrice = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        easyDropdown.optionArray = ["Every Week","Every Month", "Every 3 Month", "Every 6 Month"]
-        easyDropdown.selectedIndex = 0
-        easyDropdown.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        easyDropdown.didSelect{(selectedText , index , id) in
-            self.selectedMonth = String(index + 1)
-        }
-        if let price = selectedSubs.purchasingcoins{
-            self.priceLbl.text = "$\(price)"
-        }
-    }
-    
-    @IBAction func backBtn(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
+        
     }
     
     @IBAction func setupBtn(_ sender: Any) {
@@ -41,5 +30,30 @@ class subscrpionplanViewController: UIViewController {
         selectedSubs.order_date = selectedMonth
         payment.selectedPlan = selectedSubs
         self.navigationController?.pushViewController(payment, animated: true)
+    }
+}
+
+//MARK:- HELPING METHOD'S
+extension subscrpionplanViewController{
+    
+    func setupUI() {
+        initializeDropDown()
+        if let price = selectedSubs.purchasingcoins{
+            self.priceLbl.text = "$\(price)"
+        }
+    }
+    
+    func initializeDropDown() {
+        easyDropdown.optionArray = [
+            "Every Week",
+            "Every Month",
+            "Every 3 Month",
+            "Every 6 Month"
+        ]
+        easyDropdown.selectedIndex = 0
+        easyDropdown.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        easyDropdown.didSelect{(selectedText , index , id) in
+            self.selectedMonth = String(index + 1)
+        }
     }
 }

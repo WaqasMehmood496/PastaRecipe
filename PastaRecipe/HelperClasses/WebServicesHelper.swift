@@ -44,14 +44,17 @@ enum webserviceUrl: String {
     get_products = "/get_products/",
     getPlans = "/getPlans",
     stripe_payment = "/newpaymentintent",
+    paymentintent = "/paymentintent",
     customerlist = "/customerlist",
     cardlist = "/cardlist",
     delete_card = "/delete_card",
     laterpayment = "/laterpayment",
     addformdata = "/addformdata",
     customer_Support = "/customer_Support",
-    addpasteapurchyase = "/addpasteapurchyase"
-    
+    addpasteapurchyase = "/addpasteapurchyase",
+    firststep = "/firststep",
+    verifieduser = "/verifieduser",
+    myadress = "/myadress"
     func url() -> String {
         return Constant.mainUrl + self.rawValue
     }
@@ -560,14 +563,8 @@ class WebServicesHelper
         let myheaders:HTTPHeaders = ["Content-Type":"application/x-www-form-urlencoded","Accept":"application/json"]
         //let myheaders = ["Content-Type":"text/html; charset=UTF-8","Accept": "*/*"]
         
-        AF.request(serviceURL, method: .post, parameters: self.parameters, encoding: URLEncoding.default, headers: myheaders)
+        AF.request(serviceURL, method: httpMethodName, parameters: self.parameters, encoding: URLEncoding.default, headers: myheaders)
             .responseJSON { response in
-                
-                
-                //print(response.request as Any)  // original URL request
-                //print(response.response as Any) // URL response
-                //print(response.result.value as Any)   // result of response serialization
-                
                 
                 var statusCode:NSInteger? = nil
                 if let responseObj: HTTPURLResponse = response.response

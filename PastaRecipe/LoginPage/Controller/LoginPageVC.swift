@@ -10,25 +10,22 @@ import UIKit
 
 class LoginPageVC: UIViewController {
     
+    //CONSTANT'S
+    let loginVCIdentifier = "LoginVC"
+    let signupVCIdentifier = "SignupVC"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = true
     }
     
     @IBAction func SignInBtn(_ sender: Any) {
-        
-        
-        let login = storyboard?.instantiateViewController(identifier: "LoginVC") as! LoginVC
-//        payment.delegate = self
-//        payment.orderDetail = tempOrder
+        let login = storyboard?.instantiateViewController(identifier: loginVCIdentifier) as! LoginVC
         self.navigationController?.pushViewController(login, animated: true)
-        
-        
     }
+    
     @IBAction func CreateAccountBtn(_ sender: Any) {
         let login = storyboard?.instantiateViewController(identifier: "SignupVC") as! SignupVC
         self.navigationController?.pushViewController(login, animated: true)
     }
-
-
 }

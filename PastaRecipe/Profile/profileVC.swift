@@ -19,14 +19,14 @@ class profileVC: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.navigationBar.isHidden = true
         UserProfileImage.layer.cornerRadius = UserProfileImage.frame.height/2
-        guard let user = CommonHelper.getCachedUserData() else {
-            return
+        if let user = CommonHelper.getCachedUserData() {
+            self.usernameLbl.text = user.user_detail.user_name
         }
-       // usernameLbl.text = name
-        print(user.user_id)
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = true
     }
     
     @IBAction func yourPlanBtn(_ sender: Any) {
@@ -38,4 +38,8 @@ class profileVC: UIViewController{
     @IBAction func yourOrderBtn(_ sender: Any) {
     }
     
+    @IBAction func MyCardAndAddresBtnAction(_ sender: Any) {
+        let mycardAndAddressVC = storyboard?.instantiateViewController(withIdentifier: "CardAndAddressViewController") as! CardAndAddressViewController
+        self.navigationController?.pushViewController(mycardAndAddressVC, animated: true)
+    }
 }

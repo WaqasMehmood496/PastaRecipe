@@ -13,9 +13,15 @@ import NVActivityIndicatorView
 import JGProgressHUD
 
 class CookWithChefVC: UIViewController {
+    
     //MARK: IBOUTLET'S
     @IBOutlet weak var ActivityIndicatorView: NVActivityIndicatorView!
     @IBOutlet weak var ChefRecipeCV: UICollectionView!
+    
+    //CONSTANT'S
+    let internetMsg = "You are not connected to the internet. Please check your connection"
+    let toCartSegue = "toCart"
+
     //MARK: VARIABLE'S
     var selectedIndex = 0
     var dataDic:[String:Any]!
@@ -27,24 +33,26 @@ class CookWithChefVC: UIViewController {
         super.viewDidLoad()
         self.collectionViewSetup()
         cartArray.removeAll()
-        self.GetAllPlansApi()
+        self.getAllPlansApi()
     }
     
     //MARK: ACTION'S
     @IBAction func CartBtnAction(_ sender: Any) {
-        self.performSegue(withIdentifier: "toCart", sender: nil)
+        self.performSegue(withIdentifier: toCartSegue, sender: nil)
     }
 }
 
-extension CookWithChefVC{
-    func GetAllPlansApi() {
+//MARK:- HELPING METHOD'S
+extension CookWithChefVC {
+    
+    func getAllPlansApi() {
         showHUDView(hudIV: .indeterminate, text: .process) { (hud) in
             hud.show(in: self.view, animated: true)
             if Connectivity.isConnectedToNetwork(){
                 self.dataDic = [String:Any]()
                 self.callWebService(.getPlans, hud: hud)
             }else{
-                hud.textLabel.text = "You are not connected to the internet. Please check your connection"
+                hud.textLabel.text = self.internetMsg
                 hud.indicatorView = JGProgressHUDErrorIndicatorView()
                 hud.dismiss(afterDelay: 2, animated: true)
             }

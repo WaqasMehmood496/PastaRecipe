@@ -1,17 +1,18 @@
 //
-//  AddCardViewController.swift
-//  TastyBox
+//  AddNewCardViewController.swift
+//  PastaRecipe
 //
-//  Created by Adeel on 26/06/2020.
-//  Copyright © 2020 Buzzware. All rights reserved.
+//  Created by Buzzware Tech on 05/08/2021.
+//  Copyright © 2021 Buzzware. All rights reserved.
 //
 
 import UIKit
 import Stripe
 import JGProgressHUD
 import FormTextField
-class AddCardViewController: UITableViewController {
-    
+
+class AddNewCardViewController: UITableViewController {
+
     @IBOutlet weak var tfCardNumber:FormTextField!
     @IBOutlet weak var tfExpiryDate:FormTextField!
     @IBOutlet weak var tfcvcNumber:FormTextField!
@@ -34,14 +35,14 @@ class AddCardViewController: UITableViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if let price = self.orderDetail.purchasingcoins{
-            self.btnAddCard.setTitle("Pay $\(price)", for: .normal)
-        }
+//        if let price = self.orderDetail.purchasingcoins{
+//            self.btnAddCard.setTitle("Pay $\(price)", for: .normal)
+//        }
     }
     
-    @IBAction func backBtn(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
-    }
+//    @IBAction func backBtn(_ sender: Any) {
+//        self.navigationController?.popViewController(animated: true)
+//    }
     
     @IBAction func cardNumberChnaged(_ textField:UITextField){
         switch STPCardValidator.brand(forNumber: self.tfCardNumber.text!) {
@@ -230,7 +231,8 @@ class AddCardViewController: UITableViewController {
             textField.textColor = .red
         }
     }
-    func tfcard(){
+    
+    func tfcard() {
         self.tfCardNumber.inputType = .integer
         self.tfCardNumber.formatter = CardNumberFormatter()
         self.tfCardNumber.placeholder = "Card Number"
@@ -328,7 +330,7 @@ class AddCardViewController: UITableViewController {
                         print(error?.localizedDescription)
                         PopupHelper.alertWithOk(title: "Oops!", message: error?.localizedDescription ?? "", controler: self)
                         
-                        
+
                         break
                     case .canceled:
                         self.stopAnimating()
@@ -376,12 +378,12 @@ class AddCardViewController: UITableViewController {
     }
 }
 
-extension AddCardViewController: STPAuthenticationContext {
+extension AddNewCardViewController: STPAuthenticationContext {
     func authenticationPresentingViewController() -> UIViewController {
         return self
     }
 }
 
-extension AddCardViewController:UITextFieldDelegate{
+extension AddNewCardViewController:UITextFieldDelegate{
     
 }

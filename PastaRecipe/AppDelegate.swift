@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         //AIzaSyA9i83GVnp1G8WoB-YAdL8jyjPf44qryjA
         GMSServices.provideAPIKey("AIzaSyA9i83GVnp1G8WoB-YAdL8jyjPf44qryjA")
-        StripeAPI.defaultPublishableKey = "pk_test_51Iik5SJqRyRpBDcKucPVUT3phCXR9HOTUO7hVu2Awptat6K5olkX9G7pdkCuVQhxY5JlyM0CzwmuFl5NS2sT7d4c008k7drW98"
+        StripeAPI.defaultPublishableKey = "pk_test_51JIujFFtZIs4OwnjaiNPzOGHcibiD1OAZtXXSkLnOgRKn9fP3MpqGrSV4IWbU5eaWdkUMDqLsvFSUwSE4T1V8f2j00B1F3KuhK"
         FirebaseApp.configure()
         registerForPushNotifications()
         // Checking user is login or not
@@ -31,6 +31,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
+    override init() {
+        
+    }
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.

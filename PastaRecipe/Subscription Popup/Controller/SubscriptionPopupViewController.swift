@@ -22,10 +22,6 @@ class SubscriptionPopupViewController: UIViewController {
         delegate?.subsctiptionChoiceDelegate(type: Constant.custom_Pack)
     }
     
-    @IBAction func PremiumBtnAction(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
-        delegate?.subsctiptionChoiceDelegate(type: Constant.premuim)
-    }    
     @IBAction func CrossBtnAction(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }

@@ -9,7 +9,7 @@
 import UIKit
 
 class UITexfield_Additions: UITextField {
-
+    
     
     let padding = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
     
@@ -25,17 +25,9 @@ class UITexfield_Additions: UITextField {
         return bounds.inset(by: padding)
     }
     
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
-
 }
 extension UITextField{
-
+    
     func isValid() -> Bool {
         if self.text?.isEmpty == true {
             return false
@@ -52,7 +44,14 @@ extension UITextField{
         }
     }
     
+    func isValidEmail(_ email: String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
 
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailPred.evaluate(with: email)
+    }
+    
+    
 }
 extension UITextView {
     func isValid() -> Bool {
@@ -61,11 +60,7 @@ extension UITextView {
         }
         return true
     }
-    
 }
-
-
-
 
 //MARK: Padding on UITextfield in swift
 extension UITextField {

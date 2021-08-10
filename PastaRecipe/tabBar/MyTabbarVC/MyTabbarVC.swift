@@ -13,6 +13,21 @@ import AZTabBar
 
 class MyTabbarVC: UIViewController {
     
+    //VARIABLE'S
+    let buttonBackgroundColor = "Theam 2"
+    let warehouse = "Warehouse"
+    let users = "Users"
+    let tableware = "Tableware"
+    let placeMarker = "Place Marker"
+    let gift = "Gift"
+    let headset = "Headset"
+    let homeVCIdentifier = "homeVC"
+    let loginVCIdentifier = "LoginViewController"
+    let profileVCIdentifier = "profileVC"
+    let cookWithChefVCIdentifier = "CookWithChefVC"
+    let mapVCIdentifier = "mapVC"
+    let giftsVCIdentifier = "giftsVC"
+    let suportVCIdentifer = "suportVC"
     var counter = 0
     var tabController:AZTabBarController!
     var audioId: SystemSoundID!
@@ -20,78 +35,73 @@ class MyTabbarVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // First Set Icons of tabs
         self.setIconsOnTabbar()
-        //set delegate
         tabController.delegate = self
-        //set child controllers
         self.initializaViewControllersOnTabbar()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.setIconsOnTabbar()
-        //set delegate
         tabController.delegate = self
-        //set child controllers
         self.initializaViewControllersOnTabbar()
-        
-        tabController.buttonsBackgroundColor = UIColor(named: "Theam 2")!
+        tabController.buttonsBackgroundColor = UIColor (
+            named: buttonBackgroundColor
+        )!
         tabController.selectedColor = .white
         
     }
     
-    override var childForStatusBarStyle: UIViewController?{
+    override var childForStatusBarStyle: UIViewController? {
         return tabController
     }
-    
+}
+
+//MARK:- HELPING METHOD'S
+extension MyTabbarVC {
     func setIconsOnTabbar() {
         var icons = [UIImage]()
-        icons.append(UIImage(named: "Warehouse")!)
-        icons.append(UIImage(named: "Users")!)
-        icons.append(UIImage(named: "Tableware")!)
-        icons.append(UIImage(named: "Place Marker")!)
-        icons.append(UIImage(named: "Gift")!)
-        icons.append(UIImage(named: "Headset")!)
+        icons.append(UIImage(named: warehouse)!)
+        icons.append(UIImage(named: users)!)
+        icons.append(UIImage(named: tableware)!)
+        icons.append(UIImage(named: placeMarker)!)
+        icons.append(UIImage(named: gift)!)
+        icons.append(UIImage(named: headset)!)
         
         var sIcons = [UIImage]()
-        sIcons.append(UIImage(named: "Warehouse")!)
-        sIcons.append(UIImage(named: "Users")!)
-        sIcons.append(UIImage(named: "Tableware")!)
-        sIcons.append(UIImage(named: "Place Marker")!)
-        sIcons.append(UIImage(named: "Gift")!)
-        sIcons.append(UIImage(named: "Headset")!)
+        sIcons.append(UIImage(named: warehouse)!)
+        sIcons.append(UIImage(named: users)!)
+        sIcons.append(UIImage(named: tableware)!)
+        sIcons.append(UIImage(named: placeMarker)!)
+        sIcons.append(UIImage(named: gift)!)
+        sIcons.append(UIImage(named: headset)!)
         
         tabController = .insert(into: self, withTabIcons: icons, andSelectedIcons: sIcons)
     }
     
     func initializaViewControllersOnTabbar() {
-        let homeVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "homeVC")
+        let homeVC = UIStoryboard(name: Constant.mainStoryboard, bundle: nil).instantiateViewController(withIdentifier: homeVCIdentifier)
         tabController.setViewController(homeVC, atIndex: 0)
         
-        let login_Status = defaults.bool(forKey: "userLoginStatus")
+        let login_Status = defaults.bool(forKey: Constant.userLoginStatusKey)
         if login_Status != true{
-            
-            let profileVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginViewController")
+            let profileVC = UIStoryboard(name: Constant.mainStoryboard, bundle: nil).instantiateViewController(withIdentifier: loginVCIdentifier)
             tabController.setViewController(profileVC, atIndex: 1)
         }else{
-            
-            let profileVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "profileVC")
+            let profileVC = UIStoryboard(name: Constant.mainStoryboard, bundle: nil).instantiateViewController(withIdentifier: profileVCIdentifier)
             tabController.setViewController(profileVC, atIndex: 1)
-            
         }
         
-        
-        let CookWithChefVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CookWithChefVC")
+        let CookWithChefVC = UIStoryboard(name: Constant.mainStoryboard, bundle: nil).instantiateViewController(withIdentifier: cookWithChefVCIdentifier)
         tabController.setViewController(CookWithChefVC, atIndex: 2)
         
-        let mapVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "mapVC")
+        let mapVC = UIStoryboard(name: Constant.mainStoryboard, bundle: nil).instantiateViewController(withIdentifier: mapVCIdentifier)
         tabController.setViewController(mapVC, atIndex: 3)
         
-        let giftsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "giftsVC")
+        let giftsVC = UIStoryboard(name: Constant.mainStoryboard, bundle: nil).instantiateViewController(withIdentifier: giftsVCIdentifier)
         tabController.setViewController(giftsVC, atIndex: 4)
         
-        let subscriptionVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "suportVC")
+        let subscriptionVC = UIStoryboard(name: Constant.mainStoryboard, bundle: nil).instantiateViewController(withIdentifier: suportVCIdentifer)
         tabController.setViewController(subscriptionVC, atIndex: 5)
     }
     
@@ -138,20 +148,17 @@ extension MyTabbarVC: AZTabBarDelegate{
     }
     
     func tabBar(_ tabBar: AZTabBarController, didMoveToTabAtIndex index: Int) {
-        print("didMoveToTabAtIndex \(index)")
     }
     
     func tabBar(_ tabBar: AZTabBarController, didSelectTabAtIndex index: Int) {
-        print("didSelectTabAtIndex \(index)")
         if index == 1{
-            let login_Status = defaults.bool(forKey: "userLoginStatus")
+            let login_Status = defaults.bool(forKey: Constant.userLoginStatusKey)
             if login_Status != true{
                 
-                let profileVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginViewController")
+                let profileVC = UIStoryboard(name: Constant.mainStoryboard, bundle: nil).instantiateViewController(withIdentifier: loginVCIdentifier)
                 tabBar.setViewController(profileVC, atIndex: index)
             }else{
-                
-                let profileVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "profileVC")
+                let profileVC = UIStoryboard(name: Constant.mainStoryboard, bundle: nil).instantiateViewController(withIdentifier: profileVCIdentifier)
                 tabBar.setViewController(profileVC, atIndex: index)
                 
             }
@@ -181,25 +188,4 @@ extension MyTabbarVC{
     override func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
-}
-
-class LabelController: UIViewController {
-    
-    class func controller(text:String, title: String)-> LabelController{
-        
-        let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LabelController") as! LabelController
-        controller.title = title
-        controller.text = text
-        return controller
-    }
-    
-    var text:String!
-    
-    @IBOutlet weak private var labelView:UILabel!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        labelView.text = text
-    }
-    
 }

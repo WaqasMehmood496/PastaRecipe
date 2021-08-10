@@ -14,29 +14,51 @@ import NVActivityIndicatorView
 
 class homeExploreViewController: UIViewController,SubscriptioPopDelegate {
     
-    //MARK: IBOUTLET'S
+    // IBOUTLET'S
     @IBOutlet weak var exploreCollectionView: UICollectionView!
     @IBOutlet weak var thumbnailImage: UIImageView!
     @IBOutlet weak var btnSubcrib: UIButton!
     
-    //MARK: VARIABLE'S
+    // CONSTANT'S
+    let toSubcribeTypeSegue = "toSubcribeType"
+    let toProductsSegue = "toProducts"
+    let internetConnectionMsg = "You are not connected to the internet. Please check your connection"
+    let cellIdentifier = "cell"
+    
+    // VARIABLE'S
     var selectedIndex = 0
     var dataDic:[String:Any]!
     var plansArray = [SubscripeModel]()
     private let spacingIphone:CGFloat = 15.0
     private let spacingIpad:CGFloat = 30.0
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.collectionViewSetup()
         self.navigationController?.navigationBar.isHidden = true
+        self.collectionViewSetup()
         self.GetAllPlansApi()
     }
     
     @IBAction func playVideoBtn(_ sender: Any) {
         
     }
+    
+    @IBAction func subcribeBtnPressed(_ sender:Any){
+        self.performSegue(withIdentifier: toSubcribeTypeSegue, sender: nil)
+    }
+    
+    // PREPARE FOR SEGUE COMPLETION METHOD
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == toSubcribeTypeSegue {
+            if let popUp = segue.destination as? SubscriptionPopupViewController {
+                popUp.delegate = self
+            }
+        }
+    }
+}
+
+//MARK:- HELPING METHOD'S
+extension homeExploreViewController {
     
     func checkUrlExtension(url:String) -> String {
         let splitImageExtension = url.split(separator: ".")
@@ -62,41 +84,32 @@ class homeExploreViewController: UIViewController,SubscriptioPopDelegate {
     func collectionViewSetup() {
         
         let layout = UICollectionViewFlowLayout()
-        if UIDevice.current.userInterfaceIdiom == .phone{
-            layout.sectionInset = UIEdgeInsets(top: spacingIphone, left: spacingIphone, bottom: spacingIphone, right: spacingIphone)
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            layout.sectionInset = UIEdgeInsets (
+                top: spacingIphone,
+                left: spacingIphone,
+                bottom: spacingIphone,
+                right: spacingIphone
+            )
             layout.minimumLineSpacing = spacingIphone
             layout.minimumInteritemSpacing = spacingIphone
-        }
-        else{
-            layout.sectionInset = UIEdgeInsets(top: spacingIpad, left: spacingIpad, bottom: spacingIpad, right: spacingIpad)
+        } else {
+            layout.sectionInset = UIEdgeInsets (
+                top: spacingIpad,
+                left: spacingIpad,
+                bottom: spacingIpad,
+                right: spacingIpad
+            )
             layout.minimumLineSpacing = spacingIpad
             layout.minimumInteritemSpacing = spacingIpad
         }
-        
         self.exploreCollectionView?.collectionViewLayout = layout
     }
-    
-    @IBAction func subcribeBtnPressed(_ sender:Any){
-        self.performSegue(withIdentifier: "toSubcribeType", sender: nil)
-    }
-    
-    // PREPARE FOR SEGUE COMPLETION METHOD
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toSubcribeType" {
-            if let popUp = segue.destination as? SubscriptionPopupViewController {
-                popUp.delegate = self
-            }
-        }
-    }
-}
-
-
-extension homeExploreViewController{
     
     // SUBSCRIPTION PLAN POPUP SELECTION DELEGATE METHOD
     func subsctiptionChoiceDelegate(type: String) {
         if type == Constant.custom_Pack{
-            self.performSegue(withIdentifier: "toProducts", sender: nil)
+            self.performSegue(withIdentifier: toProductsSegue, sender: nil)
         }else{
             
         }
@@ -109,7 +122,7 @@ extension homeExploreViewController{
                 self.dataDic = [String:Any]()
                 self.callWebService(.getPlans, hud: hud)
             }else{
-                hud.textLabel.text = "You are not connected to the internet. Please check your connection"
+                hud.textLabel.text = self.internetConnectionMsg
                 hud.indicatorView = JGProgressHUDErrorIndicatorView()
                 hud.dismiss(afterDelay: 2, animated: true)
             }
@@ -117,6 +130,7 @@ extension homeExploreViewController{
     }
 }
 
+//MARK:- WEBSERVICE'S METHOD'S
 extension homeExploreViewController:WebServiceResponseDelegate{
     
     func callWebService(_ url:webserviceUrl,hud: JGProgressHUD){
@@ -129,9 +143,9 @@ extension homeExploreViewController:WebServiceResponseDelegate{
         switch url {
         case .getPlans:
             if let data = dataDict as? NSArray{
-                self.plansArray.removeAll()
+                plansArray.removeAll()
                 for array in data{
-                    self.plansArray.append(SubscripeModel(dic: array as! NSDictionary)!)
+                    plansArray.append(SubscripeModel(dic: array as! NSDictionary)!)
                 }
                 self.exploreCollectionView.reloadData()
             }
@@ -142,7 +156,7 @@ extension homeExploreViewController:WebServiceResponseDelegate{
     }
 }
 
-extension homeExploreViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
+extension homeExploreViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int{
         return plansArray.count
@@ -150,8 +164,10 @@ extension homeExploreViewController:UICollectionViewDelegate,UICollectionViewDat
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! recipeViewcell
-        //MARK: RECIPES WITH PLAN API RESPONSE
+        let cell = collectionView.dequeueReusableCell (
+            withReuseIdentifier: "cellIdentifier",
+            for: indexPath
+        ) as! recipeViewcell
         if let url = self.plansArray[indexPath.row].image_url{
             cell.recipeImages.sd_setImage(with: URL(string: url), placeholderImage:  #imageLiteral(resourceName: "101"))
         }
@@ -162,6 +178,7 @@ extension homeExploreViewController:UICollectionViewDelegate,UICollectionViewDat
         
         return cell
     }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
         selectedIndex = indexPath.row
     }
@@ -173,9 +190,11 @@ extension homeExploreViewController:UICollectionViewDelegate,UICollectionViewDat
         let spacingBetweenCellsIpad:CGFloat = 30
         
         if UIDevice.current.userInterfaceIdiom == .phone{
-            let totalSpacing = (2 * self.spacingIphone) + ((numberOfItemsPerRow - 1) * spacingBetweenCellsIphone) //Amount of total spacing in a row
+            let totalSpacing = (2 * self.spacingIphone) + (
+                (numberOfItemsPerRow - 1) * spacingBetweenCellsIphone
+            ) //Amount of total spacing in a row
             
-            if let collection = self.exploreCollectionView{
+            if let collection = self.exploreCollectionView {
                 let width = (collection.bounds.width - totalSpacing)/numberOfItemsPerRow
                 return CGSize(width: width , height: width + spacingBetweenCellsIphone * 2)
             }else{
