@@ -27,6 +27,7 @@ class ConfirmOrderViewController: UIViewController, PassDataDelegate {
     let internetConnectionMsg = "You are not connected to the internet. Please check your connection"
     let containSpace = " "
     let AddCardIdentifier = "AddCardViewController"
+    
     // VARIABLE'S
     var selectedPlan = OrdersModel()
     var dataDic = [String:Any]()
@@ -74,7 +75,6 @@ class ConfirmOrderViewController: UIViewController, PassDataDelegate {
         mapController.delagate = self
         self.present(mapController, animated: true, completion: nil)
     }
-    
 }
 
 //MARK:- HELPING METHOD'S
@@ -89,7 +89,21 @@ extension ConfirmOrderViewController{
             CityTF.text = user.more_detail.address.city
             addressTf.text = user.more_detail.address.address_main
         }
+        setupPaddingOnFields()
         self.zipCodeSetupOnDropDown()
+    }
+    
+    func setupPaddingOnFields() {
+        NameTF.setLeftPaddingPoints(4)
+        NameTF.setRightPaddingPoints(4)
+        EmailTF.setLeftPaddingPoints(4)
+        EmailTF.setRightPaddingPoints(4)
+        StateTF.setLeftPaddingPoints(4)
+        StateTF.setRightPaddingPoints(4)
+        CityTF.setLeftPaddingPoints(4)
+        CityTF.setRightPaddingPoints(4)
+        addressTf.setLeftPaddingPoints(4)
+        addressTf.setRightPaddingPoints(4)
     }
     
     func zipCodeSetupOnDropDown() {
@@ -102,16 +116,14 @@ extension ConfirmOrderViewController{
         }
     }
     
-    func booking() {
-        self.AddPurchasedProduct()
-    }
-    
     func moveToStripeVC() {
         let payment = storyboard?.instantiateViewController(identifier: AddCardIdentifier) as! AddCardViewController
         payment.delegate = self
         selectedPlan.order_address = self.addressTf.text!
         payment.orderDetail = selectedPlan
         payment.orderDetail.user_id = 0
+        payment.email = self.EmailTF.text!
+        payment.name = self.NameTF.text!
         self.navigationController?.pushViewController(payment, animated: true)
     }
     
@@ -159,6 +171,18 @@ extension ConfirmOrderViewController{
     }
     
 }
+
+
+//MARK:- DELEGATE METHOD'S
+extension ConfirmOrderViewController {
+    // Delegate Methods
+    func booking() {
+        self.AddPurchasedProduct()
+    }
+}
+
+
+
 
 //MARK:- API CALLING METHOD'S
 extension ConfirmOrderViewController {

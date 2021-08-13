@@ -18,7 +18,6 @@ class SubscriptionModel:Codable{
     var order_lat:String!
     var order_lng:String!
     var purchasingcoins:String!
-   
     
     
     init(user_id: Int64? = nil,SubscriptionId: Int64? = nil,order_date: String? = nil,order_time: String? = nil,order_address: String? = nil,order_lat: String? = nil,purchasingcoins: String? = nil,order_lng: String? = nil) {

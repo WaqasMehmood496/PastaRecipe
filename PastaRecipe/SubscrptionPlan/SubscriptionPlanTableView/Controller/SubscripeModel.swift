@@ -49,6 +49,7 @@ class SubscripeModel:Codable{
         let image_url = (dic as AnyObject).value(forKey:Constant.image_url) as? String
         let isAddToCart = (dic as AnyObject).value(forKey: Constant.isAddToCart) as? Bool
         
+        
         self.plan_id = plan_id
         self.plan_name = plan_name
         self.no_of_coins = no_of_coins

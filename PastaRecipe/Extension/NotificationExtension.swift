@@ -7,8 +7,6 @@
 //
 
 import Foundation
-import GoogleSignIn
-import FBSDKCoreKit
 
 extension Notification.Name {
     

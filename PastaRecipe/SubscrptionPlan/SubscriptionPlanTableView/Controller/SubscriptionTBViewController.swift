@@ -89,12 +89,12 @@ extension SubscriptionTBViewController: UITableViewDelegate,UITableViewDataSourc
     
     @objc func SubscribeBtnAction(_ sender: UIButton) {
         let indexpath = IndexPath(row: sender.tag, section: 0)
-        let payment = storyboard?.instantiateViewController(identifier: "subscrpionplanViewController") as! subscrpionplanViewController
-        guard let amount = self.plansArray[indexpath.row].amount else {
-            return
-        }
-        let selectedPlan = OrdersModel(user_id: 1, SubscriptionId: Int64(self.plansArray[indexpath.row].plan_id), order_date: "", order_time: "", order_address: "", order_lat: "", purchasingcoins: amount, order_lng: "")
-        payment.selectedSubs = selectedPlan
-        self.navigationController?.pushViewController(payment, animated: true)
+//        let payment = storyboard?.instantiateViewController(identifier: "subscrpionplanViewController") as! subscrpionplanViewController
+//        guard let amount = self.plansArray[indexpath.row].amount else {
+//            return
+//        }
+//        let selectedPlan = OrdersModel(user_id: 1, SubscriptionId: Int64(self.plansArray[indexpath.row].plan_id), order_date: "", order_time: "", order_address: "", order_lat: "", purchasingcoins: amount, order_lng: "")
+//        payment.selectedSubs = selectedPlan
+//        self.navigationController?.pushViewController(payment, animated: true)
     }
 }

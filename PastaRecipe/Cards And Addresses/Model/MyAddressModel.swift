@@ -10,7 +10,7 @@ import Foundation
 
 class MyAddressModel: Codable {
     
-    var adresss_id:Int!
+    var adresss_id:String!
     var zipcode:String!
     var address_main:String!
     var country:String!
@@ -22,7 +22,7 @@ class MyAddressModel: Codable {
     var user_id:String!
     
     
-    init(adresss_id: Int? = nil,zipcode:String? = nil,address_main:String? = nil,country:String? = nil,state:String? = nil,city:String? = nil,lat: String? = nil,lng:String? = nil,bydefault:String? = nil,expired_date:String? = nil) {
+    init(adresss_id: String? = nil,zipcode:String? = nil,address_main:String? = nil,country:String? = nil,state:String? = nil,city:String? = nil,lat: String? = nil,lng:String? = nil,bydefault:String? = nil,expired_date:String? = nil) {
         
         self.adresss_id = adresss_id
         self.zipcode = zipcode
@@ -37,7 +37,7 @@ class MyAddressModel: Codable {
     }
     init?(dic:NSDictionary) {
         
-        let adresss_id = (dic as AnyObject).value(forKey: Constant.adresss_id) as? Int
+        let adresss_id = (dic as AnyObject).value(forKey: Constant.adresss_id) as? String
         let zipcode = (dic as AnyObject).value(forKey: Constant.zipcode) as! String
         let address_main = (dic as AnyObject).value(forKey: Constant.address_main) as! String
         let country = (dic as AnyObject).value(forKey: Constant.country) as! String

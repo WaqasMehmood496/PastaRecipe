@@ -8,9 +8,8 @@
 
 import UIKit
 import SwiftEntryKit
-import NVActivityIndicatorView
-class PopupHelper
-{
+
+class PopupHelper {
     /// Show a popup using the STPopup framework [STPopup on Cocoapods](https://cocoapods.org/pods/STPopup)
     /// - parameters:
     ///   - storyBoard: the name of the storyboard the popup viewcontroller will be loaded from
@@ -87,11 +86,11 @@ class PopupHelper
         alertController.addAction(settinfAction)
         controler.present(alertController, animated: true, completion: nil)
     }
-    class func showAnimating(_ controler:UIViewController){
-
-        controler.startAnimating(CGSize(width: controler.view.frame.width/2, height: controler.view.frame.width/4), message: "Loading...", type: .lineScale , fadeInAnimation: nil)
-        
-    }
+//    class func showAnimating(_ controler:UIViewController){
+//
+//        controler.startAnimating(CGSize(width: controler.view.frame.width/2, height: controler.view.frame.width/4), message: "Loading...", type: .lineScale , fadeInAnimation: nil)
+//
+//    }
     class func showAlertControllerWithError(forErrorMessage:String?, forViewController:UIViewController) -> () {
         let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: (forErrorMessage?.isEmpty == true) ? "Error occurred":forErrorMessage, preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .cancel, handler: nil))

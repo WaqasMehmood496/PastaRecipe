@@ -1,58 +1,50 @@
 //
-//  subscrpionplanViewController.swift
+//  SubscriptionTypeVC.swift
 //  PastaRecipe
 //
-//  Created by Waqas on 22/04/2021.
+//  Created by Buzzware Tech on 12/08/2021.
 //  Copyright © 2021 Buzzware. All rights reserved.
 //
 
 import UIKit
 import iOSDropDown
 
-class subscrpionplanViewController: UIViewController {
+class SubscriptionTypeVC: UIViewController {
     
-    // IBOUTLET'S
-    @IBOutlet weak var easyDropdown: DropDown!
-    @IBOutlet weak var priceLbl: UILabel!
+    //IBOUTLET'S
+    @IBOutlet weak var OptionField: DropDown!
+    @IBOutlet weak var TotalPriceLabel: UILabel!
     
-    // VARIABLE'S
-    var selectedMonth = "1"
+    //VARIABLES
     var selectedSubs = OrdersModel()
-    
+    var selectedMonth = String()
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        initialSetup()
     }
     
-    @IBAction func setupBtn(_ sender: Any) {
-        
+    //IBACTION'S
+    @IBAction func SetupNowBtnAction(_ sender: Any) {
         let payment = storyboard?.instantiateViewController(identifier: "ConfirmOrderViewController") as! ConfirmOrderViewController
         selectedSubs.order_date = selectedMonth
         payment.selectedPlan = selectedSubs
         self.navigationController?.pushViewController(payment, animated: true)
     }
-}
-
-//MARK:- HELPING METHOD'S
-extension subscrpionplanViewController{
     
-    func setupUI() {
-        initializeDropDown()
+    // HELPING METHOD'S
+    func initialSetup() {
         if let price = selectedSubs.purchasingcoins{
-            self.priceLbl.text = "$\(price)"
+            self.TotalPriceLabel.text = "$\(price)"
         }
-    }
-    
-    func initializeDropDown() {
-        easyDropdown.optionArray = [
+        //DROPDOWN LIST SETUP
+        OptionField.optionArray = [
             "Every Week",
             "Every Month",
             "Every 3 Month",
             "Every 6 Month"
         ]
-        easyDropdown.selectedIndex = 0
-        easyDropdown.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        easyDropdown.didSelect{(selectedText , index , id) in
+        OptionField.selectedIndex = 0
+        OptionField.didSelect { (selectedText, index, id) in
             self.selectedMonth = String(index + 1)
         }
     }

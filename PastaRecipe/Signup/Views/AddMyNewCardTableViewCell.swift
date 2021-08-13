@@ -17,6 +17,8 @@ class AddMyNewCardTableViewCell: UITableViewCell {
     @IBOutlet weak var CardNumberTextfield: FormTextField!
     @IBOutlet weak var ExpireDateTextfield: FormTextField!
     @IBOutlet weak var CVCTextfield: FormTextField!
+    @IBOutlet weak var DefaultCardBtn: UIButton!
+    @IBOutlet weak var DefaultImage: UIImageView!
     
     //VARIABLE'S
     let cvvImage = "credit-card-2"

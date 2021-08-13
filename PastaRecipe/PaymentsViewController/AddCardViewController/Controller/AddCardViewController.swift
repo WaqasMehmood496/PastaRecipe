@@ -21,6 +21,8 @@ class AddCardViewController: UITableViewController {
     //VARIABLE'S
     let cvvImage = "credit-card-2"
     let cardNumberImage = "credit-card"
+    var email = String()
+    var name = String()
     var orderDetail:OrdersModel!
     var delegate = ConfirmOrderViewController()
     
@@ -230,7 +232,7 @@ class AddCardViewController: UITableViewController {
             textField.textColor = .red
         }
     }
-    func tfcard(){
+    func tfcard() {
         self.tfCardNumber.inputType = .integer
         self.tfCardNumber.formatter = CardNumberFormatter()
         self.tfCardNumber.placeholder = "Card Number"
@@ -243,7 +245,7 @@ class AddCardViewController: UITableViewController {
         let inputValidator = InputValidator(validation: validation)
         self.tfCardNumber.inputValidator = inputValidator
     }
-    func tfdate(){
+    func tfdate() {
         self.tfExpiryDate.inputType = .integer
         self.tfExpiryDate.formatter = CardExpirationDateFormatter()
         self.tfExpiryDate.placeholder = "MM/YY"
@@ -252,7 +254,7 @@ class AddCardViewController: UITableViewController {
         let inputValidator = CardExpirationDateInputValidator(validation: validation)
         self.tfExpiryDate.inputValidator = inputValidator
     }
-    func tfcvc(){
+    func tfcvc() {
         self.tfcvcNumber.inputType = .integer
         self.tfcvcNumber.placeholder = "CVC"
         var validation = Validation()
@@ -264,7 +266,7 @@ class AddCardViewController: UITableViewController {
         
     }
     
-    @IBAction func payCardBtnPressed(_ sender:Any){
+    @IBAction func payCardBtnPressed(_ sender:Any) {
         if self.tfCardNumber.textColor == UIColor.red || !self.tfCardNumber.isValid() || self.tfExpiryDate.textColor == UIColor.red || !self.tfExpiryDate.isValid() || self.tfcvcNumber.textColor == UIColor.red || !self.tfcvcNumber.isValid(){
             
             PopupHelper.showAlertControllerWithError(forErrorMessage: "Please fill all field of valid column", forViewController: self)
@@ -276,7 +278,7 @@ class AddCardViewController: UITableViewController {
     }
     
     func addCard() {
-        PopupHelper.showAnimating(self)
+        //PopupHelper.showAnimating(self)
         let cardParams = STPCardParams()
         let user = CommonHelper.getCachedUserData()
         if let fname = user?.user_detail.user_name {
@@ -310,7 +312,7 @@ class AddCardViewController: UITableViewController {
         }
         let resultPrice = periceValue * 100
         let finalPrice = Int(resultPrice)
-        InvoiceStripClient.shared.createPayment(with: "john1211",email: "user1121@gmail.com") { (result, key, id) in
+        InvoiceStripClient.shared.createPayment(with: name,email: email) { (result, key, id) in
             switch result {
             case .success:
                 
@@ -331,17 +333,24 @@ class AddCardViewController: UITableViewController {
                         
                         break
                     case .canceled:
-                        self.stopAnimating()
+//                        self.stopAnimating()
                         PopupHelper.alertWithOk(title: "Oops!", message: error!.localizedDescription , controler: self)
                         break
                     case .succeeded:
-                        print(paymentIntent)
                         InvoiceStripClient.shared.createPayment1(with: finalPrice,id: id!,type: "day") { (result, key, id) in
                             switch result {
                             case .success:
-                                PopupHelper.alertWithOk(title: "Oops!", message: "success", controler: self)
+                                InvoiceStripClient.shared.createPayment2(with: paymentIntent!.paymentMethodID!,sub_id: key!) { (result, key, id) in
+                                    switch result {
+                                    case .success:
+                                        PopupHelper.alertWithOk(title: "Oops!", message: "success", controler: self)
+                                    case .failure(let error):
+        //                                self.stopAnimating()
+                                        PopupHelper.alertWithOk(title: "Oops!", message: error.localizedDescription, controler: self)
+                                    }
+                                }
                             case .failure(let error):
-                                self.stopAnimating()
+//                                self.stopAnimating()
                                 PopupHelper.alertWithOk(title: "Oops!", message: error.localizedDescription, controler: self)
                             }
                         }
@@ -353,7 +362,7 @@ class AddCardViewController: UITableViewController {
                     }
                 }
             case .failure(let error):
-                self.stopAnimating()
+//                self.stopAnimating()
                 PopupHelper.alertWithOk(title: "Oops!", message: error.localizedDescription, controler: self)
             }
         }

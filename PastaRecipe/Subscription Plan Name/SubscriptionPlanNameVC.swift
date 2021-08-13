@@ -8,7 +8,6 @@
 
 import UIKit
 import SDWebImage
-import NVActivityIndicatorView
 
 class SubscriptionPlanNameVC: UIViewController {
 
@@ -17,7 +16,6 @@ class SubscriptionPlanNameVC: UIViewController {
     @IBOutlet weak var UserCoins: UILabel!
     @IBOutlet weak var CurrentPlanName: UILabel!
     @IBOutlet weak var NextDeliveryDate: UILabel!
-    @IBOutlet weak var ActivityIndicatorView: NVActivityIndicatorView!
     
     var SubscriptionData = SubscriptionPlanNameModel()
     
@@ -25,7 +23,7 @@ class SubscriptionPlanNameVC: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        initializeData()
+        //initializeData()
         //CallApi()
     }
     

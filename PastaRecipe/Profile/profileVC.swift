@@ -8,7 +8,6 @@
 
 import UIKit
 import SDWebImage
-import NVActivityIndicatorView
 
 class profileVC: UIViewController{
     

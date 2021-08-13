@@ -9,7 +9,6 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
-import NVActivityIndicatorView
 
 class LoginVC: UIViewController {
     
@@ -17,7 +16,6 @@ class LoginVC: UIViewController {
     @IBOutlet weak var passwordTF: UITextField!
     @IBOutlet weak var signupbtn: UIButton!
     @IBOutlet weak var SIgnupbtn: UIButton!
-    @IBOutlet weak var ActivityIndicatorView: NVActivityIndicatorView!
     
     var attrs = [
         NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 15.0),

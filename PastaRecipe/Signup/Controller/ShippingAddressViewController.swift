@@ -96,7 +96,3 @@ extension ShippingAddressViewController {
         self.navigationController?.pushViewController(addCardVC, animated: true)
     }
 }
-
-
-// Get address from Map
-// Get lat lng on selected marker or search location

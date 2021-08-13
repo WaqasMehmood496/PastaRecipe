@@ -9,20 +9,20 @@
 import UIKit
 import Kingfisher
 import AVFoundation
-import NVActivityIndicatorView
 import JGProgressHUD
 
 class ProductsViewController: UIViewController {
     
     // IBOUTLET'S
-    @IBOutlet weak var ActivityIndicatorView: NVActivityIndicatorView!
     @IBOutlet weak var ChefRecipeCV: UICollectionView!
     
     // Constant's
     let toAddCartSegue = "toAddCart"
     let internetConnectionMsg = "You are not connected to the internet. Please check your connection"
+    
     // VARIABLE'S
     var selectedIndex = 0
+    var isSubscription = false
     var dataDic:[String:Any]!
     var plansArray = [SubscripeModel]()
     private let spacingIphone:CGFloat = 15.0
@@ -31,8 +31,6 @@ class ProductsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.collectionViewSetup()
-        cartArray.removeAll()
-        self.GetAllPlansApi()
         self.navigationController?.navigationBar.isHidden = false
     }
     
@@ -44,23 +42,19 @@ class ProductsViewController: UIViewController {
     deinit {
         cartArray.removeAll()
     }
-}
-
-extension ProductsViewController{
     
-    func GetAllPlansApi() {
-        showHUDView(hudIV: .indeterminate, text: .process) { (hud) in
-            hud.show(in: self.view, animated: true)
-            if Connectivity.isConnectedToNetwork(){
-                self.dataDic = [String:Any]()
-                self.callWebService(.getPlans, hud: hud)
-            }else{
-                hud.textLabel.text = self.internetConnectionMsg
-                hud.indicatorView = JGProgressHUDErrorIndicatorView()
-                hud.dismiss(afterDelay: 2, animated: true)
+    
+    // PREPARE FOR SEGUE COMPLETION METHOD
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == toAddCartSegue {
+            if let cartVC = segue.destination as? AddToCartViewController {
+                cartVC.isSubscription = self.isSubscription
             }
         }
     }
+}
+
+extension ProductsViewController{
     
     func checkUrlExtension(url:String) -> String {
         let splitImageExtension = url.split(separator: ".")
@@ -109,29 +103,6 @@ extension ProductsViewController{
         }
         
         self.ChefRecipeCV?.collectionViewLayout = layout
-    }
-}
-extension ProductsViewController:WebServiceResponseDelegate {
-    
-    func callWebService(_ url:webserviceUrl,hud: JGProgressHUD){
-        let helper = WebServicesHelper(serviceToCall: url, withMethod: .post, havingParameters: self.dataDic, relatedViewController: self,hud: hud)
-        helper.delegateForWebServiceResponse = self
-        helper.callWebService()
-    }
-    func webServiceDataParsingOnResponseReceived(url: webserviceUrl?, viewControllerObj: UIViewController?, dataDict: Any, hud: JGProgressHUD) {
-        switch url {
-        case .getPlans:
-            if let data = dataDict as? NSArray{
-                self.plansArray.removeAll()
-                for array in data{
-                    self.plansArray.append(SubscripeModel(dic: array as! NSDictionary)!)
-                }
-                self.ChefRecipeCV.reloadData()
-            }
-            hud.dismiss()
-        default:
-            hud.dismiss()
-        }
     }
 }
 

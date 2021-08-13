@@ -14,12 +14,15 @@ class SubscriptionPopupViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.navigationBar.isHidden = false
     }
     
     @IBAction func CustomerPackBtnAction(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
         delegate?.subsctiptionChoiceDelegate(type: Constant.custom_Pack)
+    }
+    @IBAction func SubscribeNowBtnAction(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
+        delegate?.subsctiptionChoiceDelegate(type: Constant.premuim)
     }
     
     @IBAction func CrossBtnAction(_ sender: Any) {

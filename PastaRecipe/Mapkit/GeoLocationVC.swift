@@ -11,12 +11,10 @@ import MapKit
 import GoogleMaps
 import GooglePlaces
 import Alamofire
-import NVActivityIndicatorView
-import LGSideMenuController
 import JGProgressHUD
+
 class GeoLocationVC: UIViewController{
     @IBOutlet weak var map: GMSMapView!
-    @IBOutlet weak var AntivityIndicationVIew: NVActivityIndicatorView!
     var locationManager = CLLocationManager()
     var mapMarkArray:[MapMarkerModel] = []
     var selectedMarkerData = MapMarkerModel()

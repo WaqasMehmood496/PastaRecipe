@@ -23,6 +23,7 @@ class AddToCartViewController: UIViewController {
     
     // VARIABLE'S
     var SubTotal = 0
+    var isSubscription = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,7 +47,7 @@ class AddToCartViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let destination = segue.destination as? subscrpionplanViewController {
+        if let destination = segue.destination as? SubscriptionTypeVC {
             if let userId = CommonHelper.getCachedUserData()?.user_detail.user_id {
                 destination.selectedSubs = OrdersModel (
                     user_id:  Int64(userId),
@@ -70,6 +71,8 @@ class AddToCartViewController: UIViewController {
                     order_lng: ""
                 )
             }
+        } else if let destination = segue.destination as? ConfirmOrderViewController {
+            
         }
     }
 }

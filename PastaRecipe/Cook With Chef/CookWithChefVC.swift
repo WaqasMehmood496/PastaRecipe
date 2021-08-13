@@ -9,13 +9,11 @@
 import UIKit
 import Kingfisher
 import AVFoundation
-import NVActivityIndicatorView
 import JGProgressHUD
 
 class CookWithChefVC: UIViewController {
     
     //MARK: IBOUTLET'S
-    @IBOutlet weak var ActivityIndicatorView: NVActivityIndicatorView!
     @IBOutlet weak var ChefRecipeCV: UICollectionView!
     
     //CONSTANT'S

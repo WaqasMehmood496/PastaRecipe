@@ -10,7 +10,6 @@ import UIKit
 import JGProgressHUD
 import Kingfisher
 import AVFoundation
-import NVActivityIndicatorView
 
 class homeExploreViewController: UIViewController,SubscriptioPopDelegate {
     
@@ -24,13 +23,15 @@ class homeExploreViewController: UIViewController,SubscriptioPopDelegate {
     let toProductsSegue = "toProducts"
     let internetConnectionMsg = "You are not connected to the internet. Please check your connection"
     let cellIdentifier = "cell"
+    private let spacingIphone:CGFloat = 15.0
+    private let spacingIpad:CGFloat = 30.0
     
     // VARIABLE'S
     var selectedIndex = 0
+    var isSubscription = false
     var dataDic:[String:Any]!
     var plansArray = [SubscripeModel]()
-    private let spacingIphone:CGFloat = 15.0
-    private let spacingIpad:CGFloat = 30.0
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,6 +53,11 @@ class homeExploreViewController: UIViewController,SubscriptioPopDelegate {
         if segue.identifier == toSubcribeTypeSegue {
             if let popUp = segue.destination as? SubscriptionPopupViewController {
                 popUp.delegate = self
+            }
+        } else if segue.identifier == toProductsSegue {
+            if let productVC = segue.destination as? ProductsViewController {
+                productVC.plansArray = self.plansArray
+                productVC.isSubscription = self.isSubscription
             }
         }
     }
@@ -109,10 +115,11 @@ extension homeExploreViewController {
     // SUBSCRIPTION PLAN POPUP SELECTION DELEGATE METHOD
     func subsctiptionChoiceDelegate(type: String) {
         if type == Constant.custom_Pack{
-            self.performSegue(withIdentifier: toProductsSegue, sender: nil)
-        }else{
-            
+            isSubscription = false
+        } else {
+            isSubscription = true
         }
+        self.performSegue(withIdentifier: toProductsSegue, sender: nil)
     }
     
     func GetAllPlansApi() {
