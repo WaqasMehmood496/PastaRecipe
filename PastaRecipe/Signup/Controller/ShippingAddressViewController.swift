@@ -32,6 +32,7 @@ class ShippingAddressViewController: UIViewController, PassDataDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
         initializeDropDown()
         // Do any additional setup after loading the view.
     }
@@ -72,6 +73,20 @@ class ShippingAddressViewController: UIViewController, PassDataDelegate {
 
 //MARK: - HELPING METHODS EXTENSION
 extension ShippingAddressViewController {
+    
+    func setupUI() {
+        ZipCodeTF.setLeftPaddingPoints(8)
+        ZipCodeTF.setRightPaddingPoints(8)
+        AddressTF.setLeftPaddingPoints(8)
+        AddressTF.setRightPaddingPoints(8)
+        CountryTF.setLeftPaddingPoints(8)
+        CountryTF.setRightPaddingPoints(8)
+        StateTF.setLeftPaddingPoints(8)
+        StateTF.setRightPaddingPoints(8)
+        CityTF.setLeftPaddingPoints(8)
+        CityTF.setRightPaddingPoints(8)
+    }
+    
     func initializeDropDown() {
         ZipCodeTF.optionArray = self.zipCodesArray
         ZipCodeTF.selectedIndex = 0

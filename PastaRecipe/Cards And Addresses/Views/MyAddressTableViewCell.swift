@@ -17,6 +17,8 @@ class MyAddressTableViewCell: UITableViewCell {
     @IBOutlet weak var CityLabel: UILabel!
     @IBOutlet weak var AddressLabel: UILabel!
     @IBOutlet weak var DefaultAddressLabel: UILabel!
+    @IBOutlet weak var SetDefaultAddressBtn: UIButton!
+    @IBOutlet weak var EditBtn: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()

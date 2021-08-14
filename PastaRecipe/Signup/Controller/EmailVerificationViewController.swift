@@ -21,7 +21,7 @@ class EmailVerificationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        setupUI()
         // Do any additional setup after loading the view.
     }
     //IBACTION
@@ -39,5 +39,10 @@ class EmailVerificationViewController: UIViewController {
         let shippingVC = storyboard?.instantiateViewController(identifier: "ShippingAddressViewController") as! ShippingAddressViewController
         shippingVC.userData = self.userData
         self.navigationController?.pushViewController(shippingVC, animated: true)
+    }
+    
+    func setupUI() {
+        VerificationCode.setLeftPaddingPoints(8)
+        VerificationCode.setRightPaddingPoints(8)
     }
 }

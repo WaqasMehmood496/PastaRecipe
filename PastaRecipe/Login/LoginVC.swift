@@ -49,23 +49,23 @@ class LoginVC: UIViewController {
 extension LoginVC{
     
     func uiSetup() {
-        let buttonTitleStr = NSMutableAttributedString(string:"SIGN UP", attributes:attrs)
-        attributedString.append(buttonTitleStr)
-        SIgnupbtn.setAttributedTitle(attributedString, for: .normal)
+//        let buttonTitleStr = NSMutableAttributedString(string:"SIGN UP", attributes:attrs)
+//        attributedString.append(buttonTitleStr)
+//        SIgnupbtn.setAttributedTitle(attributedString, for: .normal)
         signupbtn.layer.cornerRadius = signupbtn.frame.height/2
         EmailTF.layer.cornerRadius = 8
         EmailTF.clipsToBounds = true
-        EmailTF.setRightPaddingPoints(5)
-        EmailTF.setRightPaddingPoints(5)
+        EmailTF.setRightPaddingPoints(8)
+        EmailTF.setLeftPaddingPoints(8)
         passwordTF.layer.cornerRadius = 8
         passwordTF.clipsToBounds = true
-        passwordTF.setRightPaddingPoints(5)
-        passwordTF.setRightPaddingPoints(5)
+        passwordTF.setLeftPaddingPoints(8)
+        passwordTF.setRightPaddingPoints(8)
         
-        EmailTF.attributedPlaceholder = NSAttributedString(string: "Email",
-                                                           attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
-        passwordTF.attributedPlaceholder = NSAttributedString(string: "Password",
-                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+//        EmailTF.attributedPlaceholder = NSAttributedString(string: "Email",
+//                                                           attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+//        passwordTF.attributedPlaceholder = NSAttributedString(string: "Password",
+//                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
     }
     
     func callLoginApi(){
@@ -78,27 +78,37 @@ extension LoginVC{
                         PopupHelper.showAlertControllerWithError(forErrorMessage: err, forViewController: self)
                     }
                     else{
-                        if let dic = dataDict as? Dictionary<String,Any>{
-                            if let data = dic["user_detail"] as? NSDictionary{
-                                print(data)
-                                let user = LoginModel(dic: data as NSDictionary)
-                                
-                                CommonHelper.saveCachedUserData(user!)
-                                UserDefaults.standard.set(true, forKey: "userLoginStatus")
-                                hud.dismiss()
-                                
-                                //Move to next Screen
-                                CommonHelper.sharedInstance.ShowAlert(view: self, message: "Login Successfully", Title: "Login")
-                            }
-                            else{
+                            if let data = dataDict as? Dictionary<String, Any>{
+                                if let loginUser = LoginModel(dic: data as NSDictionary){
+                                    CommonHelper.saveCachedUserData(loginUser)
+                                    defaults.set(true, forKey: Constant.userLoginStatusKey)
+                                    hud.dismiss()
+                                    PopupHelper.alertWithOk(title: "Success", message: "You login successfully", controler: self)
+                                }
+                            }else{
                                 hud.dismiss()
                                 PopupHelper.showAlertControllerWithError(forErrorMessage: "something went wrong", forViewController: self)
                             }
-                        }
-                        else{
-                            hud.dismiss()
-                            PopupHelper.showAlertControllerWithError(forErrorMessage: "something went wrong", forViewController: self)
-                        }
+                            
+//                            if let data = dic["user_detail"] as? NSDictionary{
+//                                print(data)
+//                                let user = LoginModel(dic: data as NSDictionary)
+//
+//                                CommonHelper.saveCachedUserData(user!)
+//                                UserDefaults.standard.set(true, forKey: "userLoginStatus")
+//                                hud.dismiss()
+//
+//                                //Move to next Screen
+//                                CommonHelper.sharedInstance.ShowAlert(view: self, message: "Login Successfully", Title: "Login")
+//                            }
+//                            else{
+//                                hud.dismiss()
+//                                PopupHelper.showAlertControllerWithError(forErrorMessage: "something went wrong", forViewController: self)
+//                            }
+//                        else{
+//                            hud.dismiss()
+//                            PopupHelper.showAlertControllerWithError(forErrorMessage: "something went wrong", forViewController: self)
+//                        }
                     }
                 }
                 else{

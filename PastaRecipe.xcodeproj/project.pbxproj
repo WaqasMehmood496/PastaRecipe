@@ -76,11 +76,11 @@
 		7634531F26BBD97400BB8A69 /* CreditCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7634531E26BBD97400BB8A69 /* CreditCardViewController.swift */; };
 		764A43D526C51A7300BD8159 /* SubscriptionTypeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764A43D426C51A7300BD8159 /* SubscriptionTypeVC.swift */; };
 		764F869C26A1BC90001940A5 /* EmailVerificationPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764F869B26A1BC90001940A5 /* EmailVerificationPopupViewController.swift */; };
+		7655287526C87BFE0035C515 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7655287426C87BFE0035C515 /* Enums.swift */; };
 		76758B7F266A4EA600E7268F /* SubscriptionPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76758B7E266A4EA600E7268F /* SubscriptionPopupViewController.swift */; };
 		768417B526C3CC7000A6B4B6 /* MyCardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768417B426C3CC7000A6B4B6 /* MyCardModel.swift */; };
 		768417BD26C3DAFA00A6B4B6 /* AddNewCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768417BC26C3DAFA00A6B4B6 /* AddNewCardViewController.swift */; };
 		768417C426C3F15600A6B4B6 /* AddNewAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768417C326C3F15600A6B4B6 /* AddNewAddressViewController.swift */; };
-		768417C826C40AF100A6B4B6 /* SubscriptionPlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768417C726C40AF100A6B4B6 /* SubscriptionPlanViewController.swift */; };
 		768A022126BC175C00C9A90A /* AddMyCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768A022026BC175C00C9A90A /* AddMyCardViewController.swift */; };
 		768A026526BC1F4200C9A90A /* AddMyNewCardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768A026426BC1F4200C9A90A /* AddMyNewCardTableViewCell.swift */; };
 		76B0586B26B2E04D00796E08 /* UserDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B0586A26B2E04D00796E08 /* UserDetailTableViewCell.swift */; };
@@ -178,11 +178,11 @@
 		7634531E26BBD97400BB8A69 /* CreditCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditCardViewController.swift; sourceTree = "<group>"; };
 		764A43D426C51A7300BD8159 /* SubscriptionTypeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionTypeVC.swift; sourceTree = "<group>"; };
 		764F869B26A1BC90001940A5 /* EmailVerificationPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailVerificationPopupViewController.swift; sourceTree = "<group>"; };
+		7655287426C87BFE0035C515 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		76758B7E266A4EA600E7268F /* SubscriptionPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionPopupViewController.swift; sourceTree = "<group>"; };
 		768417B426C3CC7000A6B4B6 /* MyCardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCardModel.swift; sourceTree = "<group>"; };
 		768417BC26C3DAFA00A6B4B6 /* AddNewCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewCardViewController.swift; sourceTree = "<group>"; };
 		768417C326C3F15600A6B4B6 /* AddNewAddressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewAddressViewController.swift; sourceTree = "<group>"; };
-		768417C726C40AF100A6B4B6 /* SubscriptionPlanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionPlanViewController.swift; sourceTree = "<group>"; };
 		768A022026BC175C00C9A90A /* AddMyCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMyCardViewController.swift; sourceTree = "<group>"; };
 		768A026426BC1F4200C9A90A /* AddMyNewCardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMyNewCardTableViewCell.swift; sourceTree = "<group>"; };
 		76B0586A26B2E04D00796E08 /* UserDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailTableViewCell.swift; sourceTree = "<group>"; };
@@ -264,6 +264,7 @@
 		6BB8FEA2251F53F400A7C8C1 /* PastaRecipe */ = {
 			isa = PBXGroup;
 			children = (
+				7655287326C87BE90035C515 /* Enums */,
 				768417BF26C3F0D700A6B4B6 /* Add New Address */,
 				768417B726C3DA5600A6B4B6 /* Add New Card */,
 				7616CF0226C2A170004A8BEC /* Cards And Addresses */,
@@ -504,7 +505,6 @@
 		76198BC32630CA9A00A832DA /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				768417C726C40AF100A6B4B6 /* SubscriptionPlanViewController.swift */,
 				764A43D426C51A7300BD8159 /* SubscriptionTypeVC.swift */,
 			);
 			path = Controllers;
@@ -651,6 +651,14 @@
 			children = (
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		7655287326C87BE90035C515 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				7655287426C87BFE0035C515 /* Enums.swift */,
+			);
+			path = Enums;
 			sourceTree = "<group>";
 		};
 		76758B7C266A4E7600E7268F /* Subscription Popup */ = {
@@ -1039,7 +1047,6 @@
 				762AB5492630A9F5002723D4 /* DateDalegate.swift in Sources */,
 				762AB5BB2630AD0E002723D4 /* LoginModel.swift in Sources */,
 				768417BD26C3DAFA00A6B4B6 /* AddNewCardViewController.swift in Sources */,
-				768417C826C40AF100A6B4B6 /* SubscriptionPlanViewController.swift in Sources */,
 				76198ABF2630B6FD00A832DA /* AddCardViewController.swift in Sources */,
 				762AB5422630A9F5002723D4 /* UISearchBar+Additions.swift in Sources */,
 				762AB4BA26308F6D002723D4 /* MyTabbarVC.swift in Sources */,
@@ -1098,6 +1105,7 @@
 				768A026526BC1F4200C9A90A /* AddMyNewCardTableViewCell.swift in Sources */,
 				762AB5482630A9F5002723D4 /* DatabaseRepresentation.swift in Sources */,
 				76198B6E2630CA5900A832DA /* CookWithChefVC.swift in Sources */,
+				7655287526C87BFE0035C515 /* Enums.swift in Sources */,
 				760BD4A52645BCB500DE4AF6 /* Global Variables.swift in Sources */,
 				76B0C0B0266A6BE300782A08 /* AddToCartViewController.swift in Sources */,
 				77DB6DEE258A4EF3003A9A9D /* ForgetPasswordVC.swift in Sources */,

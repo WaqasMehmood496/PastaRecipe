@@ -24,6 +24,7 @@ class SignupVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
     }
     
     @IBAction func SignUpBtn(_ sender: Any) {
@@ -44,6 +45,15 @@ class SignupVC: UIViewController {
 
 //Helping Method's
 extension SignupVC{
+    
+    func setupUI() {
+        NameTF.setLeftPaddingPoints(8)
+        NameTF.setRightPaddingPoints(8)
+        EmailTF.setLeftPaddingPoints(8)
+        EmailTF.setRightPaddingPoints(8)
+        PasswordTF.setLeftPaddingPoints(8)
+        PasswordTF.setRightPaddingPoints(8)
+    }
     
     func getEmailCode(){
         showHUDView(hudIV: .indeterminate, text: .process) { (hud) in

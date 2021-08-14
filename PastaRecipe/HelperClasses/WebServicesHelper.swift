@@ -63,7 +63,10 @@ enum webserviceUrl: String {
          addcard = "/addcard",
          addadress = "/addadress",
          detelecard = "/detelecard",
-         deteleadress = "/deteleadress"
+         deteleadress = "/deteleadress",
+         setasdefault = "/setasdefault",
+         setcardasdefault = "/setcardasdefault"
+    
     func url() -> String {
         return Constant.mainUrl + self.rawValue
     }

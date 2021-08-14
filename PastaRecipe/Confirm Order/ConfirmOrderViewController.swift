@@ -9,6 +9,8 @@
 import UIKit
 import JGProgressHUD
 import iOSDropDown
+import Stripe
+
 class ConfirmOrderViewController: UIViewController, PassDataDelegate {
     
     // IBOUTLET'S
@@ -19,6 +21,7 @@ class ConfirmOrderViewController: UIViewController, PassDataDelegate {
     @IBOutlet weak var CityTF: UITextField!
     @IBOutlet weak var addressTf: UITextField!
     @IBOutlet weak var detailstf: UITextField!
+    @IBOutlet weak var DefaultCardBtn: UIButton!
     
     //CONSTANT'S
     let MapsVCIdentifier = "MapsViewController"
@@ -32,6 +35,8 @@ class ConfirmOrderViewController: UIViewController, PassDataDelegate {
     var selectedPlan = OrdersModel()
     var dataDic = [String:Any]()
     var selectedZip = "33133"
+    var isSubscription = false
+    var isUserDefaultCard = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,27 +44,40 @@ class ConfirmOrderViewController: UIViewController, PassDataDelegate {
         //self.addTabGuestureOnLocationTextField()
     }
     
-    @IBAction func confirmOrderBtn(_ sender: Any) {
-        
-        if CommonHelper.getCachedUserData()?.user_detail.user_id != nil {
-            if addressTf.text!.isEmpty || addressTf.text! == containSpace ,
-               ZipCodeTF.text!.isEmpty || ZipCodeTF.text! == containSpace {
-                PopupHelper.showAlertControllerWithError (
-                    forErrorMessage: zipCodeMessage,
-                    forViewController: self
-                )
-            } else {
-                self.moveToStripeVC()
-            }
+    @IBAction func UserDefaultCardBtnAction(_ sender: Any) {
+        if isUserDefaultCard {
+            isUserDefaultCard = false
+            DefaultCardBtn.setImage(UIImage(named: ""), for: .normal)
         } else {
-            if NameTF.text!.isEmpty || NameTF.text! == containSpace || EmailTF.text!.isEmpty || EmailTF.text! == containSpace || ZipCodeTF.text!.isEmpty || ZipCodeTF.text! == containSpace || StateTF.text!.isEmpty || StateTF.text! == containSpace || CityTF.text!.isEmpty || CityTF.text! == containSpace || addressTf.text!.isEmpty || addressTf.text! == containSpace {
+            isUserDefaultCard = true
+            DefaultCardBtn.setImage(UIImage(named: "checking-mark"), for: .normal)
+        }
+    }
+    @IBAction func confirmOrderBtn(_ sender: Any) {
+        showHUDView(hudIV: .indeterminate, text: .process) { (hud) in
+            hud.show(in: self.view, animated: true)
+            if self.isSubscription {
+                if self.isUserDefaultCard {
+                    //MARK: Subscription payment of stripe here....
+                    if let userData = CommonHelper.getCachedUserData() {
+                        guard let expDate = userData.more_detail.card.expired_date_c else {
+                            return
+                        }
+                        let expDateArray = expDate.components(separatedBy: "/")
+                        self.performStripePayment(hud: hud, cardNumber: userData.more_detail.card.card_number, expMonth: UInt(expDateArray[0])!, expYear: UInt(expDateArray[1])!, cvc: userData.more_detail.card.cvc, postalCode: self.selectedZip, price: Int(self.selectedPlan.purchasingcoins)!, name: self.NameTF.text!, email: self.EmailTF.text!)
+                    }
+                    
+                } else {
+                    // Move To Stripe View Controller
+                    self.moveToStripeViewController()
+                }
+            } else {
+                if self.isUserDefaultCard {
+                    //MARK: Simple payment of stripe here....
+                } else {
+                    self.moveToStripeViewController()
+                }
                 
-                PopupHelper.showAlertControllerWithError (
-                    forErrorMessage: fieldsRequiredMsg,
-                    forViewController: self
-                )
-            }else{
-                self.moveToStripeVC()
             }
         }
     }
@@ -116,17 +134,6 @@ extension ConfirmOrderViewController{
         }
     }
     
-    func moveToStripeVC() {
-        let payment = storyboard?.instantiateViewController(identifier: AddCardIdentifier) as! AddCardViewController
-        payment.delegate = self
-        selectedPlan.order_address = self.addressTf.text!
-        payment.orderDetail = selectedPlan
-        payment.orderDetail.user_id = 0
-        payment.email = self.EmailTF.text!
-        payment.name = self.NameTF.text!
-        self.navigationController?.pushViewController(payment, animated: true)
-    }
-    
     func getPriceOfProducts() -> String {
         var price = 0
         for i in 0..<cartArray.count {
@@ -137,9 +144,6 @@ extension ConfirmOrderViewController{
         return String(price)
     }
     
-    func passCurrentLocation(data: LocationModel) {
-        self.addressTf.text = data.address
-    }
     
     func setupLoginUserParameters(user:LoginModel) {
         self.dataDic[Constant.name] = user.user_detail.user_name
@@ -170,41 +174,74 @@ extension ConfirmOrderViewController{
         }
     }
     
+    func moveToStripeViewController(){
+        if CommonHelper.getCachedUserData()?.user_detail.user_id != nil {
+            if addressTf.text!.isEmpty || addressTf.text! == containSpace ,
+               ZipCodeTF.text!.isEmpty || ZipCodeTF.text! == containSpace {
+                PopupHelper.showAlertControllerWithError (
+                    forErrorMessage: zipCodeMessage,
+                    forViewController: self
+                )
+            } else {
+                self.nevigateToNextVC()
+            }
+        } else {
+            if NameTF.text!.isEmpty || NameTF.text! == containSpace || EmailTF.text!.isEmpty || EmailTF.text! == containSpace || ZipCodeTF.text!.isEmpty || ZipCodeTF.text! == containSpace || StateTF.text!.isEmpty || StateTF.text! == containSpace || CityTF.text!.isEmpty || CityTF.text! == containSpace || addressTf.text!.isEmpty || addressTf.text! == containSpace {
+                
+                PopupHelper.showAlertControllerWithError (
+                    forErrorMessage: fieldsRequiredMsg,
+                    forViewController: self
+                )
+            }else{
+                self.nevigateToNextVC()
+            }
+        }
+    }
+    
+    func nevigateToNextVC() {
+        let payment = storyboard?.instantiateViewController(identifier: AddCardIdentifier) as! AddCardViewController
+        payment.delegate = self
+        selectedPlan.order_address = self.addressTf.text!
+        payment.orderDetail = selectedPlan
+        payment.orderDetail.user_id = 0
+        payment.email = self.EmailTF.text!
+        payment.name = self.NameTF.text!
+        payment.isSubscription = isSubscription
+        
+        self.navigationController?.pushViewController(payment, animated: true)
+    }
+    
 }
 
 
 //MARK:- DELEGATE METHOD'S
 extension ConfirmOrderViewController {
     // Delegate Methods
-    func booking() {
-        self.AddPurchasedProduct()
+    func booking(hud:JGProgressHUD) {
+        self.AddPurchasedProduct(hud: hud)
+    }
+    // Get Current location using mapview
+    func passCurrentLocation(data: LocationModel) {
+        self.addressTf.text = data.address
     }
 }
 
 
-
-
 //MARK:- API CALLING METHOD'S
 extension ConfirmOrderViewController {
-    func AddPurchasedProduct() {
-        showHUDView (
-            hudIV: .indeterminate,
-            text: .process
-        ) { (hud) in
-            hud.show(in: self.view, animated: true)
-            if Connectivity.isConnectedToNetwork() {
-                self.dataDic = [String:Any]()
-                if let user = CommonHelper.getCachedUserData() {
-                    self.setupLoginUserParameters(user: user)
-                } else {
-                    self.setupFieldsParameter()
-                }
-                self.defaultParamerts()
-                self.callWebService(.addpasteapurchyase, hud: hud)
-            }else{
-                hud.textLabel.text = self.internetConnectionMsg
-                hud.dismiss()
+    func AddPurchasedProduct(hud:JGProgressHUD) {
+        if Connectivity.isConnectedToNetwork() {
+            self.dataDic = [String:Any]()
+            if let user = CommonHelper.getCachedUserData() {
+                self.setupLoginUserParameters(user: user)
+            } else {
+                self.setupFieldsParameter()
             }
+            self.defaultParamerts()
+            self.callWebService(.addpasteapurchyase, hud: hud)
+        }else{
+            hud.textLabel.text = self.internetConnectionMsg
+            hud.dismiss()
         }
     }
     
@@ -229,5 +266,100 @@ extension ConfirmOrderViewController:WebServiceResponseDelegate{
         default:
             hud.dismiss()
         }
+    }
+}
+
+
+//MARK: - STRIPE PAYMENT METHOD'S
+extension ConfirmOrderViewController {
+    
+    func performStripePayment(hud:JGProgressHUD,cardNumber:String, expMonth:UInt, expYear:UInt, cvc:String, postalCode:String, price:Int , name:String, email:String) {
+        //PopupHelper.showAnimating(self)
+        let cardParams = STPCardParams()
+        cardParams.name = name
+        cardParams.number = cardNumber
+        cardParams.expMonth = expMonth
+        cardParams.expYear = expYear
+        cardParams.cvc = cvc
+        cardParams.address.country = "US"
+        cardParams.address.postalCode = postalCode
+        
+        let paymentmethodcardparam = STPPaymentMethodCardParams(cardSourceParams: cardParams)
+        let paymentMethodParams = STPPaymentMethodParams(card: paymentmethodcardparam, billingDetails: nil, metadata: nil)
+        let periceValue = price * 100
+        
+        let clientName = name
+        let clientemail = email
+        createSubscription(hud: hud, name: clientName, email: clientemail, paymentMethodParams: paymentMethodParams, periceValue: periceValue)
+    }
+    
+    func createSubscription(hud:JGProgressHUD,name:String, email:String, paymentMethodParams:STPPaymentMethodParams, periceValue:Int) {
+        InvoiceStripClient.shared.createPayment(with: name,email: email) { (result, key, id) in
+            switch result {
+            case .success:
+                guard let Subkey = key else { return }
+                guard let cusId = id else { return }
+                
+                let paymentIntentParams = STPSetupIntentConfirmParams(clientSecret: Subkey)
+                paymentIntentParams.paymentMethodParams = paymentMethodParams
+                self.conformSetupIntent(hud: hud, paymentIntentParams: paymentIntentParams, periceValue: periceValue, id: cusId, type: "week")
+                break
+            case .failure(let error):
+                hud.dismiss()
+                PopupHelper.alertWithOk(title: "Oops!", message: error.localizedDescription, controler: self)
+            }
+        }
+    }
+    
+    func conformSetupIntent(hud:JGProgressHUD,paymentIntentParams:STPSetupIntentConfirmParams,periceValue:Int, id:String, type:String) {
+        STPPaymentHandler.shared().confirmSetupIntent(paymentIntentParams, with: self) { (status, paymentIntent, error) in
+            switch (status){
+            case .failed:
+                hud.dismiss()
+                PopupHelper.alertWithOk(title: "Oops!", message: error?.localizedDescription ?? "", controler: self)
+                break
+            case .canceled:
+                hud.dismiss()
+                PopupHelper.alertWithOk(title: "Oops!", message: error!.localizedDescription , controler: self)
+                break
+            case .succeeded:
+                self.confirmPayment1(hud: hud, periceValue: periceValue, id: id, type: type, paymentIntent: paymentIntent!)
+                break
+            }
+        }
+    }
+    
+    func confirmPayment1(hud:JGProgressHUD,periceValue:Int,id:String,type:String,paymentIntent:STPSetupIntent) {
+        InvoiceStripClient.shared.createPayment1( with: periceValue,id: id,type: type) { (result, key, id) in
+            switch result {
+            case .success:
+                self.confirmPayment2(hud: hud, paymentIntent: paymentIntent, key: key!)
+                break
+            case .failure(let error):
+                hud.dismiss()
+                PopupHelper.alertWithOk(title: "Oops!", message: error.localizedDescription, controler: self)
+            }
+        }
+    }
+    
+    func confirmPayment2(hud:JGProgressHUD,paymentIntent:STPSetupIntent,key:String) {
+        InvoiceStripClient.shared.createPayment2(with: paymentIntent.paymentMethodID!,sub_id: key) { (result, key, id) in
+            switch result {
+            case .success:
+                hud.dismiss()
+                self.booking(hud: hud)
+                PopupHelper.alertWithOk(title: "Success", message: "Your subscription is completed", controler: self)
+            case .failure(let error):
+                hud.dismiss()
+                PopupHelper.alertWithOk(title: "Oops!", message: error.localizedDescription, controler: self)
+            }
+        }
+    }
+}
+
+
+extension ConfirmOrderViewController: STPAuthenticationContext {
+    func authenticationPresentingViewController() -> UIViewController {
+        return self
     }
 }

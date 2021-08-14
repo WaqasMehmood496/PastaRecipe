@@ -18,6 +18,8 @@ class SubscriptionTypeVC: UIViewController {
     //VARIABLES
     var selectedSubs = OrdersModel()
     var selectedMonth = String()
+    var isSubscription = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initialSetup()
@@ -28,6 +30,7 @@ class SubscriptionTypeVC: UIViewController {
         let payment = storyboard?.instantiateViewController(identifier: "ConfirmOrderViewController") as! ConfirmOrderViewController
         selectedSubs.order_date = selectedMonth
         payment.selectedPlan = selectedSubs
+        payment.isSubscription = isSubscription
         self.navigationController?.pushViewController(payment, animated: true)
     }
     

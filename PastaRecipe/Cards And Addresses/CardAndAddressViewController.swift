@@ -43,21 +43,36 @@ class CardAndAddressViewController: UIViewController {
     
     @IBAction func AddCardAndAddressBtnAction(_ sender: Any) {
         if selectedType{
-            let addCardViewController = getViewController(identifier: "AddNewCardViewController") as! AddNewCardViewController
-            addCardViewController.delegate = self
-            self.navigationController?.pushViewController(addCardViewController, animated: true)
+            showAddNewCardViewController(isEdit: false)
         } else {
-            let addAddressViewController = getViewController(identifier: "AddNewAddressViewController") as! AddNewAddressViewController
-            addAddressViewController.delegate = self
-            self.navigationController?.pushViewController(addAddressViewController, animated: true)
+            showAddNewAddressViewController(isEdit: false, myAddress: MyAddressModel())
         }
     }
 }
 
+//MARK:- HELPING METHOD'S
 extension CardAndAddressViewController {
+    
     func getViewController(identifier:String) -> UIViewController {
         return (storyboard?.instantiateViewController(withIdentifier: identifier))!
-        
+    }
+    
+    func showAddNewCardViewController(isEdit:Bool) {
+        let addCardViewController = getViewController(identifier: "AddNewCardViewController") as! AddNewCardViewController
+        addCardViewController.delegate = self
+        if isEdit {
+            
+        }
+        self.navigationController?.pushViewController(addCardViewController, animated: true)
+    }
+    
+    func showAddNewAddressViewController(isEdit:Bool, myAddress:MyAddressModel) {
+        let addAddressViewController = getViewController(identifier: "AddNewAddressViewController") as! AddNewAddressViewController
+        addAddressViewController.delegate = self
+        if isEdit {
+            addAddressViewController.myAddress = myAddress
+        }
+        self.navigationController?.pushViewController(addAddressViewController, animated: true)
     }
 }
 
@@ -66,14 +81,18 @@ extension CardAndAddressViewController {
 extension CardAndAddressViewController {
     func upDateCard(cardData:MyCardModel,isDefault:Bool) {
         if isDefault {
-            self.myCardArray.last?.bydefault = "0"
+            for (_,value) in self.myCardArray.enumerated(){
+                value.bydefault = "0"
+            }
         }
         self.myCardArray.append(cardData)
         self.CardAndAddressTableView.reloadData()
     }
     func upDateAddress(addressData:MyAddressModel,isDefault:Bool) {
         if isDefault {
-            self.myAddressArray.last?.bydefault = "0"
+            for (_,value) in self.myAddressArray.enumerated(){
+                value.bydefault = "0"
+            }
         }
         self.myAddressArray.append(addressData)
         self.CardAndAddressTableView.reloadData()
@@ -141,6 +160,38 @@ extension CardAndAddressViewController {
             }
         }
     }
+    
+    func setDefaultAddressApi(addressId:Int) {
+        showHUDView(hudIV: .indeterminate, text: .process) { (hud) in
+            hud.show(in: self.view, animated: true)
+            if Connectivity.isConnectedToNetwork() {
+                if let userId = CommonHelper.getCachedUserData()?.user_detail.user_id {
+                    self.dataDic = [String:Any]()
+                    self.dataDic[Constant.adresss_id] = addressId
+                    self.dataDic[Constant.user_id] = userId
+                    self.callWebService(.setasdefault, hud: hud)
+                } else {
+                    hud.dismiss()
+                }
+            }
+        }
+    }
+    
+    func setDefaultCardApi(cardId:Int) {
+        showHUDView(hudIV: .indeterminate, text: .process) { (hud) in
+            hud.show(in: self.view, animated: true)
+            if Connectivity.isConnectedToNetwork() {
+                if let userId = CommonHelper.getCachedUserData()?.user_detail.user_id {
+                    self.dataDic = [String:Any]()
+                    self.dataDic[Constant.carddetail_id] = cardId
+                    self.dataDic[Constant.user_id] = userId
+                    self.callWebService(.setcardasdefault, hud: hud)
+                } else {
+                    hud.dismiss()
+                }
+            }
+        }
+    }
 }
 
 
@@ -166,6 +217,10 @@ extension CardAndAddressViewController:UITableViewDelegate,UITableViewDataSource
             }else{
                 cell.DefaultCardLabel.text = "No"
             }
+            cell.EditBtn.addTarget(self, action: #selector(editCardBtnAction(_:)), for: .touchUpInside)
+            cell.SetDefaultCardBtn.addTarget(self, action: #selector(setDefaultCardBtnAction(_:)), for: .touchUpInside)
+            cell.EditBtn.tag = indexPath.row
+            cell.SetDefaultCardBtn.tag = indexPath.row
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "AddressCell", for: indexPath) as! MyAddressTableViewCell
@@ -179,13 +234,38 @@ extension CardAndAddressViewController:UITableViewDelegate,UITableViewDataSource
             }else{
                 cell.DefaultAddressLabel.text = "No"
             }
+            cell.EditBtn.addTarget(self, action: #selector(editAddressBtnAction(_:)), for: .touchUpInside)
+            cell.SetDefaultAddressBtn.addTarget(self, action: #selector(setDefaultAddressBtnAction(_:)), for: .touchUpInside)
+            cell.EditBtn.tag = indexPath.row
+            cell.SetDefaultAddressBtn.tag = indexPath.row
             return cell
+        }
+    }
+    
+    // CARD BUTTONS TARGET'S
+    @objc func editCardBtnAction( _ sender: UIButton) {
+        print("Edit card")
+        
+    }
+    @objc func setDefaultCardBtnAction( _ sender: UIButton) {
+        if let cardId = Int(myCardArray[sender.tag].carddetail_id){
+            setDefaultCardApi(cardId: cardId)
+        }
+    }
+    
+    // ADDRESS BUTTONS TARGET'S
+    @objc func editAddressBtnAction( _ sender: UIButton) {
+        print("Edit Address")
+    }
+    @objc func setDefaultAddressBtnAction( _ sender: UIButton) {
+        print("Default Address")
+        if let addressId = Int(myAddressArray[sender.tag].adresss_id){
+            setDefaultAddressApi(addressId: addressId)
         }
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            
             if selectedType {
                 //Delete Card
                 self.deleteCardApi(cardId: Int(self.myCardArray[indexPath.row].carddetail_id)!)
@@ -193,11 +273,7 @@ extension CardAndAddressViewController:UITableViewDelegate,UITableViewDataSource
                 //Delete Address
                 self.deleteAddressApi(addressId: Int(self.myAddressArray[indexPath.row].adresss_id)!)
             }
-            
-            ///objects.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
         }
     }
 }
@@ -217,6 +293,8 @@ extension CardAndAddressViewController:WebServiceResponseDelegate {
         switch url {
         case .myadress:
             if let data = dataDict as? Dictionary<String, Any>{
+                self.myAddressArray.removeAll()
+                self.myCardArray.removeAll()
                 if let addressList = data["address_list"] as? NSArray{
                     for address in addressList {
                         if let myaddress = address as? NSDictionary{
@@ -225,7 +303,6 @@ extension CardAndAddressViewController:WebServiceResponseDelegate {
                     }
                     //Call Cards api
                     getAllCardApi(hud: hud)
-                    //self.CardAndAddressTableView.reloadData()
                 } else {
                     hud.dismiss()
                 }
@@ -277,6 +354,21 @@ extension CardAndAddressViewController:WebServiceResponseDelegate {
                 } else {
                     hud.dismiss()
                 }
+            } else {
+                hud.dismiss()
+            }
+        case .setasdefault:
+            if dataDict is Dictionary<String, Any>{
+                getAllAddressApi()
+                hud.dismiss()
+            } else {
+                hud.dismiss()
+            }
+        case .setcardasdefault:
+            if dataDict is Dictionary<String, Any>{
+                
+                getAllAddressApi()
+                hud.dismiss()
             } else {
                 hud.dismiss()
             }

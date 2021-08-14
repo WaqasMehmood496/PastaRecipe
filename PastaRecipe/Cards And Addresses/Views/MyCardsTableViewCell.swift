@@ -15,6 +15,8 @@ class MyCardsTableViewCell: UITableViewCell {
     @IBOutlet weak var DateLabel: UILabel!
     @IBOutlet weak var CVCLabel: UILabel!
     @IBOutlet weak var DefaultCardLabel: UILabel!
+    @IBOutlet weak var SetDefaultCardBtn: UIButton!
+    @IBOutlet weak var EditBtn: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()

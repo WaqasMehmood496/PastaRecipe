@@ -35,7 +35,27 @@ class AddToCartViewController: UIViewController {
         let price = Int(self.TotalLabel.text!)
         if let totalPrice = price {
             if totalPrice > 6 {
-                self.performSegue(withIdentifier: toConfirmOrdeSegue, sender: nil)
+                if isSubscription {
+                    let payment = storyboard?.instantiateViewController(identifier: "ConfirmOrderViewController") as! ConfirmOrderViewController
+                    payment.isSubscription = isSubscription
+                    if let userId = CommonHelper.getCachedUserData()?.user_detail.user_id {
+                        payment.selectedPlan = OrdersModel (
+                            user_id:  Int64(userId),
+                            SubscriptionId: 0,
+                            order_date: "every week",
+                            order_time: "",
+                            order_address: "",
+                            order_lat: "",
+                            purchasingcoins: "\(SubTotal+1)",
+                            order_lng: ""
+                        )
+                    }
+                    
+                    self.navigationController?.pushViewController(payment, animated: true)
+                } else {
+                    self.performSegue(withIdentifier: toConfirmOrdeSegue, sender: nil)
+                }
+                
             } else {
                 PopupHelper.alertWithOk(
                     title: messageTitle,
@@ -52,7 +72,7 @@ class AddToCartViewController: UIViewController {
                 destination.selectedSubs = OrdersModel (
                     user_id:  Int64(userId),
                     SubscriptionId: 0,
-                    order_date: "",
+                    order_date: "every week",
                     order_time: "",
                     order_address: "",
                     order_lat: "",
@@ -63,7 +83,7 @@ class AddToCartViewController: UIViewController {
                 destination.selectedSubs = OrdersModel (
                     user_id: 0 ,
                     SubscriptionId: 0,
-                    order_date: "",
+                    order_date: "every week",
                     order_time: "",
                     order_address: "",
                     order_lat: "",
@@ -71,8 +91,7 @@ class AddToCartViewController: UIViewController {
                     order_lng: ""
                 )
             }
-        } else if let destination = segue.destination as? ConfirmOrderViewController {
-            
+            destination.isSubscription = isSubscription
         }
     }
 }

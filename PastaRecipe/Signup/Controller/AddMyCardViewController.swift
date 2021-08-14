@@ -136,6 +136,7 @@ extension AddMyCardViewController:WebServiceResponseDelegate{
                     self.navigationController?.tabBarController?.selectedIndex = 0
                     defaults.set(true, forKey: Constant.userLoginStatusKey)
                     hud.dismiss()
+                    PopupHelper.alertWithOk(title: "Success", message: "You account created successfully", controler: self)
                 }
                 hud.dismiss()
             }
