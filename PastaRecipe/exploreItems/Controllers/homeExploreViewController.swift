@@ -45,7 +45,13 @@ class homeExploreViewController: UIViewController,SubscriptioPopDelegate {
     }
     
     @IBAction func subcribeBtnPressed(_ sender:Any){
-        self.performSegue(withIdentifier: toSubcribeTypeSegue, sender: nil)
+        //self.performSegue(withIdentifier: toSubcribeTypeSegue, sender: nil)
+        self.isSubscription = true
+        self.performSegue(withIdentifier: toProductsSegue, sender: nil)
+    }
+    @IBAction func OneTumePurchasing(_ sender: Any) {
+        self.isSubscription = false
+        self.performSegue(withIdentifier: toProductsSegue, sender: nil)
     }
     
     // PREPARE FOR SEGUE COMPLETION METHOD
@@ -187,7 +193,11 @@ extension homeExploreViewController:UICollectionViewDelegate,UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
-        selectedIndex = indexPath.row
+        let recipeDetail = storyboard?.instantiateViewController(withIdentifier: "ViewRecipeDetailViewController") as! ViewRecipeDetailViewController
+        recipeDetail.name = self.plansArray[indexPath.row].plan_name
+        recipeDetail.detail = self.plansArray[indexPath.row].plan_description
+        recipeDetail.image = self.plansArray[indexPath.row].image_url
+        self.navigationController?.pushViewController(recipeDetail, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

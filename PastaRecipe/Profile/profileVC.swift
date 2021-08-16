@@ -8,8 +8,9 @@
 
 import UIKit
 import SDWebImage
+import AZTabBar
 
-class profileVC: UIViewController{
+class profileVC: UIViewController {
     
     @IBOutlet weak var monthLbl: UILabel!
     @IBOutlet weak var dayLbl: UILabel!
@@ -35,6 +36,14 @@ class profileVC: UIViewController{
     }
     
     @IBAction func yourOrderBtn(_ sender: Any) {
+    }
+    @IBAction func LogoutBtnAction(_ sender: Any) {
+        defaults.set(false, forKey: Constant.userLoginStatusKey)
+        if let controller = self.parent?.parent as? AZTabBarController{
+            let profileVC = UIStoryboard(name: Constant.mainStoryboard, bundle: nil).instantiateViewController(withIdentifier: "LoginViewController")
+            controller.setViewController(profileVC, atIndex: 1)
+            
+        }
     }
     
     @IBAction func MyCardAndAddresBtnAction(_ sender: Any) {

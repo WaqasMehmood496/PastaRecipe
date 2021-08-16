@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
-
+import AZTabBar
 class LoginVC: UIViewController {
     
     @IBOutlet weak var EmailTF: UITextField!
@@ -84,6 +84,11 @@ extension LoginVC{
                                     defaults.set(true, forKey: Constant.userLoginStatusKey)
                                     hud.dismiss()
                                     PopupHelper.alertWithOk(title: "Success", message: "You login successfully", controler: self)
+                                    if let controller = self.parent?.parent as? AZTabBarController{
+                                        let profileVC = UIStoryboard(name: Constant.mainStoryboard, bundle: nil).instantiateViewController(withIdentifier: "profileVC")
+                                        controller.setViewController(profileVC, atIndex: 1)
+                                        
+                                    }
                                 }
                             }else{
                                 hud.dismiss()

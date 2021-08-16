@@ -31,6 +31,7 @@ class ProductsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.collectionViewSetup()
+        addIntoCard()
         self.navigationController?.navigationBar.isHidden = false
     }
     
@@ -103,6 +104,16 @@ extension ProductsViewController{
         }
         
         self.ChefRecipeCV?.collectionViewLayout = layout
+    }
+    
+    func addIntoCard() {
+        for item in self.plansArray{
+            if let recipeItem = item.isAddToCart {
+                if recipeItem {
+                    cartArray.append(CartModel(id: item.plan_id, image: item.image_url, title: item.plan_name, coins: item.no_of_coins, quantity: "1", price: item.amount))
+                }
+            }
+        }
     }
 }
 

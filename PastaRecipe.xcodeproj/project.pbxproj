@@ -77,6 +77,7 @@
 		764A43D526C51A7300BD8159 /* SubscriptionTypeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764A43D426C51A7300BD8159 /* SubscriptionTypeVC.swift */; };
 		764F869C26A1BC90001940A5 /* EmailVerificationPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764F869B26A1BC90001940A5 /* EmailVerificationPopupViewController.swift */; };
 		7655287526C87BFE0035C515 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7655287426C87BFE0035C515 /* Enums.swift */; };
+		76567D4826CAC62900D0753A /* ViewRecipeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76567D4726CAC62900D0753A /* ViewRecipeDetailViewController.swift */; };
 		76758B7F266A4EA600E7268F /* SubscriptionPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76758B7E266A4EA600E7268F /* SubscriptionPopupViewController.swift */; };
 		768417B526C3CC7000A6B4B6 /* MyCardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768417B426C3CC7000A6B4B6 /* MyCardModel.swift */; };
 		768417BD26C3DAFA00A6B4B6 /* AddNewCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768417BC26C3DAFA00A6B4B6 /* AddNewCardViewController.swift */; };
@@ -179,6 +180,7 @@
 		764A43D426C51A7300BD8159 /* SubscriptionTypeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionTypeVC.swift; sourceTree = "<group>"; };
 		764F869B26A1BC90001940A5 /* EmailVerificationPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailVerificationPopupViewController.swift; sourceTree = "<group>"; };
 		7655287426C87BFE0035C515 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
+		76567D4726CAC62900D0753A /* ViewRecipeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRecipeDetailViewController.swift; sourceTree = "<group>"; };
 		76758B7E266A4EA600E7268F /* SubscriptionPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionPopupViewController.swift; sourceTree = "<group>"; };
 		768417B426C3CC7000A6B4B6 /* MyCardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCardModel.swift; sourceTree = "<group>"; };
 		768417BC26C3DAFA00A6B4B6 /* AddNewCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewCardViewController.swift; sourceTree = "<group>"; };
@@ -264,6 +266,7 @@
 		6BB8FEA2251F53F400A7C8C1 /* PastaRecipe */ = {
 			isa = PBXGroup;
 			children = (
+				76567D3C26CAC58900D0753A /* Recipe Detail */,
 				7655287326C87BE90035C515 /* Enums */,
 				768417BF26C3F0D700A6B4B6 /* Add New Address */,
 				768417B726C3DA5600A6B4B6 /* Add New Card */,
@@ -659,6 +662,22 @@
 				7655287426C87BFE0035C515 /* Enums.swift */,
 			);
 			path = Enums;
+			sourceTree = "<group>";
+		};
+		76567D3C26CAC58900D0753A /* Recipe Detail */ = {
+			isa = PBXGroup;
+			children = (
+				76567D4626CAC61700D0753A /* Controller */,
+			);
+			path = "Recipe Detail";
+			sourceTree = "<group>";
+		};
+		76567D4626CAC61700D0753A /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				76567D4726CAC62900D0753A /* ViewRecipeDetailViewController.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 		76758B7C266A4E7600E7268F /* Subscription Popup */ = {
@@ -1088,6 +1107,7 @@
 				76B486AB261DE2DA00856494 /* SubscriptionPlanNameModel.swift in Sources */,
 				76B0586B26B2E04D00796E08 /* UserDetailTableViewCell.swift in Sources */,
 				7616CF0926C2A213004A8BEC /* MyCardsTableViewCell.swift in Sources */,
+				76567D4826CAC62900D0753A /* ViewRecipeDetailViewController.swift in Sources */,
 				768417C426C3F15600A6B4B6 /* AddNewAddressViewController.swift in Sources */,
 				762AB52F2630A9F4002723D4 /* LanguageHelper.swift in Sources */,
 				76198AC02630B6FD00A832DA /* CustomStyle.swift in Sources */,

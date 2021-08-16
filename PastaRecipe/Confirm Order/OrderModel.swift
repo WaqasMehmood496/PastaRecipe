@@ -52,6 +52,7 @@ class OrdersModel:Codable{
         self.order_time = order_time
         self.order_lat = order_lat
         self.order_lng = order_lng
+        self.order_address = order_address
         self.purchasingcoins = purchasingcoins
         
     }

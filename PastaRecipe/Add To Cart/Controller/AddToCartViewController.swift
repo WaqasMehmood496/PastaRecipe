@@ -36,6 +36,9 @@ class AddToCartViewController: UIViewController {
         if let totalPrice = price {
             if totalPrice > 6 {
                 if isSubscription {
+                    self.performSegue(withIdentifier: toConfirmOrdeSegue, sender: nil)
+                } else {
+                    
                     let payment = storyboard?.instantiateViewController(identifier: "ConfirmOrderViewController") as! ConfirmOrderViewController
                     payment.isSubscription = isSubscription
                     if let userId = CommonHelper.getCachedUserData()?.user_detail.user_id {
@@ -49,11 +52,20 @@ class AddToCartViewController: UIViewController {
                             purchasingcoins: "\(SubTotal+1)",
                             order_lng: ""
                         )
+                    } else {
+                        payment.selectedPlan = OrdersModel (
+                            user_id:  Int64(0),
+                            SubscriptionId: 0,
+                            order_date: "every week",
+                            order_time: "",
+                            order_address: "",
+                            order_lat: "",
+                            purchasingcoins: "\(SubTotal+1)",
+                            order_lng: ""
+                        )
                     }
                     
                     self.navigationController?.pushViewController(payment, animated: true)
-                } else {
-                    self.performSegue(withIdentifier: toConfirmOrdeSegue, sender: nil)
                 }
                 
             } else {

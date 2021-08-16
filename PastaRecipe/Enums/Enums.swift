@@ -7,6 +7,7 @@
 //
 
 import Foundation
+
 enum Type {
     case forever
     case onetime

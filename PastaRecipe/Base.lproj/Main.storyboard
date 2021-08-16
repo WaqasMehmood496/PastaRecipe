@@ -1636,6 +1636,64 @@
             </objects>
             <point key="canvasLocation" x="-186.40000000000001" y="3308.9955022488757"/>
         </scene>
+        <!--Recipe Detail-->
+        <scene sceneID="MFP-Kl-De9">
+            <objects>
+                <viewController storyboardIdentifier="ViewRecipeDetailViewController" id="TNR-5f-02n" customClass="ViewRecipeDetailViewController" customModule="PastaRecipe" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="dHl-KX-aKf">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Rounded Rectangle 3" translatesAutoresizingMaskIntoConstraints="NO" id="AOx-rA-3Wv">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="300"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="300" id="O0B-4E-jmJ"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vegetable Special Menu for vegetarians" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V7J-3s-mrN">
+                                <rect key="frame" x="16" y="352.5" width="343" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" id="hEf-hz-ajy"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.31372549020000001" green="0.36470588240000001" blue="0.41568627450000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Grilled Veggie" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rS3-Sl-6qF">
+                                <rect key="frame" x="16" y="316" width="343" height="20.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20.5" id="AoD-nD-jQW"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="GQG-8d-Q9N"/>
+                        <color key="backgroundColor" name="Theam 2"/>
+                        <constraints>
+                            <constraint firstItem="GQG-8d-Q9N" firstAttribute="trailing" secondItem="AOx-rA-3Wv" secondAttribute="trailing" id="4VR-vR-ulA"/>
+                            <constraint firstItem="V7J-3s-mrN" firstAttribute="leading" secondItem="GQG-8d-Q9N" secondAttribute="leading" constant="16" id="85L-BF-chT"/>
+                            <constraint firstItem="rS3-Sl-6qF" firstAttribute="leading" secondItem="GQG-8d-Q9N" secondAttribute="leading" constant="16" id="87W-Tj-OlF"/>
+                            <constraint firstItem="AOx-rA-3Wv" firstAttribute="leading" secondItem="GQG-8d-Q9N" secondAttribute="leading" id="EKI-ih-gBf"/>
+                            <constraint firstItem="GQG-8d-Q9N" firstAttribute="trailing" secondItem="rS3-Sl-6qF" secondAttribute="trailing" constant="16" id="WMg-vp-cPH"/>
+                            <constraint firstItem="V7J-3s-mrN" firstAttribute="top" secondItem="rS3-Sl-6qF" secondAttribute="bottom" constant="16" id="WdZ-LN-Dq5"/>
+                            <constraint firstItem="rS3-Sl-6qF" firstAttribute="top" secondItem="AOx-rA-3Wv" secondAttribute="bottom" constant="16" id="ZJI-SE-6AE"/>
+                            <constraint firstItem="AOx-rA-3Wv" firstAttribute="top" secondItem="GQG-8d-Q9N" secondAttribute="top" id="bvc-iF-WW3"/>
+                            <constraint firstItem="GQG-8d-Q9N" firstAttribute="trailing" secondItem="V7J-3s-mrN" secondAttribute="trailing" constant="16" id="doj-Fz-ooM"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Recipe Detail" id="BNW-cA-Tia"/>
+                    <connections>
+                        <outlet property="DescriptionLabel" destination="V7J-3s-mrN" id="9qb-bd-3gc"/>
+                        <outlet property="RecipeImage" destination="AOx-rA-3Wv" id="vPD-ay-9NT"/>
+                        <outlet property="TitleLabel" destination="rS3-Sl-6qF" id="BMW-k2-V89"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3DU-s8-AoD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-214" y="2560"/>
+        </scene>
         <!--ninno-->
         <scene sceneID="hhX-ru-XUM">
             <objects>
@@ -1826,25 +1884,47 @@
                                     <outlet property="delegate" destination="6re-RJ-oOS" id="Mgo-YF-DpV"/>
                                 </connections>
                             </collectionView>
-                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dbS-iM-SYE">
-                                <rect key="frame" x="97.5" y="574" width="180" height="45"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="dbS-iM-SYE" secondAttribute="height" multiplier="4:1" id="PVu-aA-Ngg"/>
-                                    <constraint firstAttribute="height" constant="45" id="dNd-Xp-Fk0"/>
-                                </constraints>
-                                <state key="normal" title="Subscribe Now">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="22.5"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="subcribeBtnPressed:" destination="6re-RJ-oOS" eventType="touchUpInside" id="qxc-ae-RXo"/>
-                                </connections>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="21e-K4-eGx">
+                                <rect key="frame" x="16" y="574" width="343" height="45"/>
+                                <subviews>
+                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dbS-iM-SYE">
+                                        <rect key="frame" x="0.0" y="0.0" width="167.5" height="45"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="45" id="dNd-Xp-Fk0"/>
+                                        </constraints>
+                                        <state key="normal" title="Subscribe Now">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="22.5"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="subcribeBtnPressed:" destination="6re-RJ-oOS" eventType="touchUpInside" id="qxc-ae-RXo"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iOO-kE-yDD">
+                                        <rect key="frame" x="175.5" y="0.0" width="167.5" height="45"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="45" id="UKG-BY-ifH"/>
+                                        </constraints>
+                                        <state key="normal" title="One Time Purchasing">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="22.5"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="OneTumePurchasing:" destination="6re-RJ-oOS" eventType="touchUpInside" id="0ar-aY-dpY"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="fg6-Ud-WeL"/>
                         <color key="backgroundColor" name="Theam 2"/>
@@ -1853,16 +1933,17 @@
                             <constraint firstItem="wWs-a2-Qc9" firstAttribute="top" secondItem="Gm5-YQ-aku" secondAttribute="bottom" constant="8" id="7Tk-zF-bpP"/>
                             <constraint firstItem="fg6-Ud-WeL" firstAttribute="trailing" secondItem="EPV-Vs-6xn" secondAttribute="trailing" id="9jl-24-F6C"/>
                             <constraint firstItem="Gm5-YQ-aku" firstAttribute="top" secondItem="fg6-Ud-WeL" secondAttribute="top" constant="16" id="9vy-oM-JyC"/>
-                            <constraint firstItem="dbS-iM-SYE" firstAttribute="centerX" secondItem="iKg-oP-vbk" secondAttribute="centerX" id="DnF-JV-eHl"/>
                             <constraint firstItem="fg6-Ud-WeL" firstAttribute="trailing" secondItem="wWs-a2-Qc9" secondAttribute="trailing" constant="24" id="GT1-tY-LqU"/>
                             <constraint firstItem="EPV-Vs-6xn" firstAttribute="top" secondItem="Lsz-fp-KUC" secondAttribute="bottom" constant="4" id="LIT-Dv-prw"/>
                             <constraint firstItem="fg6-Ud-WeL" firstAttribute="bottom" secondItem="EPV-Vs-6xn" secondAttribute="bottom" id="PEM-9O-rZK"/>
-                            <constraint firstItem="fg6-Ud-WeL" firstAttribute="bottom" secondItem="dbS-iM-SYE" secondAttribute="bottom" constant="4" id="Qoq-Se-bBL"/>
+                            <constraint firstItem="21e-K4-eGx" firstAttribute="leading" secondItem="fg6-Ud-WeL" secondAttribute="leading" constant="16" id="Vi8-dO-ZKF"/>
                             <constraint firstItem="wWs-a2-Qc9" firstAttribute="leading" secondItem="fg6-Ud-WeL" secondAttribute="leading" constant="24" id="Zmw-RG-8Y6"/>
                             <constraint firstItem="fg6-Ud-WeL" firstAttribute="trailing" secondItem="Gm5-YQ-aku" secondAttribute="trailing" constant="24" id="cWW-8Q-udV"/>
                             <constraint firstItem="fg6-Ud-WeL" firstAttribute="trailing" secondItem="Lsz-fp-KUC" secondAttribute="trailing" constant="24" id="cYD-8B-VaZ"/>
                             <constraint firstItem="Lsz-fp-KUC" firstAttribute="top" secondItem="wWs-a2-Qc9" secondAttribute="bottom" constant="8" id="iU3-ro-zcd"/>
                             <constraint firstItem="Lsz-fp-KUC" firstAttribute="leading" secondItem="fg6-Ud-WeL" secondAttribute="leading" constant="24" id="lOt-GN-gRf"/>
+                            <constraint firstAttribute="trailing" secondItem="21e-K4-eGx" secondAttribute="trailing" constant="16" id="m7g-QT-Sag"/>
+                            <constraint firstItem="fg6-Ud-WeL" firstAttribute="bottom" secondItem="21e-K4-eGx" secondAttribute="bottom" constant="4" id="puc-35-qQy"/>
                             <constraint firstItem="Gm5-YQ-aku" firstAttribute="leading" secondItem="fg6-Ud-WeL" secondAttribute="leading" constant="24" id="rFG-wF-RQ4"/>
                         </constraints>
                     </view>
@@ -1876,6 +1957,7 @@
                         <segue destination="PYY-gu-L2n" kind="show" identifier="toSubcribe" id="Ckf-ZZ-a1H"/>
                         <segue destination="ofd-eV-DYs" kind="show" identifier="toSubcribeType" id="DLm-xU-94c"/>
                         <segue destination="Apb-T4-oOz" kind="show" identifier="toProducts" id="Oa0-7e-W2O"/>
+                        <segue destination="TNR-5f-02n" kind="show" identifier="toDetailVC" id="QrF-NV-QzV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dZ6-ne-QqE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1967,9 +2049,6 @@
                                                             <real key="value" value="20"/>
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
-                                                    <connections>
-                                                        <action selector="subcribeBtnPressed:" destination="6re-RJ-oOS" eventType="touchUpInside" id="wZ5-aX-bhQ"/>
-                                                    </connections>
                                                 </button>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Rounded Rectangle 3" translatesAutoresizingMaskIntoConstraints="NO" id="iNS-lj-5Ji">
                                                     <rect key="frame" x="37.5" y="16" width="100" height="100"/>
@@ -2114,7 +2193,6 @@
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="CheckOutBtnAction:" destination="c9z-sH-OMx" eventType="touchUpInside" id="0kN-Ai-gkS"/>
-                                    <action selector="subcribeBtnPressed:" destination="6re-RJ-oOS" eventType="touchUpInside" id="cbi-Me-0xX"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total:" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W5n-vj-9bA">
@@ -2831,7 +2909,7 @@
             </objects>
             <point key="canvasLocation" x="2394" y="1809"/>
         </scene>
-        <!--Title-->
+        <!--Prifile-->
         <scene sceneID="YlY-N0-67g">
             <objects>
                 <viewController id="JzB-pV-927" customClass="profileVC" customModule="PastaRecipe" customModuleProvider="target" sceneMemberID="viewController">
@@ -2855,10 +2933,22 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lq8-tD-RAa">
+                                        <rect key="frame" x="311" y="16" width="48" height="25"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="25" id="cDL-by-ViW"/>
+                                        </constraints>
+                                        <state key="normal" title="Logout"/>
+                                        <connections>
+                                            <action selector="LogoutBtnAction:" destination="JzB-pV-927" eventType="touchUpInside" id="b2U-fg-smh"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="220" id="7qS-74-6BI"/>
+                                    <constraint firstAttribute="trailing" secondItem="lq8-tD-RAa" secondAttribute="trailing" constant="16" id="GTv-80-IV2"/>
+                                    <constraint firstItem="lq8-tD-RAa" firstAttribute="top" secondItem="vqD-gn-EFP" secondAttribute="top" constant="16" id="Lmj-w7-cPd"/>
                                     <constraint firstItem="4PB-Ah-IOt" firstAttribute="top" secondItem="M2F-aG-XtF" secondAttribute="bottom" constant="16" id="enw-Fg-sep"/>
                                     <constraint firstItem="M2F-aG-XtF" firstAttribute="centerX" secondItem="vqD-gn-EFP" secondAttribute="centerX" id="jSW-yr-J61"/>
                                     <constraint firstAttribute="bottom" secondItem="4PB-Ah-IOt" secondAttribute="bottom" constant="25" id="xJb-q2-6Py"/>
@@ -3055,7 +3145,7 @@
                             <constraint firstItem="27L-gM-onK" firstAttribute="centerX" secondItem="p72-Vd-YBF" secondAttribute="centerX" id="hWq-yW-Uin"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Title" id="LdU-io-vgJ">
+                    <navigationItem key="navigationItem" title="Prifile" id="LdU-io-vgJ">
                         <barButtonItem key="backBarButtonItem" title=" " id="7wq-aD-NGf"/>
                     </navigationItem>
                     <connections>
@@ -3173,9 +3263,6 @@
                                                             <real key="value" value="20"/>
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
-                                                    <connections>
-                                                        <action selector="subcribeBtnPressed:" destination="6re-RJ-oOS" eventType="touchUpInside" id="n7U-bz-AZp"/>
-                                                    </connections>
                                                 </button>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Rounded Rectangle 3" translatesAutoresizingMaskIntoConstraints="NO" id="Edy-T3-txj">
                                                     <rect key="frame" x="37.5" y="16" width="100" height="105"/>
@@ -4953,8 +5040,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="tfQ-gl-hpq"/>
-        <segue reference="oNw-mA-ACa"/>
+        <segue reference="YDZ-Ph-YfA"/>
+        <segue reference="f3y-Pp-FkL"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
     <resources>

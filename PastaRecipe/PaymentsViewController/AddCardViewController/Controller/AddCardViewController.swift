@@ -19,14 +19,18 @@ class AddCardViewController: UITableViewController {
     @IBOutlet weak var tfpostcode:UITextField!
     @IBOutlet weak var btnAddCard:UIButton!
     
-    //VARIABLE'S
+    //CONSTANT'S
+    let internetConnectionMsg = "You are not connected to the internet. Please check your connection"
     let cvvImage = "credit-card-2"
     let cardNumberImage = "credit-card"
+    
+    //VARIABLE'S
     var email = String()
     var name = String()
     var orderDetail:OrdersModel!
     var delegate = ConfirmOrderViewController()
     var isSubscription = false
+    var dataDic = [String:Any]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -250,102 +254,112 @@ class AddCardViewController: UITableViewController {
                     self.performStripePayment(hud: hud, cardNumber: self.tfCardNumber.text!, expMonth: UInt(date[0])!, expYear: UInt(date[1])!, cvc: self.tfcvcNumber.text!, postalCode: self.tfpostcode.text!, price: Int(price)!, name: self.name, email: self.email)
                 }else {
                     // Perform one time purchasing
+                    self.SimplePayment(hud: hud)
                 }
             }
         }
     }
-    //
-    //    func addCard() {
-    //        //PopupHelper.showAnimating(self)
-    //        let cardParams = STPCardParams()
-    //        let user = CommonHelper.getCachedUserData()
-    //        if let fname = user?.user_detail.user_name {
-    //            cardParams.name = fname
-    //        }
-    //
-    //        cardParams.number = self.tfCardNumber.text
-    //        if let date = self.tfExpiryDate.text?.components(separatedBy: "/"){
-    //            let month = date[0]
-    //            let year = date[1]
-    //            cardParams.expMonth = UInt(month)!
-    //            cardParams.expYear = UInt(year)!
-    //        }
-    //        cardParams.cvc = self.tfcvcNumber.text
-    //        cardParams.address.country = "US"
-    //        cardParams.address.postalCode = self.tfpostcode.text
-    //
-    //        let paymentmethodcardparam = STPPaymentMethodCardParams(cardSourceParams: cardParams)
-    //
-    //
-    //        let paymentMethodParams = STPPaymentMethodParams(card: paymentmethodcardparam, billingDetails: nil, metadata: nil)
-    //
-    //        guard let price = self.orderDetail.purchasingcoins else{
-    //            return
-    //        }
-    //
-    //        guard let periceValue = Int(price) else{
-    //            return
-    //        }
-    //        let resultPrice = periceValue * 100
-    //        let finalPrice = Int(resultPrice)
-    //        InvoiceStripClient.shared.createPayment(with: name,email: email) { (result, key, id) in
-    //            switch result {
-    //            case .success:
-    //
-    //                let paymentIntentParams = STPSetupIntentConfirmParams(clientSecret: key!)
-    //                paymentIntentParams.paymentMethodParams = paymentMethodParams
-    //                //paymentIntentParams.paymentMethodId = paymentMethodParams.card?.token
-    //                //paymentIntentParams.setupFutureUsage = STPPaymentIntentSetupFutureUsage(rawValue: Int(NSNumber(value: STPPaymentIntentSetupFutureUsage.onSession.rawValue)))
-    //                //paymentIntentParams.setupFutureUsage = NSNumber(value: STPPaymentIntentSetupFutureUsage.offSession.rawValue)
-    //                // Submit the payment
-    //                let paymentHandler = STPPaymentHandler.shared()
-    //                paymentHandler.confirmSetupIntent(paymentIntentParams, with: self) { (status, paymentIntent, error) in
-    //                    switch (status){
-    //                    case .failed:
-    //
-    //                        print(error?.localizedDescription)
-    //                        PopupHelper.alertWithOk(title: "Oops!", message: error?.localizedDescription ?? "", controler: self)
-    //
-    //
-    //                        break
-    //                    case .canceled:
-    //                        //                        self.stopAnimating()
-    //                        PopupHelper.alertWithOk(title: "Oops!", message: error!.localizedDescription , controler: self)
-    //                        break
-    //                    case .succeeded:
-    //                        InvoiceStripClient.shared.createPayment1(with: finalPrice,id: id!,type: "day") { (result, key, id) in
-    //                            switch result {
-    //                            case .success:
-    //                                InvoiceStripClient.shared.createPayment2(with: paymentIntent!.paymentMethodID!,sub_id: key!) { (result, key, id) in
-    //                                    switch result {
-    //                                    case .success:
-    //                                        PopupHelper.alertWithOk(title: "Oops!", message: "success", controler: self)
-    //                                    case .failure(let error):
-    //                                        //                                self.stopAnimating()
-    //                                        PopupHelper.alertWithOk(title: "Oops!", message: error.localizedDescription, controler: self)
-    //                                    }
-    //                                }
-    //                            case .failure(let error):
-    //                                //                                self.stopAnimating()
-    //                                PopupHelper.alertWithOk(title: "Oops!", message: error.localizedDescription, controler: self)
-    //                            }
-    //                        }
-    //
-    //                        break
-    //                    @unknown default:
-    //                        fatalError()
-    //                        break
-    //                    }
-    //                }
-    //            case .failure(let error):
-    //                //                self.stopAnimating()
-    //                PopupHelper.alertWithOk(title: "Oops!", message: error.localizedDescription, controler: self)
-    //            }
-    //        }
-    //
-    //    }
+}
+
+
+//MARK: API CALLING METHOD'S
+extension AddCardViewController {
+    func SimplePayment(hud:JGProgressHUD) {
+        if Connectivity.isConnectedToNetwork() {
+            self.dataDic = [String:Any]()
+            self.dataDic[Constant.email] = email
+            self.dataDic[Constant.name] = name
+            self.dataDic[Constant.amount] = Int(self.orderDetail.purchasingcoins)! * 100
+            self.callWebService(.stripe_payment, hud: hud)
+        } else {
+            hud.textLabel.text = self.internetConnectionMsg
+            hud.dismiss()
+        }
+    }
+}
+
+
+//MARK:- WEBSERVICES METHOD'S
+extension AddCardViewController:WebServiceResponseDelegate {
     
+    func callWebService(_ url:webserviceUrl,hud: JGProgressHUD){
+        let helper = WebServicesHelper(serviceToCall: url, withMethod: .post, havingParameters: self.dataDic, relatedViewController: self,hud: hud)
+        helper.delegateForWebServiceResponse = self
+        helper.callWebService()
+    }
     
+    func webServiceDataParsingOnResponseReceived(url: webserviceUrl?, viewControllerObj: UIViewController?, dataDict: Any, hud: JGProgressHUD) {
+        switch url {
+
+        case .stripe_payment:
+            
+            print(dataDict)
+            if let data = dataDict as? Dictionary<String, Any>{
+                if let key = data["key"] as? String {
+                    
+                    guard let cusId = data["cus_id"] as? String else {
+                        return
+                    }
+                    let expDateArray = tfExpiryDate.text!.components(separatedBy: "/")
+                    stipeSimplePayment(paymentIntentClientSecret: key, cardNumber: self.tfCardNumber.text!, name: name, expMonth: UInt(expDateArray[0])!, expYear: UInt(expDateArray[1])!, cvc: self.tfcvcNumber.text!, postalCode: "123", cusId: cusId, hud: hud)
+                    
+                } else {
+                    hud.dismiss()
+                    PopupHelper.showAlertControllerWithError(forErrorMessage: "Transection fail", forViewController: self)
+                }
+            } else {
+                hud.dismiss()
+                PopupHelper.showAlertControllerWithError(forErrorMessage: "Transection fail", forViewController: self)
+            }
+        default:
+            hud.dismiss()
+        }
+    }
+}
+
+
+//MARK: - STRIPE SIMPLE PAYMENT METHOD
+extension AddCardViewController {
+    func stipeSimplePayment(paymentIntentClientSecret:String, cardNumber:String, name:String, expMonth:UInt, expYear:UInt, cvc:String, postalCode:String, cusId:String, hud:JGProgressHUD) {
+        
+        let cardParams = STPCardParams()
+        cardParams.name = name
+        cardParams.number = cardNumber
+        cardParams.expMonth = expMonth
+        cardParams.expYear = expYear
+        cardParams.cvc = cvc
+        cardParams.address.country = "US"
+        cardParams.address.postalCode = postalCode
+        
+        let cardParameters = STPPaymentMethodCardParams(cardSourceParams: cardParams)
+        let paymentMethodParams = STPPaymentMethodParams(card: cardParameters, billingDetails: nil, metadata: nil)
+        let paymentIntentParams = STPPaymentIntentParams(clientSecret: paymentIntentClientSecret)
+        paymentIntentParams.paymentMethodParams = paymentMethodParams
+        paymentIntentParams.setupFutureUsage = .offSession
+        
+        // Submit the payment
+        let paymentHandler = STPPaymentHandler.shared()
+        paymentHandler.confirmPayment(paymentIntentParams, with: self) { (status, paymentIntent, error) in
+            
+            switch (status) {
+            case .failed:
+                PopupHelper.showAlertControllerWithError(forErrorMessage: error?.localizedDescription, forViewController: self)
+                hud.dismiss()
+            case .canceled:
+                PopupHelper.showAlertControllerWithError(forErrorMessage: error?.localizedDescription, forViewController: self)
+                hud.dismiss()
+            case .succeeded:
+                print(paymentIntent?.paymentMethodId)
+                self.dismiss(animated: true) {
+                    self.delegate.booking(cusId:cusId,hud: hud)
+                }
+                
+            @unknown default:
+                fatalError()
+                break
+            }
+        }
+    }
 }
 
 
@@ -484,7 +498,9 @@ extension AddCardViewController {
             switch result {
             case .success:
                 hud.dismiss()
-                self.delegate.booking(hud: hud)
+                self.dismiss(animated: true) {
+                    self.delegate.booking(cusId:id!,hud: hud)
+                }
                 PopupHelper.alertWithOk(title: "Success", message: "Your subscription is completed", controler: self)
             case .failure(let error):
                 hud.dismiss()
@@ -493,6 +509,7 @@ extension AddCardViewController {
         }
     }
 }
+
 
 extension AddCardViewController: STPAuthenticationContext {
     func authenticationPresentingViewController() -> UIViewController {

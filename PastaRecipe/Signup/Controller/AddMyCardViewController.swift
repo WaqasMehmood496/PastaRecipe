@@ -10,6 +10,7 @@ import UIKit
 import Stripe
 import JGProgressHUD
 import FormTextField
+import AZTabBar
 
 class AddMyCardViewController: UIViewController {
     
@@ -137,6 +138,10 @@ extension AddMyCardViewController:WebServiceResponseDelegate{
                     defaults.set(true, forKey: Constant.userLoginStatusKey)
                     hud.dismiss()
                     PopupHelper.alertWithOk(title: "Success", message: "You account created successfully", controler: self)
+                    if let controller = self.parent?.parent as? AZTabBarController{
+                        let profileVC = UIStoryboard(name: Constant.mainStoryboard, bundle: nil).instantiateViewController(withIdentifier: "profileVC")
+                        controller.setViewController(profileVC, atIndex: 1)
+                    }
                 }
                 hud.dismiss()
             }
