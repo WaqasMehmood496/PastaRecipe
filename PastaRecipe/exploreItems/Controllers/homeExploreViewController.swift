@@ -31,12 +31,16 @@ class homeExploreViewController: UIViewController,SubscriptioPopDelegate {
     var isSubscription = false
     var dataDic:[String:Any]!
     var plansArray = [SubscripeModel]()
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = true
         self.collectionViewSetup()
+        self.GetAllPlansApi()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         self.GetAllPlansApi()
     }
     

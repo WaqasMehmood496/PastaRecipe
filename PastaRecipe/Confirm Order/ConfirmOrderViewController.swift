@@ -165,7 +165,11 @@ extension ConfirmOrderViewController {
         if let zipCode = UInt(user.more_detail.address.zipcode) {
             self.dataDic[Constant.zipcode] = zipCode
         } else {
-            self.dataDic[Constant.zipcode] = UInt(self.ZipCodeTF.text!)!
+            if let zipCode = self.ZipCodeTF.text {
+                self.dataDic[Constant.zipcode] = zipCode
+            } else {
+                self.dataDic[Constant.zipcode] = "13313"
+            }
         }
         self.dataDic[Constant.country] = user.more_detail.address.country
         self.dataDic[Constant.state] = user.more_detail.address.state
@@ -183,7 +187,11 @@ extension ConfirmOrderViewController {
     
     func setupFieldsParameter() {
         self.dataDic[Constant.user_id] = 0
-        self.dataDic[Constant.zipcode] = UInt(self.ZipCodeTF.text!)!
+        if let zipCode = self.ZipCodeTF.text {
+            self.dataDic[Constant.zipcode] = zipCode
+        } else {
+            self.dataDic[Constant.zipcode] = "13313"
+        }
         self.dataDic[Constant.country] = "US"
         if let state = self.StateTF.text {
             self.dataDic[Constant.state] = state
@@ -341,24 +349,34 @@ extension ConfirmOrderViewController:WebServiceResponseDelegate {
         switch url {
         case .addpasteapurchyase:
             if let data = dataDict as? NSDictionary{
-                print(data)
-                if isSubscription {
-                    PopupHelper.alertWithOk(title: "Success", message: "Your subscription is completed", controler: self)
-                } else {
-                    PopupHelper.alertWithOk(title: "Success", message: "Order has been successfully added", controler: self)
+//                if isSubscription {
+//                    PopupHelper.alertWithOk(title: "Success", message: "Your subscription is completed", controler: self)
+//                } else {
+//                    PopupHelper.alertWithOk(title: "Success", message: "Order has been successfully added", controler: self)
+//                }
+                if let user = CommonHelper.getCachedUserData(){
+                    if isSubscription {
+                        var coins = UInt(user.user_detail.coins)!
+                        coins = coins + 2
+                        user.user_detail.coins = String(coins)
+                        CommonHelper.saveCachedUserData(user)
+                    } else {
+                        var coins = UInt(user.user_detail.coins)!
+                        coins = coins + 1
+                        user.user_detail.coins = String(coins)
+                        CommonHelper.saveCachedUserData(user)
+                    }
                 }
-                
+                self.navigationController?.popToRootViewController(animated: true)
             }
             hud.dismiss()
         case .stripe_payment:
             if let data = dataDict as? Dictionary<String, Any>{
                 if let key = data["key"] as? String {
-                    
                     guard let cusId = data["cus_id"] as? String else {
                         hud.dismiss()
                         return
                     }
-                    
                     if let user = CommonHelper.getCachedUserData(){
                         let expDateArray = user.more_detail.card.expired_date_c.components(separatedBy: "/")
                         stipeSimplePayment(paymentIntentClientSecret: key, cardNumber: user.more_detail.card.card_number, name: user.user_detail.user_name, expMonth: UInt(expDateArray[0])!, expYear: UInt(expDateArray[1])!, cvc: user.more_detail.card.cvc, postalCode: user.more_detail.address.zipcode, cusId: cusId, hud: hud)

@@ -38,6 +38,15 @@ class CookWithChefVC: UIViewController {
     @IBAction func CartBtnAction(_ sender: Any) {
         self.performSegue(withIdentifier: toCartSegue, sender: nil)
     }
+    
+    // PREPARE FOR SEGUE COMPLETION METHOD
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == toCartSegue {
+            if let cartVC = segue.destination as? AddToCartViewController {
+                cartVC.isSubscription = false
+            }
+        }
+    }
 }
 
 //MARK:- HELPING METHOD'S
@@ -176,7 +185,7 @@ extension CookWithChefVC:UICollectionViewDelegate,UICollectionViewDataSource,UIC
         }else{
             self.plansArray[sender.tag].isAddToCart = true
             // ADD INTO CART ARRAY
-            cartArray.append(CartModel(image: self.plansArray[sender.tag].image_url, title: self.plansArray[sender.tag].plan_name, coins: self.plansArray[sender.tag].no_of_coins, quantity: "1", price: self.plansArray[sender.tag].amount))
+            cartArray.append(CartModel(id: self.plansArray[sender.tag].plan_id, image: self.plansArray[sender.tag].image_url, title: self.plansArray[sender.tag].plan_name, coins: self.plansArray[sender.tag].no_of_coins, quantity: "1", price: self.plansArray[sender.tag].amount))
         }
         self.ChefRecipeCV.reloadItems(at: [IndexPath(row: sender.tag, section: 0)])
     }

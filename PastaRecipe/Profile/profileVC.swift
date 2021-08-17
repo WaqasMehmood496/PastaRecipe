@@ -12,10 +12,11 @@ import AZTabBar
 
 class profileVC: UIViewController {
     
-    @IBOutlet weak var monthLbl: UILabel!
-    @IBOutlet weak var dayLbl: UILabel!
+//    @IBOutlet weak var monthLbl: UILabel!
+//    @IBOutlet weak var dayLbl: UILabel!
     @IBOutlet weak var UserProfileImage: UIImageView!
     @IBOutlet weak var usernameLbl: UILabel!
+    @IBOutlet weak var CoinLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,9 +25,12 @@ class profileVC: UIViewController {
             self.usernameLbl.text = user.user_detail.user_name
         }
     }
-    
+        
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
+        if let coins = CommonHelper.getCachedUserData()?.user_detail.coins {
+            self.CoinLabel.text = coins
+        }
     }
     
     @IBAction func yourPlanBtn(_ sender: Any) {
@@ -42,7 +46,6 @@ class profileVC: UIViewController {
         if let controller = self.parent?.parent as? AZTabBarController{
             let profileVC = UIStoryboard(name: Constant.mainStoryboard, bundle: nil).instantiateViewController(withIdentifier: "LoginViewController")
             controller.setViewController(profileVC, atIndex: 1)
-            
         }
     }
     
