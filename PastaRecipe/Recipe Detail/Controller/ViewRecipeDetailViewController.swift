@@ -13,8 +13,7 @@ class ViewRecipeDetailViewController: UIViewController {
     @IBOutlet weak var RecipeImage: UIImageView!
     @IBOutlet weak var TitleLabel: UILabel!
     @IBOutlet weak var DescriptionLabel: UILabel!
-    
-    
+
     var image = String()
     var name = String()
     var detail = String()

@@ -290,7 +290,7 @@ extension AddCardViewController:WebServiceResponseDelegate {
     
     func webServiceDataParsingOnResponseReceived(url: webserviceUrl?, viewControllerObj: UIViewController?, dataDict: Any, hud: JGProgressHUD) {
         switch url {
-
+        
         case .stripe_payment:
             
             print(dataDict)
@@ -474,17 +474,17 @@ extension AddCardViewController {
                 PopupHelper.alertWithOk(title: "Oops!", message: error!.localizedDescription , controler: self)
                 break
             case .succeeded:
-                self.confirmPayment1(hud: hud, periceValue: periceValue, id: id, type: type, paymentIntent: paymentIntent!)
+                self.confirmPayment1(hud: hud, periceValue: periceValue, cusid: id, type: type, paymentIntent: paymentIntent!)
                 break
             }
         }
     }
     
-    func confirmPayment1(hud:JGProgressHUD,periceValue:Int,id:String,type:String,paymentIntent:STPSetupIntent) {
-        InvoiceStripClient.shared.createPayment1( with: periceValue,id: id,type: type) { (result, key, id) in
+    func confirmPayment1(hud:JGProgressHUD,periceValue:Int,cusid:String,type:String,paymentIntent:STPSetupIntent) {
+        InvoiceStripClient.shared.createPayment1( with: periceValue,id: cusid,type: type) { (result, key, id) in
             switch result {
             case .success:
-                self.confirmPayment2(hud: hud, paymentIntent: paymentIntent, key: key!)
+                self.confirmPayment2(hud: hud, paymentIntent: paymentIntent, key: key!, cusid: cusid)
                 break
             case .failure(let error):
                 hud.dismiss()
@@ -493,21 +493,84 @@ extension AddCardViewController {
         }
     }
     
-    func confirmPayment2(hud:JGProgressHUD,paymentIntent:STPSetupIntent,key:String) {
+    func confirmPayment2(hud:JGProgressHUD,paymentIntent:STPSetupIntent,key:String,cusid:String) {
         InvoiceStripClient.shared.createPayment2(with: paymentIntent.paymentMethodID!,sub_id: key) { (result, key, id) in
             switch result {
             case .success:
-                hud.dismiss()
                 self.dismiss(animated: true) {
-                    self.delegate.booking(cusId:id!,hud: hud)
+                    self.delegate.booking(cusId:cusid,hud: hud)
                 }
-                PopupHelper.alertWithOk(title: "Success", message: "Your subscription is completed", controler: self)
             case .failure(let error):
                 hud.dismiss()
                 PopupHelper.alertWithOk(title: "Oops!", message: error.localizedDescription, controler: self)
             }
         }
     }
+    
+    //    func createSubscription(hud:JGProgressHUD,name:String, email:String, paymentMethodParams:STPPaymentMethodParams, periceValue:Int) {
+    //        InvoiceStripClient.shared.createPayment(with: name,email: email) { (result, key, id) in
+    //            switch result {
+    //            case .success:
+    //                guard let Subkey = key else { return }
+    //                guard let cusId = id else { return }
+    //
+    //                let paymentIntentParams = STPSetupIntentConfirmParams(clientSecret: Subkey)
+    //                paymentIntentParams.paymentMethodParams = paymentMethodParams
+    //                self.conformSetupIntent(hud: hud, paymentIntentParams: paymentIntentParams, periceValue: periceValue, id: cusId, type: "week")
+    //                break
+    //            case .failure(let error):
+    //                hud.dismiss()
+    //                PopupHelper.alertWithOk(title: "Oops!", message: error.localizedDescription, controler: self)
+    //            }
+    //        }
+    //    }
+    //
+    //    func conformSetupIntent(hud:JGProgressHUD,paymentIntentParams:STPSetupIntentConfirmParams,periceValue:Int, id:String, type:String) {
+    //        STPPaymentHandler.shared().confirmSetupIntent(paymentIntentParams, with: self) { (status, paymentIntent, error) in
+    //            switch (status){
+    //            case .failed:
+    //                hud.dismiss()
+    //                PopupHelper.alertWithOk(title: "Oops!", message: error?.localizedDescription ?? "", controler: self)
+    //                break
+    //            case .canceled:
+    //                hud.dismiss()
+    //                PopupHelper.alertWithOk(title: "Oops!", message: error!.localizedDescription , controler: self)
+    //                break
+    //            case .succeeded:
+    //                self.confirmPayment1(hud: hud, periceValue: periceValue, id: id, type: type, paymentIntent: paymentIntent!)
+    //                break
+    //            }
+    //        }
+    //    }
+    //
+    //    func confirmPayment1(hud:JGProgressHUD,periceValue:Int,id:String,type:String,paymentIntent:STPSetupIntent) {
+    //        InvoiceStripClient.shared.createPayment1( with: periceValue,id: id,type: type) { (result, key, id) in
+    //            switch result {
+    //            case .success:
+    //                self.confirmPayment2(hud: hud, paymentIntent: paymentIntent, key: key!)
+    //                break
+    //            case .failure(let error):
+    //                hud.dismiss()
+    //                PopupHelper.alertWithOk(title: "Oops!", message: error.localizedDescription, controler: self)
+    //            }
+    //        }
+    //    }
+    //
+    //    func confirmPayment2(hud:JGProgressHUD,paymentIntent:STPSetupIntent,key:String) {
+    //        InvoiceStripClient.shared.createPayment2(with: paymentIntent.paymentMethodID!,sub_id: key) { (result, key, id) in
+    //            switch result {
+    //            case .success:
+    //                hud.dismiss()
+    //                self.dismiss(animated: true) {
+    //                    self.delegate.booking(cusId:id!,hud: hud)
+    //                }
+    //                PopupHelper.alertWithOk(title: "Success", message: "Your subscription is completed", controler: self)
+    //            case .failure(let error):
+    //                hud.dismiss()
+    //                PopupHelper.alertWithOk(title: "Oops!", message: error.localizedDescription, controler: self)
+    //            }
+    //        }
+    //    }
 }
 
 

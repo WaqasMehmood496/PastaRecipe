@@ -92,7 +92,8 @@ class InvoiceStripClient {
                     let dic = jsonDict["subscriptiondata"] as? NSDictionary
                     
                     let key = dic!["subscription"] as? String
-                    let id = jsonDict["cus_id"] as? String
+                    //let id = jsonDict["cus_id"] as? String
+                    let id = jsonDict["customer"] as? String
                     completion(Result.success,key,id)
                 }
                 
