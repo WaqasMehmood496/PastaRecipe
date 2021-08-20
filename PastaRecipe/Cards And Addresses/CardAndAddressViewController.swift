@@ -43,7 +43,7 @@ class CardAndAddressViewController: UIViewController {
     
     @IBAction func AddCardAndAddressBtnAction(_ sender: Any) {
         if selectedType{
-            showAddNewCardViewController(isEdit: false)
+            showAddNewCardViewController(isEdit: false, selectedCard: MyCardModel())
         } else {
             showAddNewAddressViewController(isEdit: false, myAddress: MyAddressModel())
         }
@@ -57,11 +57,12 @@ extension CardAndAddressViewController {
         return (storyboard?.instantiateViewController(withIdentifier: identifier))!
     }
     
-    func showAddNewCardViewController(isEdit:Bool) {
+    func showAddNewCardViewController(isEdit:Bool,selectedCard:MyCardModel) {
         let addCardViewController = getViewController(identifier: "AddNewCardViewController") as! AddNewCardViewController
         addCardViewController.delegate = self
+        addCardViewController.isCardEdit = isEdit
         if isEdit {
-            
+            addCardViewController.userData = selectedCard
         }
         self.navigationController?.pushViewController(addCardViewController, animated: true)
     }
@@ -69,10 +70,38 @@ extension CardAndAddressViewController {
     func showAddNewAddressViewController(isEdit:Bool, myAddress:MyAddressModel) {
         let addAddressViewController = getViewController(identifier: "AddNewAddressViewController") as! AddNewAddressViewController
         addAddressViewController.delegate = self
+        addAddressViewController.isEditAddress = isEdit
         if isEdit {
             addAddressViewController.myAddress = myAddress
         }
         self.navigationController?.pushViewController(addAddressViewController, animated: true)
+    }
+    
+    func updateUserCacheAddress(address:MyAddressModel) {
+        if let user = CommonHelper.getCachedUserData() {
+            user.more_detail.address.address_main = address.address_main
+            user.more_detail.address.adresss_id = address.adresss_id
+            user.more_detail.address.bydefault = address.bydefault
+            user.more_detail.address.city = address.city
+            user.more_detail.address.country = address.country
+            user.more_detail.address.state = address.state
+            user.more_detail.address.lat = address.lat
+            user.more_detail.address.lng = address.lng
+            
+            CommonHelper.saveCachedUserData(user)
+        }
+    }
+    
+    func updateUserCacheCard(card:MyCardModel) {
+        if let user = CommonHelper.getCachedUserData() {
+            user.more_detail.card.card_number = card.card_number
+            user.more_detail.card.bydefault = card.bydefault
+            user.more_detail.card.carddetail_id = card.carddetail_id
+            user.more_detail.card.cvc = card.cvc
+            user.more_detail.card.expired_date_c = card.expired_date_c
+            
+            CommonHelper.saveCachedUserData(user)
+        }
     }
 }
 
@@ -81,21 +110,24 @@ extension CardAndAddressViewController {
 extension CardAndAddressViewController {
     func upDateCard(cardData:MyCardModel,isDefault:Bool) {
         if isDefault {
-            for (_,value) in self.myCardArray.enumerated(){
+            for (_,value) in self.myCardArray.enumerated() {
                 value.bydefault = "0"
             }
         }
-        self.myCardArray.append(cardData)
-        self.CardAndAddressTableView.reloadData()
+        updateUserCacheCard(card: cardData)
+        myCardArray.append(cardData)
+        CardAndAddressTableView.reloadData()
     }
+    
     func upDateAddress(addressData:MyAddressModel,isDefault:Bool) {
         if isDefault {
-            for (_,value) in self.myAddressArray.enumerated(){
+            for (_,value) in self.myAddressArray.enumerated() {
                 value.bydefault = "0"
             }
         }
-        self.myAddressArray.append(addressData)
-        self.CardAndAddressTableView.reloadData()
+        updateUserCacheAddress(address: addressData)
+        myAddressArray.append(addressData)
+        CardAndAddressTableView.reloadData()
     }
 }
 
@@ -196,6 +228,9 @@ extension CardAndAddressViewController {
 
 
 
+
+
+
 //MARK:- TABLEVIEW DATASOURCE AND DELEGATE METHODS
 extension CardAndAddressViewController:UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -245,6 +280,8 @@ extension CardAndAddressViewController:UITableViewDelegate,UITableViewDataSource
     // CARD BUTTONS TARGET'S
     @objc func editCardBtnAction( _ sender: UIButton) {
         print("Edit card")
+        showAddNewCardViewController(isEdit: true, selectedCard: self.myCardArray[sender.tag])
+        
         
     }
     @objc func setDefaultCardBtnAction( _ sender: UIButton) {
@@ -255,6 +292,7 @@ extension CardAndAddressViewController:UITableViewDelegate,UITableViewDataSource
     
     // ADDRESS BUTTONS TARGET'S
     @objc func editAddressBtnAction( _ sender: UIButton) {
+        showAddNewAddressViewController(isEdit: true, myAddress: self.myAddressArray[sender.tag])
         print("Edit Address")
     }
     @objc func setDefaultAddressBtnAction( _ sender: UIButton) {
@@ -280,6 +318,10 @@ extension CardAndAddressViewController:UITableViewDelegate,UITableViewDataSource
 
 
 
+
+
+
+
 // MARK:- API RESPONSE HANDLING METHOD'S
 extension CardAndAddressViewController:WebServiceResponseDelegate { 
     
@@ -297,7 +339,13 @@ extension CardAndAddressViewController:WebServiceResponseDelegate {
                 self.myCardArray.removeAll()
                 if let addressList = data["address_list"] as? NSArray{
                     for address in addressList {
-                        if let myaddress = address as? NSDictionary{
+                        if let myaddress = address as? NSDictionary {
+                            if let isDefault = myaddress ["bydefault"] as? String {
+                                if isDefault == "1" {
+                                    let defaultAddress = MyAddressModel(dic: address as! NSDictionary)
+                                    self.updateUserCacheAddress(address: defaultAddress!)
+                                }
+                            }
                             myAddressArray.append(MyAddressModel(dic: myaddress) ?? MyAddressModel())
                         }
                     }
@@ -311,10 +359,16 @@ extension CardAndAddressViewController:WebServiceResponseDelegate {
             }
         case .mycard:
             if let data = dataDict as? Dictionary<String, Any>{
-                if let addressList = data["card_list"] as? NSArray{
-                    for address in addressList {
-                        if let myaddress = address as? NSDictionary{
-                            myCardArray.append(MyCardModel(dic: myaddress) ?? MyCardModel())
+                if let cardList = data["card_list"] as? NSArray{
+                    for card in cardList {
+                        if let myCard = card as? NSDictionary{
+                            if let isDefault = myCard ["bydefault"] as? String {
+                                if isDefault == "1" {
+                                    let defaultCard = MyCardModel(dic: card as! NSDictionary)!
+                                    self.updateUserCacheCard(card: defaultCard)
+                                }
+                            }
+                            myCardArray.append(MyCardModel(dic: myCard) ?? MyCardModel())
                         }
                     }
                     hud.dismiss()

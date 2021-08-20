@@ -10,12 +10,14 @@ import UIKit
 import JGProgressHUD
 import Kingfisher
 import AVFoundation
+import AZTabBar
 
 class homeExploreViewController: UIViewController,SubscriptioPopDelegate {
     
-    // IBOUTLET'S
-    @IBOutlet weak var exploreCollectionView: UICollectionView!
-    @IBOutlet weak var thumbnailImage: UIImageView!
+//    // IBOUTLET'S
+//    @IBOutlet weak var exploreCollectionView: UICollectionView!
+//    @IBOutlet weak var thumbnailImage: UIImageView!
+    @IBOutlet weak var ProductsTableView: UITableView!
     @IBOutlet weak var btnSubcrib: UIButton!
     
     // CONSTANT'S
@@ -35,8 +37,8 @@ class homeExploreViewController: UIViewController,SubscriptioPopDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.navigationBar.isHidden = true
-        self.collectionViewSetup()
+        //self.navigationController?.navigationBar.isHidden = true
+        //self.collectionViewSetup()
         self.GetAllPlansApi()
     }
     
@@ -49,13 +51,21 @@ class homeExploreViewController: UIViewController,SubscriptioPopDelegate {
     }
     
     @IBAction func subcribeBtnPressed(_ sender:Any){
-        //self.performSegue(withIdentifier: toSubcribeTypeSegue, sender: nil)
-        self.isSubscription = true
-        self.performSegue(withIdentifier: toProductsSegue, sender: nil)
+        if CommonHelper.getCachedUserData() != nil {
+            self.isSubscription = true
+            self.performSegue(withIdentifier: toProductsSegue, sender: nil)
+        } else {
+            self.performSegue(withIdentifier: "toLoginMessage", sender: nil)
+        }
+        
     }
     @IBAction func OneTumePurchasing(_ sender: Any) {
-        self.isSubscription = false
-        self.performSegue(withIdentifier: toProductsSegue, sender: nil)
+        if CommonHelper.getCachedUserData() != nil {
+            self.isSubscription = false
+            self.performSegue(withIdentifier: toProductsSegue, sender: nil)
+        } else {
+            self.performSegue(withIdentifier: "toLoginMessage", sender: nil)
+        }
     }
     
     // PREPARE FOR SEGUE COMPLETION METHOD
@@ -96,31 +106,31 @@ extension homeExploreViewController {
         return nil
     }
     
-    // Setup Collection View
-    func collectionViewSetup() {
-        
-        let layout = UICollectionViewFlowLayout()
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            layout.sectionInset = UIEdgeInsets (
-                top: spacingIphone,
-                left: spacingIphone,
-                bottom: spacingIphone,
-                right: spacingIphone
-            )
-            layout.minimumLineSpacing = spacingIphone
-            layout.minimumInteritemSpacing = spacingIphone
-        } else {
-            layout.sectionInset = UIEdgeInsets (
-                top: spacingIpad,
-                left: spacingIpad,
-                bottom: spacingIpad,
-                right: spacingIpad
-            )
-            layout.minimumLineSpacing = spacingIpad
-            layout.minimumInteritemSpacing = spacingIpad
-        }
-        self.exploreCollectionView?.collectionViewLayout = layout
-    }
+//    // Setup Collection View
+//    func collectionViewSetup() {
+//
+//        let layout = UICollectionViewFlowLayout()
+//        if UIDevice.current.userInterfaceIdiom == .phone {
+//            layout.sectionInset = UIEdgeInsets (
+//                top: spacingIphone,
+//                left: spacingIphone,
+//                bottom: spacingIphone,
+//                right: spacingIphone
+//            )
+//            layout.minimumLineSpacing = spacingIphone
+//            layout.minimumInteritemSpacing = spacingIphone
+//        } else {
+//            layout.sectionInset = UIEdgeInsets (
+//                top: spacingIpad,
+//                left: spacingIpad,
+//                bottom: spacingIpad,
+//                right: spacingIpad
+//            )
+//            layout.minimumLineSpacing = spacingIpad
+//            layout.minimumInteritemSpacing = spacingIpad
+//        }
+//        self.exploreCollectionView?.collectionViewLayout = layout
+//    }
     
     // SUBSCRIPTION PLAN POPUP SELECTION DELEGATE METHOD
     func subsctiptionChoiceDelegate(type: String) {
@@ -164,7 +174,7 @@ extension homeExploreViewController:WebServiceResponseDelegate{
                 for array in data{
                     plansArray.append(SubscripeModel(dic: array as! NSDictionary)!)
                 }
-                self.exploreCollectionView.reloadData()
+                self.ProductsTableView.reloadData()
             }
             hud.dismiss()
         default:
@@ -173,65 +183,38 @@ extension homeExploreViewController:WebServiceResponseDelegate{
     }
 }
 
-extension homeExploreViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int{
+
+//MARK:- UITABLEVIEW DELEGATE ANS DATASOURCE METHOD'S
+extension homeExploreViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return plansArray.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
-        
-        let cell = collectionView.dequeueReusableCell (
-            withReuseIdentifier: "cellIdentifier",
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell (
+            withIdentifier: "ProductsTableViewCell",
             for: indexPath
-        ) as! recipeViewcell
+        ) as! ProductsTableViewCell
         if let url = self.plansArray[indexPath.row].image_url{
-            cell.recipeImages.sd_setImage(with: URL(string: url), placeholderImage:  #imageLiteral(resourceName: "101"))
+            cell.RecipeImage.sd_setImage(with: URL(string: url), placeholderImage:  #imageLiteral(resourceName: "101"))
         }
-        cell.VideIconImg.image = #imageLiteral(resourceName: "imageIcon")
-        cell.recipeName.text = self.plansArray[indexPath.row].plan_name
-        cell.recipedetails.text = self.plansArray[indexPath.row].plan_description
-        cell.recipePrice.text = self.plansArray[indexPath.row].amount
+        //cell.VideIconImg.image = #imageLiteral(resourceName: "imageIcon")
+        cell.RecipeName.text = self.plansArray[indexPath.row].plan_name
+        cell.RecipeDetail.text = self.plansArray[indexPath.row].plan_description
+        cell.RecipePrice.text = "$ " + self.plansArray[indexPath.row].amount
+        
+        let backView = UIView()
+        backView.backgroundColor = .clear
+        cell.selectedBackgroundView = backView
         
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let recipeDetail = storyboard?.instantiateViewController(withIdentifier: "ViewRecipeDetailViewController") as! ViewRecipeDetailViewController
         recipeDetail.name = self.plansArray[indexPath.row].plan_name
         recipeDetail.detail = self.plansArray[indexPath.row].plan_description
         recipeDetail.image = self.plansArray[indexPath.row].image_url
         self.navigationController?.pushViewController(recipeDetail, animated: true)
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        let numberOfItemsPerRow:CGFloat = 2
-        let spacingBetweenCellsIphone:CGFloat = 15
-        let spacingBetweenCellsIpad:CGFloat = 30
-        
-        if UIDevice.current.userInterfaceIdiom == .phone{
-            let totalSpacing = (2 * self.spacingIphone) + (
-                (numberOfItemsPerRow - 1) * spacingBetweenCellsIphone
-            ) //Amount of total spacing in a row
-            
-            if let collection = self.exploreCollectionView {
-                let width = (collection.bounds.width - totalSpacing)/numberOfItemsPerRow
-                return CGSize(width: width , height: width + spacingBetweenCellsIphone * 2)
-            }else{
-                return CGSize(width: 0, height: 0)
-            }
-        }
-        else{
-            let totalSpacing = (2 * self.spacingIpad) + ((numberOfItemsPerRow - 1) * spacingBetweenCellsIpad) //Amount of total spacing in a row
-            
-            if let collection = self.exploreCollectionView{
-                let width = (collection.bounds.width - totalSpacing)/numberOfItemsPerRow
-                return CGSize(width: width , height: width + spacingBetweenCellsIpad * 2)
-            }else{
-                return CGSize(width: 0, height: 0)
-            }
-        }
-    }
-    
 }

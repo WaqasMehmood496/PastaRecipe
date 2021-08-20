@@ -30,20 +30,29 @@ class AddNewAddressViewController: UIViewController, PassDataDelegate {
     var selectedZipCode = ""
     var dataDic:[String:Any]!
     var isDefault = false
+    var isEditAddress = false
     var userLocation = LocationModel()
     var delegate:CardAndAddressViewController?
     var myAddress = MyAddressModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
         initializeDropDown()
-        // Do any additional setup after loading the view.
     }
     
     //IBACTION'S
     @IBAction func AddAddressBtnAction(_ sender: Any) {
         // Make sure all fields are entered
-        addAddressApi()
+        if validateFields() {
+            if isEditAddress {
+                self.AddressApi(isEditProfile: true)
+            } else {
+                self.AddressApi(isEditProfile: false)
+            }
+        } else {
+            PopupHelper.showAlertControllerWithError(forErrorMessage: "All fields are required, Please enter your complete address", forViewController: self)
+        }
     }
     
     @IBAction func openMapBtnAction(_ sender: Any) {
@@ -83,6 +92,15 @@ extension AddNewAddressViewController {
 
 //MARK: - HELPING METHODS EXTENSION
 extension AddNewAddressViewController {
+    func setupUI() {
+        if isEditAddress {
+            self.AddressTF.text = self.myAddress.address_main
+            self.ZipCodeTF.text = self.myAddress.zipcode
+            self.StateTF.text = self.myAddress.state
+            self.CityTF.text = self.myAddress.city
+            self.CountryTF.text = self.myAddress.country
+        }
+    }
     
     func initializeDropDown() {
         ZipCodeTF.optionArray = self.zipCodesArray
@@ -101,36 +119,51 @@ extension AddNewAddressViewController {
             return false
         }
     }
+    
+    func addressApiParamerters(isEditProfile:Bool) {
+        if let userId = CommonHelper.getCachedUserData()?.user_detail.user_id {
+            self.dataDic[Constant.zipcode] = self.ZipCodeTF.text!
+            self.dataDic[Constant.address_main] = self.AddressTF.text!
+            self.dataDic[Constant.country] = self.CountryTF.text
+            self.dataDic[Constant.state] = self.StateTF.text!
+            self.dataDic[Constant.city] = self.CityTF.text!
+            self.dataDic[Constant.user_id] = Int(userId)
+            if isEditProfile {
+                self.dataDic[Constant.adresss_id] = self.myAddress.adresss_id
+            }
+            if self.isDefault {
+                self.dataDic[Constant.bydefault] = 1
+            } else {
+                self.dataDic[Constant.bydefault] = 0
+            }
+            self.dataDic[Constant.lat] = self.userLocation.address_lat
+            self.dataDic[Constant.lng] = self.userLocation.address_lng
+        }
+    }
+    
+    func showNetworkError() {
+        PopupHelper.alertWithOk(title: "Network Error", message: "You are not connected to internet. Please check your internet connection", controler: self)
+    }
 }
 
 
 
 //MARK: - API CALLING METHOD'S EXTENSION
 extension AddNewAddressViewController {
-    func addAddressApi() {
+    func AddressApi(isEditProfile:Bool) {
         showHUDView(hudIV: .indeterminate, text: .process) { (hud) in
             hud.show(in: self.view, animated: true)
             if Connectivity.isConnectedToNetwork() {
-                if let userId = CommonHelper.getCachedUserData()?.user_detail.user_id {
-                    self.dataDic = [String:Any]()
-                    
-                    self.dataDic[Constant.zipcode] = self.ZipCodeTF.text!
-                    self.dataDic[Constant.address_main] = self.AddressTF.text!
-                    self.dataDic[Constant.country] = self.CountryTF.text
-                    self.dataDic[Constant.state] = self.StateTF.text!
-                    self.dataDic[Constant.city] = self.CityTF.text!
-                    self.dataDic[Constant.user_id] = Int(userId)
-                    if self.isDefault {
-                        self.dataDic[Constant.bydefault] = 1
-                    } else {
-                        self.dataDic[Constant.bydefault] = 0
-                    }
-                    self.dataDic[Constant.lat] = self.userLocation.address_lat
-                    self.dataDic[Constant.lng] = self.userLocation.address_lng
-                    self.callWebService(.addadress, hud: hud)
+                self.dataDic = [String:Any]()
+                self.addressApiParamerters(isEditProfile: isEditProfile)
+                if isEditProfile {
+                    self.callWebService(.editadress, hud: hud)
                 } else {
-                    hud.dismiss()
+                    self.callWebService(.addadress, hud: hud)
                 }
+            } else {
+                hud.dismiss()
+                self.showNetworkError()
             }
         }
     }
@@ -152,6 +185,19 @@ extension AddNewAddressViewController:WebServiceResponseDelegate {
         case .addadress:
             if let data = dataDict as? Dictionary<String, Any>{
                 if let address = data["default_adress"] as? NSDictionary {
+                    hud.dismiss()
+                    myAddress = MyAddressModel(dic: address) ?? MyAddressModel()
+                    self.delegate?.upDateAddress(addressData: myAddress, isDefault: isDefault)
+                    self.navigationController?.popViewController(animated: true)
+                } else {
+                    hud.dismiss()
+                }
+            } else {
+                hud.dismiss()
+            }
+        case .editadress:
+            if let data = dataDict as? Dictionary<String, Any>{
+                if let address = data["update_adress"] as? NSDictionary {
                     hud.dismiss()
                     myAddress = MyAddressModel(dic: address) ?? MyAddressModel()
                     self.delegate?.upDateAddress(addressData: myAddress, isDefault: isDefault)

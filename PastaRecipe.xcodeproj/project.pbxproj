@@ -74,6 +74,7 @@
 		7634531826BBD74700BB8A69 /* EmailVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7634531726BBD74700BB8A69 /* EmailVerificationViewController.swift */; };
 		7634531C26BBD84A00BB8A69 /* ShippingAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7634531B26BBD84A00BB8A69 /* ShippingAddressViewController.swift */; };
 		7634531F26BBD97400BB8A69 /* CreditCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7634531E26BBD97400BB8A69 /* CreditCardViewController.swift */; };
+		76394BEA26CFFCAE002C4759 /* ProductsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76394BE926CFFCAE002C4759 /* ProductsTableViewCell.swift */; };
 		764A43D526C51A7300BD8159 /* SubscriptionTypeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764A43D426C51A7300BD8159 /* SubscriptionTypeVC.swift */; };
 		764F869C26A1BC90001940A5 /* EmailVerificationPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764F869B26A1BC90001940A5 /* EmailVerificationPopupViewController.swift */; };
 		7655287526C87BFE0035C515 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7655287426C87BFE0035C515 /* Enums.swift */; };
@@ -177,6 +178,7 @@
 		7634531726BBD74700BB8A69 /* EmailVerificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailVerificationViewController.swift; sourceTree = "<group>"; };
 		7634531B26BBD84A00BB8A69 /* ShippingAddressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShippingAddressViewController.swift; sourceTree = "<group>"; };
 		7634531E26BBD97400BB8A69 /* CreditCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditCardViewController.swift; sourceTree = "<group>"; };
+		76394BE926CFFCAE002C4759 /* ProductsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsTableViewCell.swift; sourceTree = "<group>"; };
 		764A43D426C51A7300BD8159 /* SubscriptionTypeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionTypeVC.swift; sourceTree = "<group>"; };
 		764F869B26A1BC90001940A5 /* EmailVerificationPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailVerificationPopupViewController.swift; sourceTree = "<group>"; };
 		7655287426C87BFE0035C515 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
@@ -526,6 +528,7 @@
 			isa = PBXGroup;
 			children = (
 				76198BC72630CA9B00A832DA /* exploreCollectionViewCell.swift */,
+				76394BE926CFFCAE002C4759 /* ProductsTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1055,6 +1058,7 @@
 			files = (
 				76B486A4261DD8E700856494 /* SubscriptionPlanModel.swift in Sources */,
 				76198BFB2630CA9D00A832DA /* SubsPlanTableViewCell.swift in Sources */,
+				76394BEA26CFFCAE002C4759 /* ProductsTableViewCell.swift in Sources */,
 				762AB53D2630A9F5002723D4 /* UIButton+Additions.swift in Sources */,
 				77727CCF2588CD1C0001EB05 /* MapMarkerModel.swift in Sources */,
 				762AB53C2630A9F5002723D4 /* NotificationExtension.swift in Sources */,

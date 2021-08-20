@@ -16,16 +16,7 @@ class SubscriptionPopupViewController: UIViewController {
         super.viewDidLoad()
     }
     
-    @IBAction func CustomerPackBtnAction(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
-        delegate?.subsctiptionChoiceDelegate(type: Constant.custom_Pack)
-    }
-    @IBAction func SubscribeNowBtnAction(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
-        delegate?.subsctiptionChoiceDelegate(type: Constant.premuim)
-    }
-    
     @IBAction func CrossBtnAction(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true, completion: nil)
     }
 }

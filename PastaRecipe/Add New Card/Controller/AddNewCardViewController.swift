@@ -22,6 +22,7 @@ class AddNewCardViewController: UIViewController {
     var delegate:CardAndAddressViewController?
     var myCardData = MyCardModel()
     var isDefailtCard = false
+    var isCardEdit = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +31,31 @@ class AddNewCardViewController: UIViewController {
     
 }
 
+
+extension AddNewCardViewController {
+    func cardApiParameters() -> Bool{
+        if let userId = CommonHelper.getCachedUserData()?.user_detail.user_id {
+            self.dataDic[Constant.card_number] = self.userData.card_number
+            self.dataDic[Constant.expired_date_c] = self.userData.expired_date_c
+            self.dataDic[Constant.cvc] = self.userData.cvc
+            self.dataDic[Constant.user_id] = Int(userId)
+            if self.isDefailtCard {
+                self.dataDic[Constant.bydefault] = 1
+            } else {
+                self.dataDic[Constant.bydefault] = 0
+            }
+            
+            if isCardEdit {
+                self.dataDic[Constant.carddetail_id] = self.userData.carddetail_id
+            }
+            return true
+        } else {
+            return false
+        }
+    }
+}
+
+
 //MARK:- API CALLING METHOD'S
 extension AddNewCardViewController{
     func AddCard() {
@@ -37,20 +63,14 @@ extension AddNewCardViewController{
             hud.show(in: self.view, animated: true)
             if Connectivity.isConnectedToNetwork() {
                 self.dataDic = [String:Any]()
-                if let userId = CommonHelper.getCachedUserData()?.user_detail.user_id {
-                    self.dataDic[Constant.card_number] = self.userData.card_number
-                    self.dataDic[Constant.expired_date_c] = self.userData.expired_date_c
-                    self.dataDic[Constant.cvc] = self.userData.cvc
-                    self.dataDic[Constant.user_id] = Int(userId)
-                    if self.isDefailtCard {
-                        self.dataDic[Constant.bydefault] = 1
+                if self.cardApiParameters() {
+                    if self.isCardEdit {
+                        self.callWebService(.updatecard, hud: hud)
                     } else {
-                        self.dataDic[Constant.bydefault] = 0
+                        self.callWebService(.addcard, hud: hud)
                     }
-                    self.callWebService(.addcard, hud: hud)
-                    
                 } else {
-                    PopupHelper.showAlertControllerWithError(forErrorMessage: "User id not be found", forViewController: self)
+                    PopupHelper.alertWithOk(title: "Error", message: "User can not be found", controler: self)
                 }
             }
         }
@@ -75,6 +95,13 @@ extension AddNewCardViewController: UITableViewDelegate, UITableViewDataSource {
         cell.DoneBtn.addTarget(self, action: #selector(DoneBtn(_:)), for: .touchUpInside)
         cell.DoneBtn.tag = indexPath.row
         cell.DefaultCardBtn.addTarget(self, action: #selector(DefaultCard(_:)), for: .touchUpInside)
+        
+        if isCardEdit {
+            cell.CardNumberTextfield.text = self.userData.card_number
+            cell.ExpireDateTextfield.text = self.userData.expired_date_c
+            cell.CVCTextfield.text = self.userData.cvc
+        }
+        
         return cell
     }
     
@@ -141,7 +168,7 @@ extension AddNewCardViewController:WebServiceResponseDelegate{
     
     func webServiceDataParsingOnResponseReceived(url: webserviceUrl?, viewControllerObj: UIViewController?, dataDict: Any, hud: JGProgressHUD) {
         switch url {
-        case .addcard:
+        case .addcard , .updatecard:
             if let data = dataDict as? Dictionary<String, Any>{
                 if let cardList = data["default_card"] as? NSDictionary{
                     myCardData = MyCardModel(dic: cardList) ?? MyCardModel()
@@ -153,8 +180,8 @@ extension AddNewCardViewController:WebServiceResponseDelegate{
                 }
             } else {
                 hud.dismiss()
+                PopupHelper.showAlertControllerWithError(forErrorMessage: "Unknown Error", forViewController: self)
             }
-            hud.dismiss()
         default:
             hud.dismiss()
         }
