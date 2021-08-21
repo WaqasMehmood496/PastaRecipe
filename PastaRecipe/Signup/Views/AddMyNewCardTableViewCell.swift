@@ -223,6 +223,7 @@ class AddMyNewCardTableViewCell: UITableViewCell {
     }
     func tfcard(){
         self.CardNumberTextfield.inputType = .integer
+        self.CardNumberTextfield.backgroundColor = UIColor(named: "Theam 2")!
         self.CardNumberTextfield.formatter = CardNumberFormatter()
         self.CardNumberTextfield.placeholder = "Card Number"
         var validation = Validation()
@@ -237,6 +238,7 @@ class AddMyNewCardTableViewCell: UITableViewCell {
     
     func tfdate(){
         self.ExpireDateTextfield.inputType = .integer
+        self.ExpireDateTextfield.backgroundColor = UIColor(named: "Theam 2")!
         self.ExpireDateTextfield.formatter = CardExpirationDateFormatter()
         self.ExpireDateTextfield.placeholder = "MM/YY"
         var validation = Validation()
@@ -247,6 +249,7 @@ class AddMyNewCardTableViewCell: UITableViewCell {
     
     func tfcvc(){
         self.CVCTextfield.inputType = .integer
+        self.CVCTextfield.backgroundColor = UIColor(named: "Theam 2")!
         self.CVCTextfield.placeholder = "CVC"
         var validation = Validation()
         validation.maximumLength = "CVC".count

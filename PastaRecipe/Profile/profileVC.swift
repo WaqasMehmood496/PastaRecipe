@@ -20,14 +20,12 @@ class profileVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        UserProfileImage.layer.cornerRadius = UserProfileImage.frame.height/2
         if let user = CommonHelper.getCachedUserData() {
             self.usernameLbl.text = user.user_detail.user_name
         }
     }
         
     override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.navigationBar.isHidden = true
         if let coins = CommonHelper.getCachedUserData()?.user_detail.coins {
             self.CoinLabel.text = coins
         }

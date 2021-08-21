@@ -45,10 +45,8 @@ class MyTabbarVC: UIViewController {
         self.setIconsOnTabbar()
         tabController.delegate = self
         self.initializaViewControllersOnTabbar()
-        tabController.buttonsBackgroundColor = UIColor (
-            named: buttonBackgroundColor
-        )!
-        tabController.selectedColor = .white
+        tabController.buttonsBackgroundColor = UIColor(named: "Theam 2")!
+        tabController.selectedColor =  UIColor(named: "Profile Label Color")!
         
     }
     

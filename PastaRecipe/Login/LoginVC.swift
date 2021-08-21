@@ -42,6 +42,10 @@ class LoginVC: UIViewController {
     @IBAction func forgetPassword(_ sender: Any) {
         self.performSegue(withIdentifier: "forgetPasswordSegue", sender: nil)
     }
+    @IBAction func SignupBtnAction(_ sender: Any) {
+        moveToVerifyEmailVC()
+    }
+    
 }
 
 
@@ -66,6 +70,12 @@ extension LoginVC{
 //                                                           attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
 //        passwordTF.attributedPlaceholder = NSAttributedString(string: "Password",
 //                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+    }
+    
+    func moveToVerifyEmailVC() {
+        let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+        let controller = storyboard.instantiateViewController(withIdentifier: "SignupVC") as! SignupVC
+        self.navigationController?.pushViewController(controller, animated: true)
     }
     
     func callLoginApi(){

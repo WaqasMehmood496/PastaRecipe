@@ -43,6 +43,7 @@ public class Connectivity {
         return ret
         
     }
+    
     func isInternetAvailable() -> Bool {
         var zeroAddress = sockaddr_in()
         zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))

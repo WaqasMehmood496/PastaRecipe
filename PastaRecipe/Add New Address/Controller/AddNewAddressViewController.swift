@@ -93,27 +93,41 @@ extension AddNewAddressViewController {
 //MARK: - HELPING METHODS EXTENSION
 extension AddNewAddressViewController {
     func setupUI() {
+        addPaddingOnFields()
         if isEditAddress {
-            self.AddressTF.text = self.myAddress.address_main
-            self.ZipCodeTF.text = self.myAddress.zipcode
-            self.StateTF.text = self.myAddress.state
-            self.CityTF.text = self.myAddress.city
-            self.CountryTF.text = self.myAddress.country
+            AddressTF.text = myAddress.address_main
+            ZipCodeTF.text = myAddress.zipcode
+            StateTF.text = myAddress.state
+            CityTF.text = myAddress.city
+            CountryTF.text = myAddress.country
         }
     }
     
+    func addPaddingOnFields() {
+        ZipCodeTF.setLeftPaddingPoints(8)
+        ZipCodeTF.setRightPaddingPoints(8)
+        AddressTF.setLeftPaddingPoints(8)
+        AddressTF.setRightPaddingPoints(8)
+        CountryTF.setLeftPaddingPoints(8)
+        CountryTF.setRightPaddingPoints(8)
+        StateTF.setLeftPaddingPoints(8)
+        StateTF.setRightPaddingPoints(8)
+        CityTF.setLeftPaddingPoints(8)
+        CityTF.setRightPaddingPoints(8)
+    }
+    
     func initializeDropDown() {
-        ZipCodeTF.optionArray = self.zipCodesArray
+        ZipCodeTF.optionArray = zipCodesArray
         ZipCodeTF.selectedIndex = 0
         ZipCodeTF.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        ZipCodeTF.text = self.zipCodesArray[0]
+        ZipCodeTF.text = zipCodesArray[0]
         ZipCodeTF.didSelect{(selectedText , index , id) in
             self.selectedZipCode = String(index + 1)
         }
     }
     
     func validateFields() -> Bool {
-        if self.ZipCodeTF.text != "" && self.ZipCodeTF.text != " " && self.AddressTF.text != "" && self.AddressTF.text != " " && self.CountryTF.text != "" && self.CountryTF.text != " " && self.StateTF.text != "" && self.StateTF.text != " " && self.CityTF.text != "" && self.CityTF.text != " " {
+        if ZipCodeTF.text != "" && ZipCodeTF.text != " " && AddressTF.text != "" && self.AddressTF.text != " " && CountryTF.text != "" && CountryTF.text != " " && StateTF.text != "" && StateTF.text != " " && CityTF.text != "" && CityTF.text != " " {
             return true
         } else {
             return false
@@ -122,22 +136,22 @@ extension AddNewAddressViewController {
     
     func addressApiParamerters(isEditProfile:Bool) {
         if let userId = CommonHelper.getCachedUserData()?.user_detail.user_id {
-            self.dataDic[Constant.zipcode] = self.ZipCodeTF.text!
-            self.dataDic[Constant.address_main] = self.AddressTF.text!
-            self.dataDic[Constant.country] = self.CountryTF.text
-            self.dataDic[Constant.state] = self.StateTF.text!
-            self.dataDic[Constant.city] = self.CityTF.text!
-            self.dataDic[Constant.user_id] = Int(userId)
+           dataDic[Constant.zipcode] = ZipCodeTF.text!
+           dataDic[Constant.address_main] = AddressTF.text!
+           dataDic[Constant.country] = CountryTF.text
+           dataDic[Constant.state] = StateTF.text!
+           dataDic[Constant.city] = CityTF.text!
+           dataDic[Constant.user_id] = Int(userId)
             if isEditProfile {
-                self.dataDic[Constant.adresss_id] = self.myAddress.adresss_id
+                dataDic[Constant.adresss_id] = myAddress.adresss_id
             }
-            if self.isDefault {
-                self.dataDic[Constant.bydefault] = 1
+            if isDefault {
+                dataDic[Constant.bydefault] = 1
             } else {
-                self.dataDic[Constant.bydefault] = 0
+                dataDic[Constant.bydefault] = 0
             }
-            self.dataDic[Constant.lat] = self.userLocation.address_lat
-            self.dataDic[Constant.lng] = self.userLocation.address_lng
+            dataDic[Constant.lat] = userLocation.address_lat
+            dataDic[Constant.lng] = userLocation.address_lng
         }
     }
     
@@ -187,7 +201,7 @@ extension AddNewAddressViewController:WebServiceResponseDelegate {
                 if let address = data["default_adress"] as? NSDictionary {
                     hud.dismiss()
                     myAddress = MyAddressModel(dic: address) ?? MyAddressModel()
-                    self.delegate?.upDateAddress(addressData: myAddress, isDefault: isDefault)
+                    delegate?.upDateAddress(addressData: myAddress, isDefault: isDefault)
                     self.navigationController?.popViewController(animated: true)
                 } else {
                     hud.dismiss()

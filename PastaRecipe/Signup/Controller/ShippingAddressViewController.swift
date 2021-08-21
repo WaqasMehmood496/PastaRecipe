@@ -90,7 +90,7 @@ extension ShippingAddressViewController {
     func initializeDropDown() {
         ZipCodeTF.optionArray = self.zipCodesArray
         ZipCodeTF.selectedIndex = 0
-        ZipCodeTF.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        //ZipCodeTF.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         ZipCodeTF.text = self.zipCodesArray[0]
         ZipCodeTF.didSelect{(selectedText , index , id) in
             self.selectedZipCode = String(index + 1)

@@ -21,9 +21,6 @@ class RecipesTBViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.navigationBar.isHidden = true
-        
-       
         self.callrewardListApi()
     }
 }
@@ -44,21 +41,13 @@ extension RecipesTBViewController : UITableViewDelegate,UITableViewDataSource{
             cell.redeemBtn.tag = indexPath.row
             cell.redeemBtn.addTarget(self, action:#selector(redeemBtn(sender:)), for: .touchUpInside)
             return cell
-
         }
         else{
             return cell
-
         }
-        
     }
-    
-    
     @objc func redeemBtn(sender: UIButton){
-        
-        
         var rewardId = self.dataArray[sender.tag].user_rewards_id!
-        
         print(rewardId)
         
         self.callredeemApi(rewardId: rewardId)
@@ -68,7 +57,6 @@ extension RecipesTBViewController : UITableViewDelegate,UITableViewDataSource{
 
 extension RecipesTBViewController{
 
-    
     func callrewardListApi() {
         showHUDView(hudIV: .indeterminate, text: .process) { (hud) in
             hud.show(in: self.view, animated: true)
@@ -102,13 +90,6 @@ extension RecipesTBViewController{
             }
         }
     }
-
-       
-            
-        
-    
-    
-    
 }
 
 extension RecipesTBViewController:WebServiceResponseDelegate{
@@ -120,8 +101,6 @@ extension RecipesTBViewController:WebServiceResponseDelegate{
     }
     func webServiceDataParsingOnResponseReceived(url: webserviceUrl?, viewControllerObj: UIViewController?, dataDict: Any, hud: JGProgressHUD) {
         switch url {
-        
-        
         case .myrewardlist:
                 
                 if let dic = dataDict as? NSDictionary{
@@ -130,9 +109,7 @@ extension RecipesTBViewController:WebServiceResponseDelegate{
                         for i in data{
                             
                             self.dataArray.append(rewardListModel(dic: i as! NSDictionary)!)
-                            
                         }
-                        
                         self.recipeTableView.reloadData()
                         
                         hud.dismiss()
@@ -140,41 +117,20 @@ extension RecipesTBViewController:WebServiceResponseDelegate{
                     }
                 }
                 hud.dismiss()
-            
-           
-            
         case .redeemecoins:
                 
                 if let dic = dataDict as? NSDictionary{
                     if let data = dic[Constant.return_data] as? NSArray{
-                        //self.dataArray.removeAll()
-                        for i in data{
-                            
-                           // self.dataArray.append(rewardListModel(dic: i as! NSDictionary)!)
-                            //self.callrewardListApi()
-                            
-                        }
-                        //self.recipeTableView.reloadData()
-
-                        
-                        
                         hud.dismiss()
                     print("Success")
                     }
                     if let msg = dic[Constant.msg] as? String{
-                        
-                     
                         CommonHelper.sharedInstance.ShowAlert(view: self, message: msg, Title: "Reward")
                                 
                                 hud.dismiss()
                             }
-
-                    
                 }
                 hud.dismiss()
-            
-           
-            
         default:
             hud.dismiss()
         }

@@ -14,6 +14,7 @@ class ProductsTableViewCell: UITableViewCell {
     @IBOutlet weak var RecipeName: UILabel!
     @IBOutlet weak var RecipeDetail: UILabel!
     @IBOutlet weak var RecipePrice: UILabel!
+    @IBOutlet weak var AddToCartBtn: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()

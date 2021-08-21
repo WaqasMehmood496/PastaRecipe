@@ -14,9 +14,6 @@ import AZTabBar
 
 class homeExploreViewController: UIViewController,SubscriptioPopDelegate {
     
-//    // IBOUTLET'S
-//    @IBOutlet weak var exploreCollectionView: UICollectionView!
-//    @IBOutlet weak var thumbnailImage: UIImageView!
     @IBOutlet weak var ProductsTableView: UITableView!
     @IBOutlet weak var btnSubcrib: UIButton!
     
@@ -32,13 +29,11 @@ class homeExploreViewController: UIViewController,SubscriptioPopDelegate {
     var selectedIndex = 0
     var isSubscription = false
     var dataDic:[String:Any]!
-    var plansArray = [SubscripeModel]()
+    var productsArray = [ProductsModel]()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //self.navigationController?.navigationBar.isHidden = true
-        //self.collectionViewSetup()
         self.GetAllPlansApi()
     }
     
@@ -76,7 +71,7 @@ class homeExploreViewController: UIViewController,SubscriptioPopDelegate {
             }
         } else if segue.identifier == toProductsSegue {
             if let productVC = segue.destination as? ProductsViewController {
-                productVC.plansArray = self.plansArray
+                productVC.productsArray = self.productsArray
                 productVC.isSubscription = self.isSubscription
             }
         }
@@ -106,32 +101,6 @@ extension homeExploreViewController {
         return nil
     }
     
-//    // Setup Collection View
-//    func collectionViewSetup() {
-//
-//        let layout = UICollectionViewFlowLayout()
-//        if UIDevice.current.userInterfaceIdiom == .phone {
-//            layout.sectionInset = UIEdgeInsets (
-//                top: spacingIphone,
-//                left: spacingIphone,
-//                bottom: spacingIphone,
-//                right: spacingIphone
-//            )
-//            layout.minimumLineSpacing = spacingIphone
-//            layout.minimumInteritemSpacing = spacingIphone
-//        } else {
-//            layout.sectionInset = UIEdgeInsets (
-//                top: spacingIpad,
-//                left: spacingIpad,
-//                bottom: spacingIpad,
-//                right: spacingIpad
-//            )
-//            layout.minimumLineSpacing = spacingIpad
-//            layout.minimumInteritemSpacing = spacingIpad
-//        }
-//        self.exploreCollectionView?.collectionViewLayout = layout
-//    }
-    
     // SUBSCRIPTION PLAN POPUP SELECTION DELEGATE METHOD
     func subsctiptionChoiceDelegate(type: String) {
         if type == Constant.custom_Pack{
@@ -158,7 +127,7 @@ extension homeExploreViewController {
 }
 
 //MARK:- WEBSERVICE'S METHOD'S
-extension homeExploreViewController:WebServiceResponseDelegate{
+extension homeExploreViewController:WebServiceResponseDelegate {
     
     func callWebService(_ url:webserviceUrl,hud: JGProgressHUD){
         let helper = WebServicesHelper(serviceToCall: url, withMethod: .post, havingParameters: self.dataDic, relatedViewController: self,hud: hud)
@@ -169,10 +138,10 @@ extension homeExploreViewController:WebServiceResponseDelegate{
     func webServiceDataParsingOnResponseReceived(url: webserviceUrl?, viewControllerObj: UIViewController?, dataDict: Any, hud: JGProgressHUD) {
         switch url {
         case .getPlans:
-            if let data = dataDict as? NSArray{
-                plansArray.removeAll()
-                for array in data{
-                    plansArray.append(SubscripeModel(dic: array as! NSDictionary)!)
+            if let dataArray = dataDict as? NSArray{
+                productsArray.removeAll()
+                for data in dataArray {
+                    productsArray.append(ProductsModel(dic: data as! NSDictionary)!)
                 }
                 self.ProductsTableView.reloadData()
             }
@@ -184,10 +153,10 @@ extension homeExploreViewController:WebServiceResponseDelegate{
 }
 
 
-//MARK:- UITABLEVIEW DELEGATE ANS DATASOURCE METHOD'S
+//MARK:- UITABLEVIEW DELEGATE AND DATASOURCE METHOD'S
 extension homeExploreViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return plansArray.count
+        return productsArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -195,13 +164,12 @@ extension homeExploreViewController: UITableViewDelegate, UITableViewDataSource 
             withIdentifier: "ProductsTableViewCell",
             for: indexPath
         ) as! ProductsTableViewCell
-        if let url = self.plansArray[indexPath.row].image_url{
+        if let url = self.productsArray[indexPath.row].recipe_data.media_file{
             cell.RecipeImage.sd_setImage(with: URL(string: url), placeholderImage:  #imageLiteral(resourceName: "101"))
         }
-        //cell.VideIconImg.image = #imageLiteral(resourceName: "imageIcon")
-        cell.RecipeName.text = self.plansArray[indexPath.row].plan_name
-        cell.RecipeDetail.text = self.plansArray[indexPath.row].plan_description
-        cell.RecipePrice.text = "$ " + self.plansArray[indexPath.row].amount
+        cell.RecipeName.text = self.productsArray[indexPath.row].recipe_data.recipe_name
+        cell.RecipeDetail.text = self.productsArray[indexPath.row].recipe_data.recipe_short_description
+        cell.RecipePrice.text = "$ " + self.productsArray[indexPath.row].recipe_data.amount
         
         let backView = UIView()
         backView.backgroundColor = .clear
@@ -212,9 +180,9 @@ extension homeExploreViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let recipeDetail = storyboard?.instantiateViewController(withIdentifier: "ViewRecipeDetailViewController") as! ViewRecipeDetailViewController
-        recipeDetail.name = self.plansArray[indexPath.row].plan_name
-        recipeDetail.detail = self.plansArray[indexPath.row].plan_description
-        recipeDetail.image = self.plansArray[indexPath.row].image_url
+        recipeDetail.name = self.productsArray[indexPath.row].recipe_data.recipe_name
+        recipeDetail.detail = self.productsArray[indexPath.row].recipe_data.recipe_description
+        recipeDetail.image = "$ " + self.productsArray[indexPath.row].recipe_data.amount
         self.navigationController?.pushViewController(recipeDetail, animated: true)
     }
 }
