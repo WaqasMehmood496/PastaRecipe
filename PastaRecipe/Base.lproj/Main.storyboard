@@ -1770,6 +1770,7 @@
                     <connections>
                         <outlet property="DescriptionLabel" destination="V7J-3s-mrN" id="9qb-bd-3gc"/>
                         <outlet property="RecipeImage" destination="AOx-rA-3Wv" id="vPD-ay-9NT"/>
+                        <outlet property="ShortDescriptionLabel" destination="3Xv-5x-4uM" id="b7z-QR-elA"/>
                         <outlet property="TitleLabel" destination="rS3-Sl-6qF" id="BMW-k2-V89"/>
                     </connections>
                 </viewController>

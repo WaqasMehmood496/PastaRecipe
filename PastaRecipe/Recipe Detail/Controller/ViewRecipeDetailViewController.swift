@@ -12,10 +12,12 @@ class ViewRecipeDetailViewController: UIViewController {
 
     @IBOutlet weak var RecipeImage: UIImageView!
     @IBOutlet weak var TitleLabel: UILabel!
+    @IBOutlet weak var ShortDescriptionLabel: UILabel!
     @IBOutlet weak var DescriptionLabel: UILabel!
 
     var image = String()
     var name = String()
+    var shortDetail = String()
     var detail = String()
     
     override func viewDidLoad() {
@@ -24,6 +26,7 @@ class ViewRecipeDetailViewController: UIViewController {
         // Do any additional setup after loading the view.
         self.RecipeImage.sd_setImage(with: URL(string: image), placeholderImage: #imageLiteral(resourceName: "101"))
         self.DescriptionLabel.text = detail
+        self.ShortDescriptionLabel.text = shortDetail
         self.TitleLabel.text = name
     }
     

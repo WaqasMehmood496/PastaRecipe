@@ -46,16 +46,15 @@ class homeExploreViewController: UIViewController,SubscriptioPopDelegate {
     }
     
     @IBAction func subcribeBtnPressed(_ sender:Any){
-        if CommonHelper.getCachedUserData() != nil {
+        if defaults.bool(forKey: Constant.userLoginStatusKey) {
             self.isSubscription = true
             self.performSegue(withIdentifier: toProductsSegue, sender: nil)
         } else {
             self.performSegue(withIdentifier: "toLoginMessage", sender: nil)
         }
-        
     }
     @IBAction func OneTumePurchasing(_ sender: Any) {
-        if CommonHelper.getCachedUserData() != nil {
+        if defaults.bool(forKey: Constant.userLoginStatusKey) {
             self.isSubscription = false
             self.performSegue(withIdentifier: toProductsSegue, sender: nil)
         } else {
@@ -183,6 +182,7 @@ extension homeExploreViewController: UITableViewDelegate, UITableViewDataSource 
         recipeDetail.name = self.productsArray[indexPath.row].recipe_data.recipe_name
         recipeDetail.detail = self.productsArray[indexPath.row].recipe_data.recipe_description
         recipeDetail.image = "$ " + self.productsArray[indexPath.row].recipe_data.amount
+        recipeDetail.shortDetail = self.productsArray[indexPath.row].recipe_data.recipe_short_description
         self.navigationController?.pushViewController(recipeDetail, animated: true)
     }
 }
