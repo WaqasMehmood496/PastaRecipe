@@ -9,7 +9,7 @@
 import UIKit
 
 class CustomerSupportViewController: UIViewController {
-
+    
     @IBOutlet weak var FNameTF: UITextField!
     @IBOutlet weak var LNameTF: UITextField!
     @IBOutlet weak var EmailTF: UITextField!
@@ -21,16 +21,9 @@ class CustomerSupportViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        setupPaddingOnFields()
     }
-    func clearData(){
-        FNameTF.text = nil
-        LNameTF.text = nil
-        EmailTF.text = nil
-        PhoneTF.text = nil
-        MessageTF.text = nil
-    }
+    
     @IBAction func SignUpBtn(_ sender: Any) {
         //signupApiCall()
         let fname = FNameTF.text!
@@ -55,15 +48,30 @@ class CustomerSupportViewController: UIViewController {
             
         }
     }
-    func callSignUpApi(){
-        
     
+    func setupPaddingOnFields() {
+        FNameTF.setLeftPaddingPoints(4)
+        FNameTF.setRightPaddingPoints(4)
+        EmailTF.setLeftPaddingPoints(4)
+        EmailTF.setRightPaddingPoints(4)
+        LNameTF.setLeftPaddingPoints(4)
+        LNameTF.setRightPaddingPoints(4)
+        PhoneTF.setLeftPaddingPoints(4)
+        PhoneTF.setRightPaddingPoints(4)
+    }
+    
+    func clearData(){
+        FNameTF.text = nil
+        LNameTF.text = nil
+        EmailTF.text = nil
+        PhoneTF.text = nil
+        MessageTF.text = nil
+    }
+    
+    func callSignUpApi(){
         showHUDView(hudIV: .indeterminate, text: .process) { (hud) in
             hud.show(in: self.view, animated: true)
-            
-            
             WebServicesHelper.callWebService(Parameters:self.dataDic,action: .customer_Support, httpMethodName: .post){ (indx,action,isNetwork, error, dataDict) in
-                
                 if isNetwork{
                     if let err = error{
                         hud.dismiss()
@@ -73,26 +81,18 @@ class CustomerSupportViewController: UIViewController {
                         if let dic = dataDict as? Dictionary<String,Any>{
                             if let data = dic["msg"] as? String{
                                 hud.dismiss()
-                                
                                 CommonHelper.sharedInstance.ShowAlert(view: self, message: data, Title: "Support")
-                                
-                                //Move to next Screen
-
-                                
-                                print("Success")
-                                
+                            }
+                            else{
+                                hud.dismiss()
+                                PopupHelper.showAlertControllerWithError(forErrorMessage: "something went wrong", forViewController: self)
+                            }
                         }
                         else{
                             hud.dismiss()
                             PopupHelper.showAlertControllerWithError(forErrorMessage: "something went wrong", forViewController: self)
                         }
                     }
-                    else{
-                        hud.dismiss()
-                        PopupHelper.showAlertControllerWithError(forErrorMessage: "something went wrong", forViewController: self)
-                            
-                        }
-                 }
                 }
                 else{
                     hud.dismiss()
@@ -100,11 +100,5 @@ class CustomerSupportViewController: UIViewController {
                 }
             }
         }
-        
-        
-        
-        
-        
     }
-
 }
