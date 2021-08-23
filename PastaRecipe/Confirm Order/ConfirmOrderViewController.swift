@@ -42,7 +42,6 @@ class ConfirmOrderViewController: UIViewController, PassDataDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setUpUI()
-        //self.addTabGuestureOnLocationTextField()
     }
     
     @IBAction func UserDefaultCardBtnAction(_ sender: Any) {
@@ -143,7 +142,6 @@ extension ConfirmOrderViewController {
         ZipCodeTF.optionArray = ["33133","33176","33157","33012","33156","33181","33140","33014","33166","33147","33158","33054","33132","33034","33172","33168","33056","33190","33178","33184","33154","33141","33018","33189","33174","33196","33016","33169","33175","33015","33134","33143","33187","33031","33129","33010","33130","33179","33033","33109","33167","33165","33162","33125","33039","33127","33149","33139","33186","33170","33136","33013","33182","33155","33055","33137","33150","33173","33138","33131","33193","33144","33142","33177","33146","33135","33035","33185","33194","33032","33128","33180","33160","33145","33030","33126","33183","33122","33076","33067","33073","33442","33441","33065","33071","33063","33066","33064","33069","33060","33062","33321","33068","33351","33319","33309","33334","33308","33323","33322","33313","33311","33306","33305","33304","33301","33327","33326","33325","33324","33317","33312","33315","33316","33332","33331","33330","33328","33314","33004","33029","33028","33027","33026","33025","33024","33023","33021","33020","33009","33019"
         ]
         ZipCodeTF.selectedIndex = 0
-        ZipCodeTF.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         ZipCodeTF.didSelect{(selectedText , index , id) in
             self.selectedZip = selectedText
         }
@@ -349,11 +347,7 @@ extension ConfirmOrderViewController:WebServiceResponseDelegate {
         switch url {
         case .addpasteapurchyase:
             if let data = dataDict as? NSDictionary{
-//                if isSubscription {
-//                    PopupHelper.alertWithOk(title: "Success", message: "Your subscription is completed", controler: self)
-//                } else {
-//                    PopupHelper.alertWithOk(title: "Success", message: "Order has been successfully added", controler: self)
-//                }
+
                 if let user = CommonHelper.getCachedUserData(){
                     if isSubscription {
                         var coins = UInt(user.user_detail.coins)!
@@ -513,7 +507,6 @@ extension ConfirmOrderViewController {
             switch result {
             case .success:
                 self.AddPurchasedProduct(cusId: cusid, hud: hud)
-            //PopupHelper.alertWithOk(title: "Success", message: "Your subscription is completed", controler: self)
             case .failure(let error):
                 hud.dismiss()
                 PopupHelper.alertWithOk(title: "Oops!", message: error.localizedDescription, controler: self)
@@ -521,89 +514,7 @@ extension ConfirmOrderViewController {
         }
     }
     
-    //    func performStripePayment(hud:JGProgressHUD,cardNumber:String, expMonth:UInt, expYear:UInt, cvc:String, postalCode:String, price:Int , name:String, email:String) {
-    //        //PopupHelper.showAnimating(self)
-    //        let cardParams = STPCardParams()
-    //        cardParams.name = name
-    //        cardParams.number = cardNumber
-    //        cardParams.expMonth = expMonth
-    //        cardParams.expYear = expYear
-    //        cardParams.cvc = cvc
-    //        cardParams.address.country = "US"
-    //        cardParams.address.postalCode = postalCode
-    //
-    //        let paymentmethodcardparam = STPPaymentMethodCardParams(cardSourceParams: cardParams)
-    //        let paymentMethodParams = STPPaymentMethodParams(card: paymentmethodcardparam, billingDetails: nil, metadata: nil)
-    //        let periceValue = price * 100
-    //
-    //        let clientName = name
-    //        let clientemail = email
-    //        createSubscription(hud: hud, name: clientName, email: clientemail, paymentMethodParams: paymentMethodParams, periceValue: periceValue)
-    //    }
-    //
-    //    func createSubscription(hud:JGProgressHUD,name:String, email:String, paymentMethodParams:STPPaymentMethodParams, periceValue:Int) {
-    //        InvoiceStripClient.shared.createPayment(with: name,email: email) { (result, key, id) in
-    //            switch result {
-    //            case .success:
-    //                guard let Subkey = key else { return }
-    //                guard let cusId = id else { return }
-    //
-    //                let paymentIntentParams = STPSetupIntentConfirmParams(clientSecret: Subkey)
-    //                paymentIntentParams.paymentMethodParams = paymentMethodParams
-    //                self.conformSetupIntent(hud: hud, paymentIntentParams: paymentIntentParams, periceValue: periceValue, id: cusId, type: "week")
-    //                break
-    //            case .failure(let error):
-    //                hud.dismiss()
-    //                PopupHelper.alertWithOk(title: "Oops!", message: error.localizedDescription, controler: self)
-    //            }
-    //        }
-    //    }
-    //
-    //    func conformSetupIntent(hud:JGProgressHUD,paymentIntentParams:STPSetupIntentConfirmParams,periceValue:Int, id:String, type:String) {
-    //        STPPaymentHandler.shared().confirmSetupIntent(paymentIntentParams, with: self) { (status, paymentIntent, error) in
-    //            switch (status){
-    //            case .failed:
-    //                hud.dismiss()
-    //                PopupHelper.alertWithOk(title: "Oops!", message: error?.localizedDescription ?? "", controler: self)
-    //                break
-    //            case .canceled:
-    //                hud.dismiss()
-    //                PopupHelper.alertWithOk(title: "Oops!", message: error!.localizedDescription , controler: self)
-    //                break
-    //            case .succeeded:
-    //                self.confirmPayment1(hud: hud, periceValue: periceValue, id: id, type: type, paymentIntent: paymentIntent!)
-    //                break
-    //            }
-    //        }
-    //    }
-    //
-    //    func confirmPayment1(hud:JGProgressHUD,periceValue:Int,id:String,type:String,paymentIntent:STPSetupIntent) {
-    //        InvoiceStripClient.shared.createPayment1( with: periceValue,id: id,type: type) { (result, key, id) in
-    //            switch result {
-    //            case .success:
-    //                self.confirmPayment2(hud: hud, paymentIntent: paymentIntent, key: key!)
-    //                break
-    //            case .failure(let error):
-    //                hud.dismiss()
-    //                PopupHelper.alertWithOk(title: "Oops!", message: error.localizedDescription, controler: self)
-    //            }
-    //        }
-    //    }
-    //
-    //    func confirmPayment2(hud:JGProgressHUD,paymentIntent:STPSetupIntent,key:String) {
-    //        InvoiceStripClient.shared.createPayment2(with: paymentIntent.paymentMethodID!,sub_id: key) { (result, key, id) in
-    //            switch result {
-    //            case .success:
-    //                self.booking(cusId:id,hud: hud)
-    //                PopupHelper.alertWithOk(title: "Success", message: "Your subscription is completed", controler: self)
-    //            case .failure(let error):
-    //                hud.dismiss()
-    //                PopupHelper.alertWithOk(title: "Oops!", message: error.localizedDescription, controler: self)
-    //            }
-    //        }
-    //    }
 }
-
 
 extension ConfirmOrderViewController: STPAuthenticationContext {
     func authenticationPresentingViewController() -> UIViewController {
