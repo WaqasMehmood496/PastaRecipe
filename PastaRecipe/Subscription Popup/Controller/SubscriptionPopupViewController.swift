@@ -10,7 +10,6 @@ import UIKit
 
 class SubscriptionPopupViewController: UIViewController {
 
-    var delegate:SubscriptioPopDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -136,6 +136,8 @@ extension ConfirmOrderViewController {
         CityTF.setRightPaddingPoints(4)
         addressTf.setLeftPaddingPoints(4)
         addressTf.setRightPaddingPoints(4)
+        ZipCodeTF.setLeftPaddingPoints(4)
+        ZipCodeTF.setRightPaddingPoints(4)
     }
     
     func zipCodeSetupOnDropDown() {
@@ -177,7 +179,6 @@ extension ConfirmOrderViewController {
         self.dataDic[Constant.order_address] = user.more_detail.address.address_main
         if isSubscription {
             self.dataDic[Constant.type] = "onetime"
-            // MARK: Error on forever keyword
         } else {
             self.dataDic[Constant.type] = "onetime"
         }
@@ -346,8 +347,8 @@ extension ConfirmOrderViewController:WebServiceResponseDelegate {
     func webServiceDataParsingOnResponseReceived(url: webserviceUrl?, viewControllerObj: UIViewController?, dataDict: Any, hud: JGProgressHUD) {
         switch url {
         case .addpasteapurchyase:
-            if let data = dataDict as? NSDictionary{
-
+            if dataDict is NSDictionary{
+                
                 if let user = CommonHelper.getCachedUserData(){
                     if isSubscription {
                         var coins = UInt(user.user_detail.coins)!

@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -15,11 +16,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="App Background Theam" translatesAutoresizingMaskIntoConstraints="NO" id="Y8p-eB-9fu">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Y8p-eB-9fu">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <color key="backgroundColor" name="Theam 2"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="App Logo" translatesAutoresizingMaskIntoConstraints="NO" id="Ibx-7g-aQV">
                                 <rect key="frame" x="87" y="384" width="240" height="128"/>
+                                <color key="tintColor" name="Placeholder Color"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="128" id="CqF-pq-iw4"/>
                                     <constraint firstAttribute="width" constant="240" id="ben-O8-Zk8"/>
@@ -28,12 +31,12 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By ninno technologies" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kCH-4N-xDW">
                                 <rect key="frame" x="8" y="833" width="397" height="21"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="textColor" name="Placeholder Color"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" name="Theam 2"/>
                         <constraints>
                             <constraint firstItem="Ibx-7g-aQV" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="3Th-8d-9OZ"/>
                             <constraint firstItem="Ibx-7g-aQV" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="43z-jF-Msm"/>
@@ -53,7 +56,12 @@
         </scene>
     </scenes>
     <resources>
-        <image name="App Background Theam" width="750" height="1624"/>
-        <image name="App Logo" width="420" height="234"/>
+        <image name="App Logo" width="160" height="89"/>
+        <namedColor name="Placeholder Color">
+            <color red="0.067000001668930054" green="0.078000001609325409" blue="0.086000002920627594" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="Theam 2">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

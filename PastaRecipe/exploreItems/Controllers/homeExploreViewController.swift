@@ -12,10 +12,9 @@ import Kingfisher
 import AVFoundation
 import AZTabBar
 
-class homeExploreViewController: UIViewController,SubscriptioPopDelegate {
+class homeExploreViewController: UIViewController {
     
     @IBOutlet weak var ProductsTableView: UITableView!
-    @IBOutlet weak var btnSubcrib: UIButton!
     
     // CONSTANT'S
     let toSubcribeTypeSegue = "toSubcribeType"
@@ -27,88 +26,42 @@ class homeExploreViewController: UIViewController,SubscriptioPopDelegate {
     
     // VARIABLE'S
     var selectedIndex = 0
-    var isSubscription = false
     var dataDic:[String:Any]!
     var productsArray = [ProductsModel]()
+    var recentlyAddedArray = [ProductsModel]()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.GetAllPlansApi()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.GetAllPlansApi()
     }
     
-    @IBAction func playVideoBtn(_ sender: Any) {
-        
+    //MARK: ACTION'S
+    @IBAction func CartBtnAction(_ sender: Any) {
+        let CardVC = storyboard?.instantiateViewController(withIdentifier: "AddToCartViewController") as! AddToCartViewController
+        CardVC.isSubscription = false
+        self.navigationController?.pushViewController(CardVC, animated: true)
     }
     
-    @IBAction func subcribeBtnPressed(_ sender:Any){
-        if defaults.bool(forKey: Constant.userLoginStatusKey) {
-            self.isSubscription = true
-            self.performSegue(withIdentifier: toProductsSegue, sender: nil)
-        } else {
-            self.performSegue(withIdentifier: "toLoginMessage", sender: nil)
-        }
-    }
-    @IBAction func OneTumePurchasing(_ sender: Any) {
-        if defaults.bool(forKey: Constant.userLoginStatusKey) {
-            self.isSubscription = false
-            self.performSegue(withIdentifier: toProductsSegue, sender: nil)
-        } else {
-            self.performSegue(withIdentifier: "toLoginMessage", sender: nil)
-        }
-    }
     
     // PREPARE FOR SEGUE COMPLETION METHOD
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == toSubcribeTypeSegue {
-            if let popUp = segue.destination as? SubscriptionPopupViewController {
-                popUp.delegate = self
-            }
-        } else if segue.identifier == toProductsSegue {
+        if segue.identifier == toProductsSegue {
             if let productVC = segue.destination as? ProductsViewController {
                 productVC.productsArray = self.productsArray
-                productVC.isSubscription = self.isSubscription
             }
         }
     }
 }
 
+
+
+
 //MARK:- HELPING METHOD'S
 extension homeExploreViewController {
-    
-    func checkUrlExtension(url:String) -> String {
-        let splitImageExtension = url.split(separator: ".")
-        let imageExtendion = splitImageExtension.last!
-        return String(imageExtendion)
-    }
-    
-    // Getting thambnail from url
-    func getThumbnailImage(forUrl url: URL) -> UIImage? {
-        let asset: AVAsset = AVAsset(url: url)
-        let imageGenerator = AVAssetImageGenerator(asset: asset)
-        
-        do {
-            let thumbnailImage = try imageGenerator.copyCGImage(at: CMTimeMake(value: 1, timescale: 60) , actualTime: nil)
-            return UIImage(cgImage: thumbnailImage)
-        } catch let error {
-            print(error)
-        }
-        return nil
-    }
-    
-    // SUBSCRIPTION PLAN POPUP SELECTION DELEGATE METHOD
-    func subsctiptionChoiceDelegate(type: String) {
-        if type == Constant.custom_Pack{
-            isSubscription = false
-        } else {
-            isSubscription = true
-        }
-        self.performSegue(withIdentifier: toProductsSegue, sender: nil)
-    }
     
     func GetAllPlansApi() {
         showHUDView(hudIV: .indeterminate, text: .process) { (hud) in
@@ -123,7 +76,150 @@ extension homeExploreViewController {
             }
         }
     }
+    
+    func find(value searchValue: String, in array: [CartModel]) -> Int? {
+        for (index, value) in array.enumerated()
+        {
+            if value.id == searchValue {
+                return index
+            }
+        }
+        return nil
+    }
 }
+
+
+
+//MARK:- UITABLEVIEW DELEGATE AND DATASOURCE METHOD'S
+extension homeExploreViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        if self.recentlyAddedArray.count == 0 {
+            return 1
+        } else {
+            return 3
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return productsArray.count
+        } else {
+            return 1
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        if indexPath.section == 0 {
+            
+            let cell = tableView.dequeueReusableCell (
+                withIdentifier: "ProductsTableViewCell",
+                for: indexPath
+            ) as! ProductsTableViewCell
+            
+            if let url = self.productsArray[indexPath.row].recipe_data.media_file {
+                cell.RecipeImage.sd_setImage(with: URL(string: url), placeholderImage:  #imageLiteral(resourceName: "101"))
+            }
+            cell.RecipeName.text = self.productsArray[indexPath.row].recipe_data.recipe_name
+            cell.RecipeDetail.text = self.productsArray[indexPath.row].recipe_data.recipe_short_description
+            cell.RecipePrice.text = "$ " + self.productsArray[indexPath.row].recipe_data.amount
+            cell.AddToCartBtn.tag = indexPath.row
+            cell.AddToCartBtn.addTarget(self, action: #selector(addToCartBtnAction(_:)), for: .touchUpInside)
+            if self.productsArray[indexPath.row].isAddToCart == true{
+                cell.AddToCartBtn.backgroundColor = UIColor(named: "Placeholder Color")
+                cell.AddToCartBtn.setTitleColor(UIColor.white, for: .normal)
+            } else {
+                cell.AddToCartBtn.backgroundColor = UIColor.clear
+                cell.AddToCartBtn.setTitleColor(UIColor.black, for: .normal)
+            }
+            
+            let backView = UIView()
+            backView.backgroundColor = .clear
+            cell.selectedBackgroundView = backView
+            
+            return cell
+            
+        } else if indexPath.section == 1 {
+            
+            let cell = tableView.dequeueReusableCell (
+                withIdentifier: "HeaderTableViewCell",
+                for: indexPath
+            ) as! HeaderTableViewCell
+            return cell
+        } else {
+            
+            let cell = tableView.dequeueReusableCell (
+                withIdentifier: "RecentlyViewTableViewCell",
+                for: indexPath
+            ) as! RecentlyViewTableViewCell
+            cell.RecentlyViewCollectionVIew.delegate = self
+            cell.RecentlyViewCollectionVIew.dataSource = self
+            cell.RecentlyViewCollectionVIew.tag = indexPath.row
+            cell.RecentlyViewCollectionVIew.reloadData()
+            return cell
+            
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let recipeDetail = storyboard?.instantiateViewController(withIdentifier: "ViewRecipeDetailViewController") as! ViewRecipeDetailViewController
+        
+        let res = recentlyAddedArray.contains(where: { (item) -> Bool in
+            if item.recipe_data.recipe_id == self.productsArray[indexPath.row].recipe_data.recipe_id {
+                return true
+            } else {
+                return false
+            }
+        })
+        
+        if res == false {
+            self.recentlyAddedArray.append(self.productsArray[indexPath.row])
+        }
+        
+        recipeDetail.selectedProduct = self.productsArray[indexPath.row]
+        
+        self.navigationController?.pushViewController(recipeDetail, animated: true)
+        self.ProductsTableView.reloadData()
+        
+    }
+    
+    @objc func addToCartBtnAction(_ sender:UIButton) {
+        if productsArray[sender.tag].isAddToCart == true{
+            productsArray[sender.tag].isAddToCart = false
+            //REMOVE FROM CART ARRAY
+            let index = find(value: productsArray[sender.tag].recipe_data.recipe_id, in: cartArray)
+            guard let indexValue = index else {
+                return
+            }
+            cartArray.remove(at: indexValue)
+        } else {
+            productsArray[sender.tag].isAddToCart = true
+            // ADD INTO CART ARRAY
+            cartArray.append(CartModel(id: self.productsArray[sender.tag].recipe_data.recipe_id, image: self.productsArray[sender.tag].recipe_data.media_file, title: self.productsArray[sender.tag].recipe_data.recipe_name, coins: self.productsArray[sender.tag].recipe_data.amount, quantity: "1", price: self.productsArray[sender.tag].recipe_data.amount))
+        }
+        self.ProductsTableView.reloadRows(at: [IndexPath(row: sender.tag, section: 0)], with: .automatic)
+    }
+}
+
+
+extension homeExploreViewController:UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.recentlyAddedArray.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "recentlyAddedCell", for: indexPath) as! recentlyAddedCell
+        if let url = self.recentlyAddedArray[indexPath.row].recipe_data.media_file {
+            cell.itemImage.sd_setImage(with: URL(string: url), placeholderImage:  #imageLiteral(resourceName: "101"))
+        }
+        cell.nameLabel.text = recentlyAddedArray[indexPath.row].recipe_data.recipe_name
+        cell.priceLabel.text = recentlyAddedArray[indexPath.row].recipe_data.amount
+        return cell
+    }
+    
+}
+
 
 //MARK:- WEBSERVICE'S METHOD'S
 extension homeExploreViewController:WebServiceResponseDelegate {
@@ -142,47 +238,21 @@ extension homeExploreViewController:WebServiceResponseDelegate {
                 for data in dataArray {
                     productsArray.append(ProductsModel(dic: data as! NSDictionary)!)
                 }
+                productsArray.forEach { (product) in
+                    let _ = cartArray.contains(where: { (cartItem) -> Bool in
+                        if cartItem.id == product.recipe_data.recipe_id {
+                            product.isAddToCart = true
+                            return true
+                        } else {
+                            return false
+                        }
+                    })
+                }
                 self.ProductsTableView.reloadData()
             }
             hud.dismiss()
         default:
             hud.dismiss()
         }
-    }
-}
-
-
-//MARK:- UITABLEVIEW DELEGATE AND DATASOURCE METHOD'S
-extension homeExploreViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return productsArray.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell (
-            withIdentifier: "ProductsTableViewCell",
-            for: indexPath
-        ) as! ProductsTableViewCell
-        if let url = self.productsArray[indexPath.row].recipe_data.media_file{
-            cell.RecipeImage.sd_setImage(with: URL(string: url), placeholderImage:  #imageLiteral(resourceName: "101"))
-        }
-        cell.RecipeName.text = self.productsArray[indexPath.row].recipe_data.recipe_name
-        cell.RecipeDetail.text = self.productsArray[indexPath.row].recipe_data.recipe_short_description
-        cell.RecipePrice.text = "$ " + self.productsArray[indexPath.row].recipe_data.amount
-        
-        let backView = UIView()
-        backView.backgroundColor = .clear
-        cell.selectedBackgroundView = backView
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let recipeDetail = storyboard?.instantiateViewController(withIdentifier: "ViewRecipeDetailViewController") as! ViewRecipeDetailViewController
-        recipeDetail.name = self.productsArray[indexPath.row].recipe_data.recipe_name
-        recipeDetail.detail = self.productsArray[indexPath.row].recipe_data.recipe_description
-        recipeDetail.image = "$ " + self.productsArray[indexPath.row].recipe_data.amount
-        recipeDetail.shortDetail = self.productsArray[indexPath.row].recipe_data.recipe_short_description
-        self.navigationController?.pushViewController(recipeDetail, animated: true)
     }
 }

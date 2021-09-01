@@ -9,8 +9,8 @@
 import Foundation
 
 
-class SubscripeModel:Codable{
-
+class SubscripeModel:Codable {
+    
     var plan_id:String!
     var plan_name:String!
     var no_of_coins:String!
@@ -21,9 +21,9 @@ class SubscripeModel:Codable{
     var days:String!
     var image_url:String!
     var isAddToCart:Bool!
-
+    
     init(plan_id: String? = nil,plan_name: String? = nil,no_of_coins: String? = nil,amount: String? = nil,plan_description: String? = nil,created_at: String? = nil,days: String? = nil,updated_at: String? = nil,image_url:String? = nil,isAddToCart: Bool? = false) {
-
+        
         self.plan_id              = plan_id
         self.plan_name  = plan_name
         self.no_of_coins    = no_of_coins
@@ -34,10 +34,10 @@ class SubscripeModel:Codable{
         self.days = days
         self.image_url = image_url
         self.isAddToCart = isAddToCart
-
+        
     }
     init?(dic:NSDictionary) {
-
+        
         let plan_id = (dic as AnyObject).value(forKey: Constant.plan_id) as? String
         let plan_name = (dic as AnyObject).value(forKey: Constant.plan_name) as? String
         let no_of_coins = (dic as AnyObject).value(forKey: Constant.no_of_coins) as? String
@@ -48,8 +48,8 @@ class SubscripeModel:Codable{
         let days = (dic as AnyObject).value(forKey: Constant.days) as? String
         let image_url = (dic as AnyObject).value(forKey:Constant.image_url) as? String
         let isAddToCart = (dic as AnyObject).value(forKey: Constant.isAddToCart) as? Bool
-
-
+        
+        
         self.plan_id = plan_id
         self.plan_name = plan_name
         self.no_of_coins = no_of_coins
@@ -60,9 +60,9 @@ class SubscripeModel:Codable{
         self.days = days
         self.image_url = image_url
         self.isAddToCart = isAddToCart
-
+        
     }
-
+    
 }
 
 
@@ -71,12 +71,15 @@ class ProductsModel:Codable{
     var recipe_data:ProductsDetailModel!
     var images:[ProductsImagesModel]!
     var isAddToCart:Bool!
+    var reviews:[ReviewsModel]!
+    var review_status:Bool!
     
-    init(recipe_data: ProductsDetailModel? = nil,images: [ProductsImagesModel]? = nil,isAddToCart: Bool? = false) {
+    init(recipe_data: ProductsDetailModel? = nil,images: [ProductsImagesModel]? = nil,isAddToCart: Bool? = false,reviews: [ReviewsModel]? = nil) {
         
         self.recipe_data = recipe_data
         self.images  = images
         self.isAddToCart = isAddToCart
+        self.reviews = reviews
         
     }
     init?(dic:NSDictionary) {
@@ -85,15 +88,33 @@ class ProductsModel:Codable{
             self.recipe_data = ProductsDetailModel(dic: recipe_data)
         }
         
-        if let images = (dic as AnyObject).value(forKey: Constant.plan_name) as? [ProductsImagesModel] {
+        if let images = (dic as AnyObject).value(forKey: Constant.images) as? NSArray {
+            var array = [ProductsImagesModel]()
             for image in images{
-                self.images.append(image)
+                let tempObj = ProductsImagesModel(dic: image as! NSDictionary)
+                if let fetchedImage = tempObj {
+                    array.append(fetchedImage)
+                }
             }
+            self.images = array
+        }
+        
+        if let reviews = (dic as AnyObject).value(forKey: Constant.reviews) as? NSArray {
+            var tempreviews = [ReviewsModel]()
+            for review in reviews{
+                let reviewObj = ReviewsModel(dic: review as! NSDictionary)
+                if let fetchedReview = reviewObj {
+                    tempreviews.append(fetchedReview)
+                }
+            }
+            self.reviews = tempreviews
         }
         
         let isAddToCart = (dic as AnyObject).value(forKey: Constant.isAddToCart) as? Bool
+        let review_status = (dic as AnyObject).value(forKey: Constant.review_status) as? Bool
         
         self.isAddToCart = isAddToCart
+        self.review_status = review_status
     }
 }
 
@@ -179,5 +200,34 @@ class ProductsImagesModel:Codable {
         self.uploadimages_id = uploadimages_id
         self.media_file = media_file
         self.recipe_id = recipe_id
+    }
+}
+
+class ReviewsModel:Codable {
+    
+    var comments:String!
+    var inserted_date:String!
+    var user_name:String!
+    var image_url:String!
+    
+    init(comments: String? = nil,inserted_date: String? = nil,user_name: String? = nil,image_url: String? = nil) {
+        
+        self.comments = comments
+        self.inserted_date = inserted_date
+        self.user_name = user_name
+        self.image_url = image_url
+        
+    }
+    init?(dic:NSDictionary) {
+        
+        let comments = (dic as AnyObject).value(forKey: Constant.comments) as? String
+        let inserted_date = (dic as AnyObject).value(forKey: Constant.inserted_date) as? String
+        let user_name = (dic as AnyObject).value(forKey: Constant.user_name) as? String
+        let image_url = (dic as AnyObject).value(forKey: Constant.image_url) as? String
+        
+        self.comments = comments
+        self.inserted_date = inserted_date
+        self.user_name = user_name
+        self.image_url = image_url
     }
 }

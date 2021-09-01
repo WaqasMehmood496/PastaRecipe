@@ -89,16 +89,6 @@ extension ProductsViewController{
         
         return nil
     }
-
-//    func addIntoCard() {
-//        for item in self.plansArray{
-//            if let recipeItem = item.isAddToCart {
-//                if recipeItem {
-//                    cartArray.append(CartModel(id: item.plan_id, image: item.image_url, title: item.plan_name, coins: item.no_of_coins, quantity: "1", price: item.amount))
-//                }
-//            }
-//        }
-//    }
 }
 
 
@@ -155,89 +145,3 @@ extension ProductsViewController: UITableViewDelegate, UITableViewDataSource {
         self.ProductsTableView.reloadRows(at: [IndexPath(row: sender.tag, section: 0)], with: .automatic)
     }
 }
-
-
-//// MARK:-Collection View Delegate
-//extension ProductsViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
-//    
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int{
-//        return plansArray.count //recipeArray.count
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
-//        
-//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! recipeViewcell
-//        if let url = self.plansArray[indexPath.row].image_url{
-//            cell.recipeImages.sd_setImage (
-//                with: URL(string: url),
-//                placeholderImage:  #imageLiteral(resourceName: "101")
-//            )
-//        }
-//        cell.recipeName.text = self.plansArray[indexPath.row].plan_name
-//        cell.recipedetails.text = self.plansArray[indexPath.row].plan_description
-//        cell.recipePrice.text = self.plansArray[indexPath.row].amount
-//        cell.AddToCartBtn.addTarget (
-//            self,
-//            action: #selector(addToCartBtnAction(_:)),
-//            for: .touchUpInside
-//        )
-//        cell.AddToCartBtn.tag = indexPath.row
-//        
-//        if self.plansArray[indexPath.row].isAddToCart == true{
-//            cell.AddToCartBtn.setTitle("ADDED", for: .normal)
-//        }else{
-//            cell.AddToCartBtn.setTitle("ADD TO CART", for: .normal)
-//        }
-//        return cell
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
-//        selectedIndex = indexPath.row
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        
-//        let numberOfItemsPerRow:CGFloat = 2
-//        let spacingBetweenCellsIphone:CGFloat = 15
-//        let spacingBetweenCellsIpad:CGFloat = 30
-//        
-//        if UIDevice.current.userInterfaceIdiom == .phone{
-//            let totalSpacing = (2 * self.spacingIphone) + ((numberOfItemsPerRow - 1) * spacingBetweenCellsIphone) //Amount of total spacing in a row
-//            
-//            if let collection = self.ChefRecipeCV{
-//                let width = (collection.bounds.width - totalSpacing)/numberOfItemsPerRow
-//                return CGSize(width: width , height: width + spacingBetweenCellsIphone * 2)
-//            }else{
-//                return CGSize(width: 0, height: 0)
-//            }
-//        }
-//        else{
-//            let totalSpacing = (2 * self.spacingIpad) + ((numberOfItemsPerRow - 1) * spacingBetweenCellsIpad) //Amount of total spacing in a row
-//            
-//            if let collection = self.ChefRecipeCV{
-//                let width = (collection.bounds.width - totalSpacing)/numberOfItemsPerRow
-//                return CGSize(width: width , height: width + spacingBetweenCellsIpad * 2)
-//            }else{
-//                return CGSize(width: 0, height: 0)
-//            }
-//        }
-//    }
-//    
-//    @objc func addToCartBtnAction(_ sender:UIButton){
-//        if self.plansArray[sender.tag].isAddToCart == true{
-//            
-//            self.plansArray[sender.tag].isAddToCart = false
-//            //REMOVE FROM CART ARRAY
-//            let index = find(value: self.plansArray[sender.tag].plan_name, in: cartArray)
-//            guard let indexValue = index else {
-//                return
-//            }
-//            cartArray.remove(at: indexValue)
-//        }else{
-//            self.plansArray[sender.tag].isAddToCart = true
-//            // ADD INTO CART ARRAY
-//            cartArray.append(CartModel(id: self.plansArray[sender.tag].plan_id, image: self.plansArray[sender.tag].image_url, title: self.plansArray[sender.tag].plan_name, coins: self.plansArray[sender.tag].no_of_coins, quantity: "1", price: self.plansArray[sender.tag].amount))
-//        }
-//        self.ChefRecipeCV.reloadItems(at: [IndexPath(row: sender.tag, section: 0)])
-//    }
-//}

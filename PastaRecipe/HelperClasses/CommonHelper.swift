@@ -34,16 +34,17 @@ class CommonHelper
             print(error.localizedDescription)
         }
     }
-//    class func saveCachedUserServiceData(_ userData:[LoginModel]){
-//        let userDefaults = UserDefaults.standard
-//        do {
-//
-//            try userDefaults.setObject(userData, forKey: Constant.login_user_service)
-//
-//        } catch {
-//            print(error.localizedDescription)
-//        }
-//    }
+    class func saveCachedUserExploreItems(_ items:[ProductsModel]){
+        let userDefaults = UserDefaults.standard
+        do {
+
+            try userDefaults.setObject(items, forKey: Constant.user_Explore_Items_key)
+
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
     class func getCachedUserData() -> LoginModel? {
         let userDefaults = UserDefaults.standard
         do {
@@ -55,17 +56,17 @@ class CommonHelper
             return nil
         }
     }
-//    class func getCachedUserServiceData() -> [LoginModel]? {
-//        let userDefaults = UserDefaults.standard
-//        do {
-//            let user = try userDefaults.getObject(forKey: Constant.login_user_service, castTo: [LoginModel].self)
-//            print(user[0].user_id ?? "0")
-//            return user
-//        } catch {
-//            print(error.localizedDescription)
-//            return nil
-//        }
-//    }
+    class func getCachedUserExploreItems() -> [ProductsModel]? {
+        let userDefaults = UserDefaults.standard
+        do {
+            let user = try userDefaults.getObject(forKey: Constant.user_Explore_Items_key, castTo: [ProductsModel].self)
+            print(user[0].recipe_data.recipe_id ?? "0")
+            return user
+        } catch {
+            print(error.localizedDescription)
+            return nil
+        }
+    }
     class func removeCachedUserData() {
         let userDefaults = UserDefaults.standard
         userDefaults.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)

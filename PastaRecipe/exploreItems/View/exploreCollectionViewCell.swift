@@ -8,11 +8,10 @@
 
 import UIKit
 
-class exploreCollectionViewCell: UICollectionViewCell {
+class recentlyAddedCell: UICollectionViewCell {
     
-    @IBOutlet weak var coinsLbl: UILabel!
-    @IBOutlet weak var subtitleLbl: UILabel!
-    @IBOutlet weak var titleLbl: UILabel!
-    @IBOutlet weak var dishImage: UIImageView!
-    @IBOutlet weak var iconBtn: UIButton!
+    @IBOutlet weak var itemImage: UIImageView!
+    @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!
+    
 }
