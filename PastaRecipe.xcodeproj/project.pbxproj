@@ -25,7 +25,6 @@
 		761682672631E98C00A08B1C /* ConfirmOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761682662631E98C00A08B1C /* ConfirmOrderViewController.swift */; };
 		7616826B2631EACE00A08B1C /* OrderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7616826A2631EACE00A08B1C /* OrderModel.swift */; };
 		76168290263202DD00A08B1C /* SubscriptionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7616828F263202DD00A08B1C /* SubscriptionModel.swift */; };
-		761682F826321AB200A08B1C /* SubscripeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761682F726321AB200A08B1C /* SubscripeModel.swift */; };
 		7616CF0426C2A1BB004A8BEC /* CardAndAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7616CF0326C2A1BB004A8BEC /* CardAndAddressViewController.swift */; };
 		7616CF0926C2A213004A8BEC /* MyCardsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7616CF0826C2A213004A8BEC /* MyCardsTableViewCell.swift */; };
 		7616CF0C26C2A29C004A8BEC /* MyAddressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7616CF0B26C2A29C004A8BEC /* MyAddressTableViewCell.swift */; };
@@ -34,8 +33,6 @@
 		76198AC12630B6FD00A832DA /* InvoiceStripClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76198ABE2630B6FC00A832DA /* InvoiceStripClient.swift */; };
 		76198AFE2630B82F00A832DA /* WebServicesHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76198AFD2630B82F00A832DA /* WebServicesHelper.swift */; };
 		76198B6E2630CA5900A832DA /* CookWithChefVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76198B6D2630CA5900A832DA /* CookWithChefVC.swift */; };
-		76198BFA2630CA9C00A832DA /* SubscriptionTBViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76198BC02630CA9A00A832DA /* SubscriptionTBViewController.swift */; };
-		76198BFB2630CA9D00A832DA /* SubsPlanTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76198BC22630CA9A00A832DA /* SubsPlanTableViewCell.swift */; };
 		76198BFD2630CA9D00A832DA /* exploreCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76198BC72630CA9B00A832DA /* exploreCollectionViewCell.swift */; };
 		76198BFE2630CA9D00A832DA /* homeExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76198BC92630CA9B00A832DA /* homeExploreViewController.swift */; };
 		76198BFF2630CA9D00A832DA /* SubscriptionPlanNameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76198BCB2630CA9C00A832DA /* SubscriptionPlanNameVC.swift */; };
@@ -74,7 +71,6 @@
 		7634531C26BBD84A00BB8A69 /* ShippingAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7634531B26BBD84A00BB8A69 /* ShippingAddressViewController.swift */; };
 		7634531F26BBD97400BB8A69 /* CreditCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7634531E26BBD97400BB8A69 /* CreditCardViewController.swift */; };
 		76394BEA26CFFCAE002C4759 /* ProductsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76394BE926CFFCAE002C4759 /* ProductsTableViewCell.swift */; };
-		764A43D526C51A7300BD8159 /* SubscriptionTypeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764A43D426C51A7300BD8159 /* SubscriptionTypeVC.swift */; };
 		764F869C26A1BC90001940A5 /* EmailVerificationPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764F869B26A1BC90001940A5 /* EmailVerificationPopupViewController.swift */; };
 		7655287526C87BFE0035C515 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7655287426C87BFE0035C515 /* Enums.swift */; };
 		76742EE626DF891D00709B77 /* ViewRecipeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76742EE526DF891D00709B77 /* ViewRecipeDetailViewController.swift */; };
@@ -84,7 +80,6 @@
 		768417C426C3F15600A6B4B6 /* AddNewAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768417C326C3F15600A6B4B6 /* AddNewAddressViewController.swift */; };
 		768A022126BC175C00C9A90A /* AddMyCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768A022026BC175C00C9A90A /* AddMyCardViewController.swift */; };
 		768A026526BC1F4200C9A90A /* AddMyNewCardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768A026426BC1F4200C9A90A /* AddMyNewCardTableViewCell.swift */; };
-		76A9E30626DCDC22001CA07C /* ExploreItemsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A9E30526DCDC22001CA07C /* ExploreItemsViewController.swift */; };
 		76A9E30A26DCFB53001CA07C /* SelectedProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A9E30926DCFB53001CA07C /* SelectedProductTableViewCell.swift */; };
 		76A9E30D26DCFBE1001CA07C /* ReviewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A9E30C26DCFBE1001CA07C /* ReviewsTableViewCell.swift */; };
 		76A9E33426DD2B5D001CA07C /* AddReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A9E33326DD2B5D001CA07C /* AddReviewViewController.swift */; };
@@ -94,9 +89,15 @@
 		76B0C0B0266A6BE300782A08 /* AddToCartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B0C0AF266A6BE300782A08 /* AddToCartViewController.swift */; };
 		76B0C0B5266A6CD700782A08 /* CartItemsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B0C0B4266A6CD700782A08 /* CartItemsTableViewCell.swift */; };
 		76B0C0BA266A6DA800782A08 /* CartModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B0C0B9266A6DA800782A08 /* CartModel.swift */; };
-		76B0C0C0266A73E200782A08 /* ProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B0C0BF266A73E200782A08 /* ProductsViewController.swift */; };
 		76B486A4261DD8E700856494 /* SubscriptionPlanModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B486A3261DD8E700856494 /* SubscriptionPlanModel.swift */; };
 		76B486AB261DE2DA00856494 /* SubscriptionPlanNameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B486AA261DE2DA00856494 /* SubscriptionPlanNameModel.swift */; };
+		76D2D93F26E65BF900C56F25 /* ProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D2D93D26E65BF800C56F25 /* ProductsViewController.swift */; };
+		76D2D94326E65F2100C56F25 /* ProductMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D2D94226E65F2100C56F25 /* ProductMode.swift */; };
+		76D2D94726E6698400C56F25 /* ReviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D2D94626E6698400C56F25 /* ReviewCollectionViewCell.swift */; };
+		76D2D95226E66A9200C56F25 /* SubscripeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D2D94C26E66A9200C56F25 /* SubscripeModel.swift */; };
+		76D2D95326E66A9200C56F25 /* SubscriptionTBViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D2D94D26E66A9200C56F25 /* SubscriptionTBViewController.swift */; };
+		76D2D95426E66A9200C56F25 /* SubsPlanTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D2D94F26E66A9200C56F25 /* SubsPlanTableViewCell.swift */; };
+		76D2D95526E66A9200C56F25 /* SubscriptionTypeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D2D95126E66A9200C56F25 /* SubscriptionTypeVC.swift */; };
 		76DE09732645D0CC0097B5CB /* CustomerSupportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DE09722645D0CC0097B5CB /* CustomerSupportViewController.swift */; };
 		76F27C202684C4D7001BE737 /* LocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F27C1E2684C4D7001BE737 /* LocationModel.swift */; };
 		76F27C242684C510001BE737 /* MapsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F27C232684C510001BE737 /* MapsViewController.swift */; };
@@ -134,7 +135,6 @@
 		761682662631E98C00A08B1C /* ConfirmOrderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmOrderViewController.swift; sourceTree = "<group>"; };
 		7616826A2631EACE00A08B1C /* OrderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderModel.swift; sourceTree = "<group>"; };
 		7616828F263202DD00A08B1C /* SubscriptionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionModel.swift; sourceTree = "<group>"; };
-		761682F726321AB200A08B1C /* SubscripeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscripeModel.swift; sourceTree = "<group>"; };
 		7616CF0326C2A1BB004A8BEC /* CardAndAddressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardAndAddressViewController.swift; sourceTree = "<group>"; };
 		7616CF0826C2A213004A8BEC /* MyCardsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCardsTableViewCell.swift; sourceTree = "<group>"; };
 		7616CF0B26C2A29C004A8BEC /* MyAddressTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAddressTableViewCell.swift; sourceTree = "<group>"; };
@@ -143,8 +143,6 @@
 		76198ABE2630B6FC00A832DA /* InvoiceStripClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvoiceStripClient.swift; sourceTree = "<group>"; };
 		76198AFD2630B82F00A832DA /* WebServicesHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebServicesHelper.swift; sourceTree = "<group>"; };
 		76198B6D2630CA5900A832DA /* CookWithChefVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CookWithChefVC.swift; sourceTree = "<group>"; };
-		76198BC02630CA9A00A832DA /* SubscriptionTBViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscriptionTBViewController.swift; sourceTree = "<group>"; };
-		76198BC22630CA9A00A832DA /* SubsPlanTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubsPlanTableViewCell.swift; sourceTree = "<group>"; };
 		76198BC72630CA9B00A832DA /* exploreCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = exploreCollectionViewCell.swift; sourceTree = "<group>"; };
 		76198BC92630CA9B00A832DA /* homeExploreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = homeExploreViewController.swift; sourceTree = "<group>"; };
 		76198BCB2630CA9C00A832DA /* SubscriptionPlanNameVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscriptionPlanNameVC.swift; sourceTree = "<group>"; };
@@ -183,7 +181,6 @@
 		7634531B26BBD84A00BB8A69 /* ShippingAddressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShippingAddressViewController.swift; sourceTree = "<group>"; };
 		7634531E26BBD97400BB8A69 /* CreditCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditCardViewController.swift; sourceTree = "<group>"; };
 		76394BE926CFFCAE002C4759 /* ProductsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsTableViewCell.swift; sourceTree = "<group>"; };
-		764A43D426C51A7300BD8159 /* SubscriptionTypeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionTypeVC.swift; sourceTree = "<group>"; };
 		764F869B26A1BC90001940A5 /* EmailVerificationPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailVerificationPopupViewController.swift; sourceTree = "<group>"; };
 		7655287426C87BFE0035C515 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		76742EE526DF891D00709B77 /* ViewRecipeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRecipeDetailViewController.swift; sourceTree = "<group>"; };
@@ -193,7 +190,6 @@
 		768417C326C3F15600A6B4B6 /* AddNewAddressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewAddressViewController.swift; sourceTree = "<group>"; };
 		768A022026BC175C00C9A90A /* AddMyCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMyCardViewController.swift; sourceTree = "<group>"; };
 		768A026426BC1F4200C9A90A /* AddMyNewCardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMyNewCardTableViewCell.swift; sourceTree = "<group>"; };
-		76A9E30526DCDC22001CA07C /* ExploreItemsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreItemsViewController.swift; sourceTree = "<group>"; };
 		76A9E30926DCFB53001CA07C /* SelectedProductTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedProductTableViewCell.swift; sourceTree = "<group>"; };
 		76A9E30C26DCFBE1001CA07C /* ReviewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsTableViewCell.swift; sourceTree = "<group>"; };
 		76A9E33326DD2B5D001CA07C /* AddReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddReviewViewController.swift; sourceTree = "<group>"; };
@@ -203,9 +199,15 @@
 		76B0C0AF266A6BE300782A08 /* AddToCartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToCartViewController.swift; sourceTree = "<group>"; };
 		76B0C0B4266A6CD700782A08 /* CartItemsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartItemsTableViewCell.swift; sourceTree = "<group>"; };
 		76B0C0B9266A6DA800782A08 /* CartModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartModel.swift; sourceTree = "<group>"; };
-		76B0C0BF266A73E200782A08 /* ProductsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsViewController.swift; sourceTree = "<group>"; };
 		76B486A3261DD8E700856494 /* SubscriptionPlanModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionPlanModel.swift; sourceTree = "<group>"; };
 		76B486AA261DE2DA00856494 /* SubscriptionPlanNameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionPlanNameModel.swift; sourceTree = "<group>"; };
+		76D2D93D26E65BF800C56F25 /* ProductsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductsViewController.swift; sourceTree = "<group>"; };
+		76D2D94226E65F2100C56F25 /* ProductMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductMode.swift; sourceTree = "<group>"; };
+		76D2D94626E6698400C56F25 /* ReviewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCollectionViewCell.swift; sourceTree = "<group>"; };
+		76D2D94C26E66A9200C56F25 /* SubscripeModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscripeModel.swift; sourceTree = "<group>"; };
+		76D2D94D26E66A9200C56F25 /* SubscriptionTBViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscriptionTBViewController.swift; sourceTree = "<group>"; };
+		76D2D94F26E66A9200C56F25 /* SubsPlanTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubsPlanTableViewCell.swift; sourceTree = "<group>"; };
+		76D2D95126E66A9200C56F25 /* SubscriptionTypeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscriptionTypeVC.swift; sourceTree = "<group>"; };
 		76DE09722645D0CC0097B5CB /* CustomerSupportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerSupportViewController.swift; sourceTree = "<group>"; };
 		76F27C1E2684C4D7001BE737 /* LocationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationModel.swift; sourceTree = "<group>"; };
 		76F27C232684C510001BE737 /* MapsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapsViewController.swift; sourceTree = "<group>"; };
@@ -278,15 +280,15 @@
 		6BB8FEA2251F53F400A7C8C1 /* PastaRecipe */ = {
 			isa = PBXGroup;
 			children = (
+				76D2D94926E66A9200C56F25 /* SubscrptionPlan */,
 				76A9E33126DD2B39001CA07C /* Add Review */,
-				76A9E30326DCDBFC001CA07C /* Explore Items */,
+				76D2D93B26E65BF800C56F25 /* Products */,
 				76567D3C26CAC58900D0753A /* Recipe Detail */,
 				7655287326C87BE90035C515 /* Enums */,
 				768417BF26C3F0D700A6B4B6 /* Add New Address */,
 				768417B726C3DA5600A6B4B6 /* Add New Card */,
 				7616CF0226C2A170004A8BEC /* Cards And Addresses */,
 				764F869726A1BB30001940A5 /* Email Varification Popup */,
-				76B0C0BC266A73B400782A08 /* Products */,
 				76B0C0AC266A6BB100782A08 /* Add To Cart */,
 				76758B7C266A4E7600E7268F /* Subscription Popup */,
 				76F27C1C2684C4D7001BE737 /* Location Map */,
@@ -301,7 +303,6 @@
 				761681A02631E25C00A08B1C /* RecipesTableView */,
 				76198BC52630CA9B00A832DA /* exploreItems */,
 				76198BCA2630CA9C00A832DA /* Subscription Plan Name */,
-				76198BBD2630CA9A00A832DA /* SubscrptionPlan */,
 				76198B6C2630CA5900A832DA /* Cook With Chef */,
 				762AB4FF2630A967002723D4 /* PaymentsViewController */,
 				77B6D9C825A70E15002F5A73 /* Navigation VC */,
@@ -483,52 +484,10 @@
 			path = "Cook With Chef";
 			sourceTree = "<group>";
 		};
-		76198BBD2630CA9A00A832DA /* SubscrptionPlan */ = {
-			isa = PBXGroup;
-			children = (
-				76198BBE2630CA9A00A832DA /* SubscriptionPlanTableView */,
-				76198BC32630CA9A00A832DA /* Controllers */,
-			);
-			path = SubscrptionPlan;
-			sourceTree = "<group>";
-		};
-		76198BBE2630CA9A00A832DA /* SubscriptionPlanTableView */ = {
-			isa = PBXGroup;
-			children = (
-				76198BBF2630CA9A00A832DA /* Controller */,
-				76198BC12630CA9A00A832DA /* View */,
-			);
-			path = SubscriptionPlanTableView;
-			sourceTree = "<group>";
-		};
-		76198BBF2630CA9A00A832DA /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				76198BC02630CA9A00A832DA /* SubscriptionTBViewController.swift */,
-				761682F726321AB200A08B1C /* SubscripeModel.swift */,
-			);
-			path = Controller;
-			sourceTree = "<group>";
-		};
-		76198BC12630CA9A00A832DA /* View */ = {
-			isa = PBXGroup;
-			children = (
-				76198BC22630CA9A00A832DA /* SubsPlanTableViewCell.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		76198BC32630CA9A00A832DA /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				764A43D426C51A7300BD8159 /* SubscriptionTypeVC.swift */,
-			);
-			path = Controllers;
-			sourceTree = "<group>";
-		};
 		76198BC52630CA9B00A832DA /* exploreItems */ = {
 			isa = PBXGroup;
 			children = (
+				76D2D94126E65F0E00C56F25 /* Model */,
 				76198BC62630CA9B00A832DA /* View */,
 				76198BC82630CA9B00A832DA /* Controllers */,
 			);
@@ -777,27 +736,12 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		76A9E30326DCDBFC001CA07C /* Explore Items */ = {
-			isa = PBXGroup;
-			children = (
-				76A9E30426DCDC05001CA07C /* Controller */,
-			);
-			path = "Explore Items";
-			sourceTree = "<group>";
-		};
-		76A9E30426DCDC05001CA07C /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				76A9E30526DCDC22001CA07C /* ExploreItemsViewController.swift */,
-			);
-			path = Controller;
-			sourceTree = "<group>";
-		};
 		76A9E30826DCFB2F001CA07C /* View */ = {
 			isa = PBXGroup;
 			children = (
 				76A9E30926DCFB53001CA07C /* SelectedProductTableViewCell.swift */,
 				76A9E30C26DCFBE1001CA07C /* ReviewsTableViewCell.swift */,
+				76D2D94626E6698400C56F25 /* ReviewCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -861,28 +805,79 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		76B0C0BC266A73B400782A08 /* Products */ = {
+		76D2D93B26E65BF800C56F25 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				76B0C0BE266A73C600782A08 /* View */,
-				76B0C0BD266A73BF00782A08 /* Controller */,
+				76D2D93C26E65BF800C56F25 /* Controller */,
+				76D2D93E26E65BF800C56F25 /* View */,
 			);
 			path = Products;
 			sourceTree = "<group>";
 		};
-		76B0C0BD266A73BF00782A08 /* Controller */ = {
+		76D2D93C26E65BF800C56F25 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				76B0C0BF266A73E200782A08 /* ProductsViewController.swift */,
+				76D2D93D26E65BF800C56F25 /* ProductsViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
 		};
-		76B0C0BE266A73C600782A08 /* View */ = {
+		76D2D93E26E65BF800C56F25 /* View */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		76D2D94126E65F0E00C56F25 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				76D2D94226E65F2100C56F25 /* ProductMode.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		76D2D94926E66A9200C56F25 /* SubscrptionPlan */ = {
+			isa = PBXGroup;
+			children = (
+				76D2D94A26E66A9200C56F25 /* SubscriptionPlanTableView */,
+				76D2D95026E66A9200C56F25 /* Controllers */,
+			);
+			path = SubscrptionPlan;
+			sourceTree = "<group>";
+		};
+		76D2D94A26E66A9200C56F25 /* SubscriptionPlanTableView */ = {
+			isa = PBXGroup;
+			children = (
+				76D2D94B26E66A9200C56F25 /* Controller */,
+				76D2D94E26E66A9200C56F25 /* View */,
+			);
+			path = SubscriptionPlanTableView;
+			sourceTree = "<group>";
+		};
+		76D2D94B26E66A9200C56F25 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				76D2D94C26E66A9200C56F25 /* SubscripeModel.swift */,
+				76D2D94D26E66A9200C56F25 /* SubscriptionTBViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		76D2D94E26E66A9200C56F25 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				76D2D94F26E66A9200C56F25 /* SubsPlanTableViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		76D2D95026E66A9200C56F25 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				76D2D95126E66A9200C56F25 /* SubscriptionTypeVC.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 		76DE09702645D0A10097B5CB /* CustomerSupport */ = {
@@ -1112,8 +1107,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				76B486A4261DD8E700856494 /* SubscriptionPlanModel.swift in Sources */,
-				76198BFB2630CA9D00A832DA /* SubsPlanTableViewCell.swift in Sources */,
+				76D2D95426E66A9200C56F25 /* SubsPlanTableViewCell.swift in Sources */,
+				76D2D94726E6698400C56F25 /* ReviewCollectionViewCell.swift in Sources */,
 				76394BEA26CFFCAE002C4759 /* ProductsTableViewCell.swift in Sources */,
+				76D2D95526E66A9200C56F25 /* SubscriptionTypeVC.swift in Sources */,
 				762AB53D2630A9F5002723D4 /* UIButton+Additions.swift in Sources */,
 				77727CCF2588CD1C0001EB05 /* MapMarkerModel.swift in Sources */,
 				762AB53C2630A9F5002723D4 /* NotificationExtension.swift in Sources */,
@@ -1128,12 +1125,14 @@
 				768417BD26C3DAFA00A6B4B6 /* AddNewCardViewController.swift in Sources */,
 				76198ABF2630B6FD00A832DA /* AddCardViewController.swift in Sources */,
 				762AB5422630A9F5002723D4 /* UISearchBar+Additions.swift in Sources */,
+				76D2D93F26E65BF900C56F25 /* ProductsViewController.swift in Sources */,
 				762AB4BA26308F6D002723D4 /* MyTabbarVC.swift in Sources */,
 				762AB5372630A9F5002723D4 /* NetworkConnection.swift in Sources */,
 				6BB8FEA6251F53F400A7C8C1 /* LoginVC.swift in Sources */,
 				773A0841258B3ED200A53EE3 /* ShopDetailVC.swift in Sources */,
 				76A9E33E26DE47D0001CA07C /* HeaderTableViewCell.swift in Sources */,
 				760BD4A42645BCB500DE4AF6 /* Globals.swift in Sources */,
+				76D2D95226E66A9200C56F25 /* SubscripeModel.swift in Sources */,
 				77A2E8EC2632515600CF59B4 /* rewardListModel.swift in Sources */,
 				761681A62631E25C00A08B1C /* RecipesTBViewController.swift in Sources */,
 				762AB53A2630A9F5002723D4 /* UIView+Additions.swift in Sources */,
@@ -1158,7 +1157,6 @@
 				762AB5412630A9F5002723D4 /* UIPopUp+Additions.swift in Sources */,
 				760BD4A32645BCB500DE4AF6 /* Constant.swift in Sources */,
 				762AB5382630A9F5002723D4 /* BadgedBarButtonItem.swift in Sources */,
-				76B0C0C0266A73E200782A08 /* ProductsViewController.swift in Sources */,
 				762AB53B2630A9F5002723D4 /* UIViewController+Additions.swift in Sources */,
 				76F27C202684C4D7001BE737 /* LocationModel.swift in Sources */,
 				76A9E33426DD2B5D001CA07C /* AddReviewViewController.swift in Sources */,
@@ -1172,7 +1170,6 @@
 				7616CF0926C2A213004A8BEC /* MyCardsTableViewCell.swift in Sources */,
 				768417C426C3F15600A6B4B6 /* AddNewAddressViewController.swift in Sources */,
 				762AB52F2630A9F4002723D4 /* LanguageHelper.swift in Sources */,
-				76A9E30626DCDC22001CA07C /* ExploreItemsViewController.swift in Sources */,
 				76198AC02630B6FD00A832DA /* CustomStyle.swift in Sources */,
 				768417B526C3CC7000A6B4B6 /* MyCardModel.swift in Sources */,
 				76F27C242684C510001BE737 /* MapsViewController.swift in Sources */,
@@ -1187,16 +1184,15 @@
 				7634531C26BBD84A00BB8A69 /* ShippingAddressViewController.swift in Sources */,
 				768A026526BC1F4200C9A90A /* AddMyNewCardTableViewCell.swift in Sources */,
 				762AB5482630A9F5002723D4 /* DatabaseRepresentation.swift in Sources */,
+				76D2D94326E65F2100C56F25 /* ProductMode.swift in Sources */,
 				76198B6E2630CA5900A832DA /* CookWithChefVC.swift in Sources */,
 				7655287526C87BFE0035C515 /* Enums.swift in Sources */,
 				760BD4A52645BCB500DE4AF6 /* Global Variables.swift in Sources */,
 				76B0C0B0266A6BE300782A08 /* AddToCartViewController.swift in Sources */,
 				77DB6DEE258A4EF3003A9A9D /* ForgetPasswordVC.swift in Sources */,
 				762AB5452630A9F5002723D4 /* UITextView+Additions.swift in Sources */,
-				764A43D526C51A7300BD8159 /* SubscriptionTypeVC.swift in Sources */,
 				762AB5442630A9F5002723D4 /* AppStoryBoard.swift in Sources */,
 				6BB8FEA4251F53F400A7C8C1 /* AppDelegate.swift in Sources */,
-				761682F826321AB200A08B1C /* SubscripeModel.swift in Sources */,
 				76758B7F266A4EA600E7268F /* SubscriptionPopupViewController.swift in Sources */,
 				762AB53E2630A9F5002723D4 /* CameraViewController.swift in Sources */,
 				762AB53F2630A9F5002723D4 /* Extensions.swift in Sources */,
@@ -1204,8 +1200,8 @@
 				762AB5302630A9F4002723D4 /* PopupHelper.swift in Sources */,
 				76198AFE2630B82F00A832DA /* WebServicesHelper.swift in Sources */,
 				7609A38526C2B68500882AB8 /* MyAddressModel.swift in Sources */,
-				76198BFA2630CA9C00A832DA /* SubscriptionTBViewController.swift in Sources */,
 				76A9E34126DE4A07001CA07C /* RecentlyViewTableViewCell.swift in Sources */,
+				76D2D95326E66A9200C56F25 /* SubscriptionTBViewController.swift in Sources */,
 				764F869C26A1BC90001940A5 /* EmailVerificationPopupViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -30,7 +30,7 @@ class SignupVC: UIViewController {
     @IBAction func SignUpBtn(_ sender: Any) {
         //Fields Validation
         if NameTF.text != "" && NameTF.text != " " && EmailTF.text != "" && EmailTF.text != " " && PasswordTF.text != "" && PasswordTF.text != " " {
-            if EmailTF.isValidEmail(EmailTF.text!){
+            if EmailTF.isValidEmail(EmailTF.text!) {
                 getEmailCode()
             } else {
                 PopupHelper.showAlertControllerWithError(forErrorMessage: "please enter valid email", forViewController: self)
@@ -97,7 +97,7 @@ extension SignupVC:WebServiceResponseDelegate {
                             hud.indicatorView = JGProgressHUDErrorIndicatorView()
                             hud.dismiss(afterDelay: 4, animated: true)
                         }
-                    }else{
+                    } else {
                         if let code = data["code"] as? String{
                             print(code)
                             let userDataObj = UserDetailModel(user_id: "1", user_name: self.NameTF.text!, user_email: self.EmailTF.text!, user_password: self.PasswordTF.text!, token_id: "", status: "", image_url: "", coins: "", plan_id: "", expired_date: "", user_type: "", verified_status: "", phone_number: "")

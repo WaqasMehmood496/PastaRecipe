@@ -10,11 +10,12 @@ import UIKit
 import iOSDropDown
 
 class ShippingAddressViewController: UIViewController, PassDataDelegate {
-
+    
     //IBOUTLET
     
     @IBOutlet weak var ZipCodeTF: DropDown!
     @IBOutlet weak var AddressTF: UITextField!
+    @IBOutlet weak var BillingAddressTF: UITextField!
     @IBOutlet weak var CountryTF: UITextField!
     @IBOutlet weak var StateTF: UITextField!
     @IBOutlet weak var CityTF: UITextField!
@@ -29,20 +30,20 @@ class ShippingAddressViewController: UIViewController, PassDataDelegate {
     var userData = LoginModel()
     var selectedZipCode = ""
     var userLocation = LocationModel()
+    var isMainAddress = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         initializeDropDown()
-        // Do any additional setup after loading the view.
     }
     
     //IBACTION'S
     @IBAction func NextBtnAction(_ sender: Any) {
         if validateFields() {
-            
             let addressDetailObj = AddressModel(adresss_id: "1", zipcode: selectedZipCode, address_main: self.AddressTF.text!, country: self.CountryTF.text!, state: self.StateTF.text!, city: self.CityTF.text!, lat: String(describing: userLocation.address_lat), lng: String(describing: userLocation.address_lng), bydefault: "", user_id: "")
             self.userData.more_detail.address = addressDetailObj
+            self.userData.user_detail.billing_address = self.BillingAddressTF.text!
             moveToCardVC()
         } else {
             PopupHelper.showAlertControllerWithError(forErrorMessage: "All fields are required", forViewController: self )
@@ -50,25 +51,24 @@ class ShippingAddressViewController: UIViewController, PassDataDelegate {
         
     }
     
-    
     @IBAction func openMapBtnAction(_ sender: Any) {
-        let storyboard = UIStoryboard (
-            name: Constant.mainStoryboard,
-            bundle: Bundle.main
-        )
-        let mapController = storyboard.instantiateViewController (
-            identifier: MapsVCIdentifier
-        ) as! MapsViewController
-        mapController.delagate = self
-        self.present(mapController, animated: true, completion: nil)
+        self.isMainAddress = true
+        openMap()
+    }
+    @IBAction func OpenMapForBillingAdressBtnAction(_ sender: Any) {
+        self.isMainAddress = false
+        openMap()
     }
     
     // DELEGATES
     func passCurrentLocation(data: LocationModel) {
         userLocation = data
-        self.AddressTF.text = data.address
+        if isMainAddress {
+            self.AddressTF.text = data.address
+        } else {
+            self.BillingAddressTF.text = data.address
+        }
     }
-    
 }
 
 //MARK: - HELPING METHODS EXTENSION
@@ -79,6 +79,8 @@ extension ShippingAddressViewController {
         ZipCodeTF.setRightPaddingPoints(8)
         AddressTF.setLeftPaddingPoints(8)
         AddressTF.setRightPaddingPoints(8)
+        BillingAddressTF.setLeftPaddingPoints(8)
+        BillingAddressTF.setRightPaddingPoints(8)
         CountryTF.setLeftPaddingPoints(8)
         CountryTF.setRightPaddingPoints(8)
         StateTF.setLeftPaddingPoints(8)
@@ -91,13 +93,13 @@ extension ShippingAddressViewController {
         ZipCodeTF.optionArray = self.zipCodesArray
         ZipCodeTF.selectedIndex = 0
         ZipCodeTF.text = self.zipCodesArray[0]
-        ZipCodeTF.didSelect{(selectedText , index , id) in
+        ZipCodeTF.didSelect { (selectedText , index , id) in
             self.selectedZipCode = String(index + 1)
         }
     }
     
     func validateFields() -> Bool {
-        if self.ZipCodeTF.text != "" && self.ZipCodeTF.text != " " && self.AddressTF.text != "" && self.AddressTF.text != " " && self.CountryTF.text != "" && self.CountryTF.text != " " && self.StateTF.text != "" && self.StateTF.text != " " && self.CityTF.text != "" && self.CityTF.text != " " {
+        if self.ZipCodeTF.text != "" && self.ZipCodeTF.text != " " && self.AddressTF.text != "" && self.AddressTF.text != " " && self.BillingAddressTF.text != "" && self.BillingAddressTF.text != " " && self.CountryTF.text != "" && self.CountryTF.text != " " && self.StateTF.text != "" && self.StateTF.text != " " && self.CityTF.text != "" && self.CityTF.text != " " {
             return true
         } else {
             return false
@@ -108,5 +110,17 @@ extension ShippingAddressViewController {
         let addCardVC = storyboard?.instantiateViewController(identifier: "AddMyCardViewController") as! AddMyCardViewController
         addCardVC.userData = self.userData
         self.navigationController?.pushViewController(addCardVC, animated: true)
+    }
+    
+    func openMap() {
+        let storyboard = UIStoryboard (
+            name: Constant.mainStoryboard,
+            bundle: Bundle.main
+        )
+        let mapController = storyboard.instantiateViewController (
+            identifier: MapsVCIdentifier
+        ) as! MapsViewController
+        mapController.delagate = self
+        self.present(mapController, animated: true, completion: nil)
     }
 }

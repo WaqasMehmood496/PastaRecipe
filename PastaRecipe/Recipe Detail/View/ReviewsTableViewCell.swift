@@ -10,9 +10,11 @@ import UIKit
 
 class ReviewsTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var UserImage: UIImageView!
-    @IBOutlet weak var NameLabel: UILabel!
-    @IBOutlet weak var ReviewLabel: UILabel!
+//    @IBOutlet weak var UserImage: UIImageView!
+//    @IBOutlet weak var NameLabel: UILabel!
+//    @IBOutlet weak var ReviewLabel: UILabel!
+    
+    @IBOutlet weak var ReviewsCollection: UICollectionView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

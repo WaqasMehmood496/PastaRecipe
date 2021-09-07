@@ -266,8 +266,14 @@ extension CardAndAddressViewController:UITableViewDelegate,UITableViewDataSource
             cell.ZipCodeLabel.text = myAddressArray[indexPath.row].zipcode
             if myAddressArray[indexPath.row].bydefault == "1"{
                 cell.DefaultAddressLabel.text = "Yes"
+                if let billingAdress = CommonHelper.getCachedUserData()?.user_detail.billing_address {
+                    cell.BillingAddress.text = billingAdress
+                } else {
+                    cell.BillingAddress.text = " "
+                }
             }else{
                 cell.DefaultAddressLabel.text = "No"
+                cell.BillingAddress.text = " "
             }
             cell.EditBtn.addTarget(self, action: #selector(editAddressBtnAction(_:)), for: .touchUpInside)
             cell.SetDefaultAddressBtn.addTarget(self, action: #selector(setDefaultAddressBtnAction(_:)), for: .touchUpInside)

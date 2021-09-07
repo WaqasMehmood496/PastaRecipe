@@ -18,7 +18,11 @@ class ViewRecipeDetailViewController: UIViewController {
     //VARIABLE'S
     var selectedProduct = ProductsModel()
     var dataDic:[String:Any]!
-    var userReview = String()
+    var review = String()
+    var name = String()
+    var email = String()
+    var reviewtitle = String()
+    var rating = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,10 +45,6 @@ class ViewRecipeDetailViewController: UIViewController {
 }
 
 
-
-
-
-
 //MARK:- HELPING METHOD'S
 extension ViewRecipeDetailViewController {
     func find(value searchValue: String, in array: [CartModel]) -> Int? {
@@ -59,34 +59,44 @@ extension ViewRecipeDetailViewController {
 }
 
 
-
 //MARK:- DELEGATE METHOD'S
 extension ViewRecipeDetailViewController {
-    func myReview(review:String) {
-        self.AddCommentApi(comment: review)
-        self.userReview = review
+    func myReview(review:String,title:String,name:String,email:String,rating:String) {
+        self.AddCommentApi(review: review, title: title, name: name, email: email, rating: rating)
+        self.review = review
+        self.reviewtitle = title
+        self.name = name
+        self.email = email
+        self.rating = rating
     }
 }
 
 
 //MARK:- WEBSERVICE METHOD'S
 extension ViewRecipeDetailViewController {
-    func AddCommentApi(comment:String) {
+    func AddCommentApi(review:String,title:String,name:String,email:String,rating:String) {
         showHUDView(hudIV: .indeterminate, text: .process) { (hud) in
             //hud.show(in: self.view, animated: true)
             if Connectivity.isConnectedToNetwork(){
                 self.dataDic = [String:Any]()
-                guard let userId = CommonHelper.getCachedUserData()?.user_detail.user_id else {
-                    return
+                if let userId = CommonHelper.getCachedUserData()?.user_detail.user_id {
+                    self.dataDic["user_id"] = userId
+                } else {
+                    self.dataDic["user_id"] = " "
                 }
-                guard let recipeId = self.selectedProduct.recipe_data.recipe_id else {
-                    return
+                if let recipeId = self.selectedProduct.recipe_data.recipe_id {
+                    self.dataDic["recipe_id"] = recipeId
+                } else {
+                    self.dataDic["recipe_id"] = " "
                 }
-                self.dataDic["user_id"] = userId
-                self.dataDic["recipe_id"] = recipeId
-                self.dataDic["comments"] = comment
+                
+                self.dataDic["rrate"] = rating
+                self.dataDic["rtitle"] = title
+                self.dataDic["remail"] = email
+                self.dataDic["rname"] = name
+                self.dataDic["comments"] = review
                 self.callWebService(.postreview, hud: hud)
-            }else{
+            } else {
                 hud.textLabel.text = self.internetConnectionMsg
                 hud.indicatorView = JGProgressHUDErrorIndicatorView()
                 hud.dismiss(afterDelay: 2, animated: true)
@@ -108,7 +118,7 @@ extension ViewRecipeDetailViewController: UITableViewDelegate, UITableViewDataSo
         if section == 0 {
             return 1
         } else {
-            return self.selectedProduct.reviews.count
+            return 1
         }
         
     }
@@ -151,11 +161,10 @@ extension ViewRecipeDetailViewController: UITableViewDelegate, UITableViewDataSo
                 withIdentifier: "Reviews",
                 for: indexPath
             ) as! ReviewsTableViewCell
-            cell.NameLabel.text = self.selectedProduct.reviews[indexPath.row].user_name
-            if let url = self.selectedProduct.reviews[indexPath.row].image_url{
-                cell.UserImage.sd_setImage(with: URL(string: url), placeholderImage:  #imageLiteral(resourceName: "User"))
-            }
-            cell.ReviewLabel.text = self.selectedProduct.reviews[indexPath.row].comments
+            cell.ReviewsCollection.delegate = self
+            cell.ReviewsCollection.dataSource = self
+            cell.ReviewsCollection.tag = indexPath.row
+            cell.ReviewsCollection.reloadData()
             return cell
         }
     }
@@ -188,8 +197,32 @@ extension ViewRecipeDetailViewController: UITableViewDelegate, UITableViewDataSo
 
 
 
+//MARK:- UICOLLECTION VIEW DELEGATE ANS DATASOURCE
+extension ViewRecipeDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.selectedProduct.reviews.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ReviewCollectionCell", for: indexPath) as! ReviewCollectionViewCell
+        cell.ReviewUser.text = self.selectedProduct.reviews[indexPath.row].user_name
+        cell.ReviewDetail.text = self.selectedProduct.reviews[indexPath.row].comments
+        cell.ReviewTitle.text = self.selectedProduct.reviews[indexPath.row].rtitle
+        cell.ReviewRating.isUserInteractionEnabled = false
+        if let rate = Double(self.selectedProduct.reviews[indexPath.row].rrate) {
+            cell.ReviewRating.rating = rate
+        } else {
+            cell.ReviewRating.rating = 0.0
+        }
+        return cell
+    }
+}
+
+
+
 //MARK:- WEBSERVICE'S METHOD'S
-extension ViewRecipeDetailViewController:WebServiceResponseDelegate {
+extension ViewRecipeDetailViewController: WebServiceResponseDelegate {
     
     func callWebService(_ url:webserviceUrl,hud: JGProgressHUD){
         let helper = WebServicesHelper(serviceToCall: url, withMethod: .post, havingParameters: self.dataDic, relatedViewController: self,hud: hud)
@@ -201,7 +234,7 @@ extension ViewRecipeDetailViewController:WebServiceResponseDelegate {
         switch url {
         case .postreview:
             if let userName = CommonHelper.getCachedUserData()?.user_detail.user_name {
-                self.selectedProduct.reviews.append(ReviewsModel(comments: self.userReview, inserted_date: " ", user_name: userName, image_url: " "))
+                self.selectedProduct.reviews.append(ReviewsModel(recipe_coments_id: " ", user_id: " ", recipe_id: " ", comments: self.review, inserted_date: " ", rname: self.name, remail: self.email, rtitle: self.reviewtitle, rrate: self.rating, user_name: userName, image_url: " "))
             }
             
             self.ProductTableView.reloadData()

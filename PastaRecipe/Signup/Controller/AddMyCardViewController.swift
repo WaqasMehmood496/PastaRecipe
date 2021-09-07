@@ -46,6 +46,7 @@ extension AddMyCardViewController{
                 self.dataDic[Constant.user_type] = "user"
                 self.dataDic[Constant.zipcode] = self.userData.more_detail.address.zipcode
                 self.dataDic[Constant.address_main] = self.userData.more_detail.address.address_main
+                self.dataDic[Constant.billing_address] = self.userData.user_detail.billing_address                
                 self.dataDic[Constant.country] = self.userData.more_detail.address.country
                 self.dataDic[Constant.state] = self.userData.more_detail.address.state
                 self.dataDic[Constant.city] = self.userData.more_detail.address.city

@@ -59,7 +59,6 @@ class homeExploreViewController: UIViewController {
 
 
 
-
 //MARK:- HELPING METHOD'S
 extension homeExploreViewController {
     
@@ -178,7 +177,6 @@ extension homeExploreViewController: UITableViewDelegate, UITableViewDataSource 
         }
         
         recipeDetail.selectedProduct = self.productsArray[indexPath.row]
-        
         self.navigationController?.pushViewController(recipeDetail, animated: true)
         self.ProductsTableView.reloadData()
         
@@ -204,6 +202,7 @@ extension homeExploreViewController: UITableViewDelegate, UITableViewDataSource 
 
 
 extension homeExploreViewController:UICollectionViewDelegate, UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.recentlyAddedArray.count
     }
@@ -218,6 +217,17 @@ extension homeExploreViewController:UICollectionViewDelegate, UICollectionViewDa
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let recipeDetail = storyboard?.instantiateViewController(withIdentifier: "ViewRecipeDetailViewController") as! ViewRecipeDetailViewController
+        recipeDetail.selectedProduct = self.recentlyAddedArray[indexPath.row]
+        for (_,value) in cartArray.enumerated() {
+            if value.id == recentlyAddedArray[indexPath.row].recipe_data.recipe_id {
+                recipeDetail.selectedProduct.isAddToCart = true
+                break
+            }
+        }
+        self.navigationController?.pushViewController(recipeDetail, animated: true)
+    }
 }
 
 

@@ -48,8 +48,9 @@ class UserDetailModel: Codable {
     var user_type:String!
     var verified_status:String!
     var phone_number:String!
+    var billing_address:String!
     
-    init(user_id: String? = nil,user_name:String? = nil,user_email:String? = nil,user_password:String? = nil,token_id:String? = nil,status:String? = nil,image_url: String? = nil,coins:String? = nil,plan_id:String? = nil,expired_date:String? = nil,user_type:String? = nil,verified_status:String? = nil,phone_number:String? = nil) {
+    init(user_id: String? = nil,user_name:String? = nil,user_email:String? = nil,user_password:String? = nil,token_id:String? = nil,status:String? = nil,image_url: String? = nil,coins:String? = nil,plan_id:String? = nil,expired_date:String? = nil,user_type:String? = nil,verified_status:String? = nil,phone_number:String? = nil,billing_address:String? = nil) {
         
         self.user_id = user_id
         self.user_name = user_name
@@ -63,6 +64,7 @@ class UserDetailModel: Codable {
         self.user_type = user_type
         self.verified_status = verified_status
         self.phone_number = phone_number
+        self.billing_address = billing_address
         
     }
     init?(dic:NSDictionary) {
@@ -80,7 +82,7 @@ class UserDetailModel: Codable {
         let user_type = (dic as AnyObject).value(forKey: Constant.user_type) as? String
         let verified_status = (dic as AnyObject).value(forKey: Constant.verified_status) as? String
         let phone_number = (dic as AnyObject).value(forKey: Constant.phone_number) as? String
-        
+        let billing_address = (dic as AnyObject).value(forKey: Constant.billing_address) as! String
         
         self.user_id = user_id
         self.user_name = user_name
@@ -94,6 +96,7 @@ class UserDetailModel: Codable {
         self.user_type = user_type
         self.verified_status = verified_status
         self.phone_number = phone_number
+        self.billing_address = billing_address
         
     }
 }

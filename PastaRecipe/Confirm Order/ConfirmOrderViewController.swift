@@ -20,6 +20,7 @@ class ConfirmOrderViewController: UIViewController, PassDataDelegate {
     @IBOutlet weak var StateTF: UITextField!
     @IBOutlet weak var CityTF: UITextField!
     @IBOutlet weak var addressTf: UITextField!
+    @IBOutlet weak var billingAddressTf: UITextField!
     @IBOutlet weak var detailstf: UITextField!
     @IBOutlet weak var DefaultCardBtn: UIButton!
     
@@ -38,6 +39,7 @@ class ConfirmOrderViewController: UIViewController, PassDataDelegate {
     var isSubscription = false
     var isUserDefaultCard = true
     var location = LocationModel()
+    var isShippingAddress = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,15 +99,12 @@ class ConfirmOrderViewController: UIViewController, PassDataDelegate {
     }
     
     @IBAction func openMapBtnAction(_ sender: Any) {
-        let storyboard = UIStoryboard (
-            name: Constant.mainStoryboard,
-            bundle: Bundle.main
-        )
-        let mapController = storyboard.instantiateViewController (
-            identifier: MapsVCIdentifier
-        ) as! MapsViewController
-        mapController.delagate = self
-        self.present(mapController, animated: true, completion: nil)
+        isShippingAddress = true
+        moveToMap()
+    }
+    @IBAction func OpenMapForBillingAddressBtnAction(_ sender: Any) {
+        isShippingAddress = false
+        moveToMap()
     }
 }
 
@@ -120,6 +119,7 @@ extension ConfirmOrderViewController {
             StateTF.text = user.more_detail.address.state
             CityTF.text = user.more_detail.address.city
             addressTf.text = user.more_detail.address.address_main
+            billingAddressTf.text = user.user_detail.billing_address
         }
         setupPaddingOnFields()
         self.zipCodeSetupOnDropDown()
@@ -138,6 +138,8 @@ extension ConfirmOrderViewController {
         addressTf.setRightPaddingPoints(4)
         ZipCodeTF.setLeftPaddingPoints(4)
         ZipCodeTF.setRightPaddingPoints(4)
+        detailstf.setLeftPaddingPoints(4)
+        detailstf.setRightPaddingPoints(4)
     }
     
     func zipCodeSetupOnDropDown() {
@@ -171,12 +173,14 @@ extension ConfirmOrderViewController {
                 self.dataDic[Constant.zipcode] = "13313"
             }
         }
+        
         self.dataDic[Constant.country] = user.more_detail.address.country
         self.dataDic[Constant.state] = user.more_detail.address.state
         self.dataDic[Constant.city] = user.more_detail.address.city
         self.dataDic[Constant.order_lat] = user.more_detail.address.lat
         self.dataDic[Constant.order_lng] = user.more_detail.address.lng
         self.dataDic[Constant.order_address] = user.more_detail.address.address_main
+        self.dataDic[Constant.billing_address] = user.user_detail.billing_address
         if isSubscription {
             self.dataDic[Constant.type] = "onetime"
         } else {
@@ -202,10 +206,15 @@ extension ConfirmOrderViewController {
         } else {
             self.dataDic[Constant.city] = ""
         }
-        if let address = self.addressTf.text {
-            self.dataDic[Constant.order_address] = address
+        if let shippingAddress = self.addressTf.text {
+            self.dataDic[Constant.order_address] = shippingAddress
         } else {
-            self.dataDic[Constant.order_address] = ""
+            self.dataDic[Constant.order_address] = " "
+        }
+        if let billingAddress = self.billingAddressTf.text {
+            self.dataDic[Constant.billing_address] = billingAddress
+        } else {
+            self.dataDic[Constant.billing_address] = ""
         }
         self.dataDic[Constant.order_lat] = ""
         self.dataDic[Constant.order_lng] = ""
@@ -269,6 +278,18 @@ extension ConfirmOrderViewController {
         self.navigationController?.pushViewController(payment, animated: true)
     }
     
+    func moveToMap() {
+        let storyboard = UIStoryboard (
+            name: Constant.mainStoryboard,
+            bundle: Bundle.main
+        )
+        let mapController = storyboard.instantiateViewController (
+            identifier: MapsVCIdentifier
+        ) as! MapsViewController
+        mapController.delagate = self
+        self.present(mapController, animated: true, completion: nil)
+    }
+    
 }
 
 
@@ -282,7 +303,11 @@ extension ConfirmOrderViewController {
     
     // Get Current location using mapview
     func passCurrentLocation(data: LocationModel) {
-        self.addressTf.text = data.address
+        if isShippingAddress {
+            self.addressTf.text = data.address
+        } else {
+            self.billingAddressTf.text = data.address
+        }
         self.location = data
     }
 }
@@ -354,11 +379,13 @@ extension ConfirmOrderViewController:WebServiceResponseDelegate {
                         var coins = UInt(user.user_detail.coins)!
                         coins = coins + 2
                         user.user_detail.coins = String(coins)
+                        cartArray.removeAll()
                         CommonHelper.saveCachedUserData(user)
                     } else {
                         var coins = UInt(user.user_detail.coins)!
                         coins = coins + 1
                         user.user_detail.coins = String(coins)
+                        cartArray.removeAll()
                         CommonHelper.saveCachedUserData(user)
                     }
                 }
@@ -514,7 +541,6 @@ extension ConfirmOrderViewController {
             }
         }
     }
-    
 }
 
 extension ConfirmOrderViewController: STPAuthenticationContext {

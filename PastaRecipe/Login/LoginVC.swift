@@ -43,7 +43,7 @@ class LoginVC: UIViewController {
         self.performSegue(withIdentifier: "forgetPasswordSegue", sender: nil)
     }
     @IBAction func SignupBtnAction(_ sender: Any) {
-        moveToVerifyEmailVC()
+        moveToSignUp()
     }
     
 }
@@ -53,9 +53,6 @@ class LoginVC: UIViewController {
 extension LoginVC{
     
     func uiSetup() {
-//        let buttonTitleStr = NSMutableAttributedString(string:"SIGN UP", attributes:attrs)
-//        attributedString.append(buttonTitleStr)
-//        SIgnupbtn.setAttributedTitle(attributedString, for: .normal)
         signupbtn.layer.cornerRadius = signupbtn.frame.height/2
         EmailTF.layer.cornerRadius = 8
         EmailTF.clipsToBounds = true
@@ -65,14 +62,9 @@ extension LoginVC{
         passwordTF.clipsToBounds = true
         passwordTF.setLeftPaddingPoints(8)
         passwordTF.setRightPaddingPoints(8)
-        
-//        EmailTF.attributedPlaceholder = NSAttributedString(string: "Email",
-//                                                           attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
-//        passwordTF.attributedPlaceholder = NSAttributedString(string: "Password",
-//                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
     }
     
-    func moveToVerifyEmailVC() {
+    func moveToSignUp() {
         let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
         let controller = storyboard.instantiateViewController(withIdentifier: "SignupVC") as! SignupVC
         self.navigationController?.pushViewController(controller, animated: true)
@@ -88,42 +80,21 @@ extension LoginVC{
                         PopupHelper.showAlertControllerWithError(forErrorMessage: err, forViewController: self)
                     }
                     else{
-                            if let data = dataDict as? Dictionary<String, Any>{
-                                if let loginUser = LoginModel(dic: data as NSDictionary){
-                                    CommonHelper.saveCachedUserData(loginUser)
-                                    defaults.set(true, forKey: Constant.userLoginStatusKey)
-                                    hud.dismiss()
-                                    PopupHelper.alertWithOk(title: "Success", message: "You login successfully", controler: self)
-                                    if let controller = self.parent?.parent as? AZTabBarController{
-                                        let profileVC = UIStoryboard(name: Constant.mainStoryboard, bundle: nil).instantiateViewController(withIdentifier: "profileVC")
-                                        controller.setViewController(profileVC, atIndex: 1)
-                                        
-                                    }
-                                }
-                            }else{
+                        if let data = dataDict as? Dictionary<String, Any>{
+                            if let loginUser = LoginModel(dic: data as NSDictionary){
+                                CommonHelper.saveCachedUserData(loginUser)
+                                defaults.set(true, forKey: Constant.userLoginStatusKey)
                                 hud.dismiss()
-                                PopupHelper.showAlertControllerWithError(forErrorMessage: "something went wrong", forViewController: self)
+                                PopupHelper.alertWithOk(title: "Success", message: "You login successfully", controler: self)
+                                if let controller = self.parent?.parent as? AZTabBarController{
+                                    let profileVC = UIStoryboard(name: Constant.mainStoryboard, bundle: nil).instantiateViewController(withIdentifier: "profileVC")
+                                    controller.setViewController(profileVC, atIndex: 1)
+                                }
                             }
-                            
-//                            if let data = dic["user_detail"] as? NSDictionary{
-//                                print(data)
-//                                let user = LoginModel(dic: data as NSDictionary)
-//
-//                                CommonHelper.saveCachedUserData(user!)
-//                                UserDefaults.standard.set(true, forKey: "userLoginStatus")
-//                                hud.dismiss()
-//
-//                                //Move to next Screen
-//                                CommonHelper.sharedInstance.ShowAlert(view: self, message: "Login Successfully", Title: "Login")
-//                            }
-//                            else{
-//                                hud.dismiss()
-//                                PopupHelper.showAlertControllerWithError(forErrorMessage: "something went wrong", forViewController: self)
-//                            }
-//                        else{
-//                            hud.dismiss()
-//                            PopupHelper.showAlertControllerWithError(forErrorMessage: "something went wrong", forViewController: self)
-//                        }
+                        }else{
+                            hud.dismiss()
+                            PopupHelper.showAlertControllerWithError(forErrorMessage: "something went wrong", forViewController: self)
+                        }
                     }
                 }
                 else{
@@ -135,7 +106,7 @@ extension LoginVC{
     }
     func ChangeRootVC(storyboardId:String) {
         let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let tabbarVC = mainStoryboard.instantiateViewController(withIdentifier: storyboardId) as! UIViewController
+        let tabbarVC = mainStoryboard.instantiateViewController(withIdentifier: storyboardId)
         UIApplication.shared.windows.first?.rootViewController = tabbarVC
         UIApplication.shared.windows.first?.makeKeyAndVisible()
     }
