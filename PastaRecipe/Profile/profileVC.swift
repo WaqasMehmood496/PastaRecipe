@@ -41,6 +41,7 @@ class profileVC: UIViewController {
     }
     @IBAction func LogoutBtnAction(_ sender: Any) {
         defaults.set(false, forKey: Constant.userLoginStatusKey)
+        CommonHelper.removeCachedUserData()
         if let controller = self.parent?.parent as? AZTabBarController{
             let profileVC = UIStoryboard(name: Constant.mainStoryboard, bundle: nil).instantiateViewController(withIdentifier: "LoginViewController")
             controller.setViewController(profileVC, atIndex: 1)

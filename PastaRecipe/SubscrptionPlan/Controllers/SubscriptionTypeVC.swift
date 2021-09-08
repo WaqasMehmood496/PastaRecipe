@@ -9,7 +9,7 @@
 import UIKit
 import iOSDropDown
 
-class SubscriptionTypeVC: UIViewController {
+class SubscriptionTypeVC: UIViewController, UITextFieldDelegate {
     
     //IBOUTLET'S
     @IBOutlet weak var OptionField: DropDown!
@@ -46,9 +46,12 @@ class SubscriptionTypeVC: UIViewController {
             "Every 3 Month",
             "Every 6 Month"
         ]
+        
         OptionField.selectedIndex = 0
+        OptionField.text = OptionField.optionArray.first
         OptionField.didSelect { (selectedText, index, id) in
             self.selectedMonth = String(index + 1)
         }
     }
+    
 }

@@ -23,6 +23,7 @@ class ConfirmOrderViewController: UIViewController, PassDataDelegate {
     @IBOutlet weak var billingAddressTf: UITextField!
     @IBOutlet weak var detailstf: UITextField!
     @IBOutlet weak var DefaultCardBtn: UIButton!
+    @IBOutlet weak var DefaultImage: UIImageView!
     
     //CONSTANT'S
     let MapsVCIdentifier = "MapsViewController"
@@ -40,6 +41,7 @@ class ConfirmOrderViewController: UIViewController, PassDataDelegate {
     var isUserDefaultCard = true
     var location = LocationModel()
     var isShippingAddress = true
+    var isSameAsShipping = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -106,46 +108,50 @@ class ConfirmOrderViewController: UIViewController, PassDataDelegate {
         isShippingAddress = false
         moveToMap()
     }
+    
+    @IBAction func DefaultBtnAction(_ sender: Any) {
+        if isSameAsShipping {
+            isSameAsShipping = false
+            self.DefaultImage.image = UIImage(named: "")
+            self.addressTf.text = ""
+        } else {
+            isSameAsShipping = true
+            self.DefaultImage.image = UIImage(named: "checking-mark")
+            self.addressTf.text = self.billingAddressTf.text!
+        }
+    }
 }
 
 //MARK:- HELPING METHOD'S
 extension ConfirmOrderViewController {
     
     func setUpUI() {
+        zipCodeSetupOnDropDown()
+        setupPaddingOnFields(fileds: [NameTF,EmailTF,StateTF,CityTF,addressTf,billingAddressTf,detailstf])
+        self.ZipCodeTF.setLeftPaddingPoints(4)
         if let user = CommonHelper.getCachedUserData(){
             NameTF.text = user.user_detail.user_name
             EmailTF.text = user.user_detail.user_email
-            ZipCodeTF.text = user.more_detail.address.zipcode
+            if let zipCode = user.more_detail.address.zipcode {
+                ZipCodeTF.text = zipCode
+            }
             StateTF.text = user.more_detail.address.state
             CityTF.text = user.more_detail.address.city
-            addressTf.text = user.more_detail.address.address_main
             billingAddressTf.text = user.user_detail.billing_address
         }
-        setupPaddingOnFields()
-        self.zipCodeSetupOnDropDown()
     }
     
-    func setupPaddingOnFields() {
-        NameTF.setLeftPaddingPoints(4)
-        NameTF.setRightPaddingPoints(4)
-        EmailTF.setLeftPaddingPoints(4)
-        EmailTF.setRightPaddingPoints(4)
-        StateTF.setLeftPaddingPoints(4)
-        StateTF.setRightPaddingPoints(4)
-        CityTF.setLeftPaddingPoints(4)
-        CityTF.setRightPaddingPoints(4)
-        addressTf.setLeftPaddingPoints(4)
-        addressTf.setRightPaddingPoints(4)
-        ZipCodeTF.setLeftPaddingPoints(4)
-        ZipCodeTF.setRightPaddingPoints(4)
-        detailstf.setLeftPaddingPoints(4)
-        detailstf.setRightPaddingPoints(4)
+    func setupPaddingOnFields(fileds:[UITextField]) {
+        for field in fileds {
+            field.setLeftPaddingPoints(4)
+            field.setRightPaddingPoints(4)
+        }
     }
     
     func zipCodeSetupOnDropDown() {
-        ZipCodeTF.optionArray = ["33133","33176","33157","33012","33156","33181","33140","33014","33166","33147","33158","33054","33132","33034","33172","33168","33056","33190","33178","33184","33154","33141","33018","33189","33174","33196","33016","33169","33175","33015","33134","33143","33187","33031","33129","33010","33130","33179","33033","33109","33167","33165","33162","33125","33039","33127","33149","33139","33186","33170","33136","33013","33182","33155","33055","33137","33150","33173","33138","33131","33193","33144","33142","33177","33146","33135","33035","33185","33194","33032","33128","33180","33160","33145","33030","33126","33183","33122","33076","33067","33073","33442","33441","33065","33071","33063","33066","33064","33069","33060","33062","33321","33068","33351","33319","33309","33334","33308","33323","33322","33313","33311","33306","33305","33304","33301","33327","33326","33325","33324","33317","33312","33315","33316","33332","33331","33330","33328","33314","33004","33029","33028","33027","33026","33025","33024","33023","33021","33020","33009","33019"
-        ]
-        ZipCodeTF.selectedIndex = 0
+        ZipCodeTF.optionArray = Constant.zipCodes
+        ZipCodeTF.selectedIndex = 1
+        ZipCodeTF.text = ZipCodeTF.optionArray.first
         ZipCodeTF.didSelect{(selectedText , index , id) in
             self.selectedZip = selectedText
         }
@@ -173,14 +179,24 @@ extension ConfirmOrderViewController {
                 self.dataDic[Constant.zipcode] = "13313"
             }
         }
-        
         self.dataDic[Constant.country] = user.more_detail.address.country
         self.dataDic[Constant.state] = user.more_detail.address.state
         self.dataDic[Constant.city] = user.more_detail.address.city
         self.dataDic[Constant.order_lat] = user.more_detail.address.lat
         self.dataDic[Constant.order_lng] = user.more_detail.address.lng
-        self.dataDic[Constant.order_address] = user.more_detail.address.address_main
-        self.dataDic[Constant.billing_address] = user.user_detail.billing_address
+        
+        if let shippingAddress = self.addressTf.text {
+            self.dataDic[Constant.order_address] = shippingAddress
+        } else {
+            self.dataDic[Constant.order_address] = " "
+        }
+        
+        if let billingAddress = self.billingAddressTf.text {
+            self.dataDic[Constant.billing_address] = billingAddress
+        } else {
+            self.dataDic[Constant.billing_address] = ""
+        }
+        
         if isSubscription {
             self.dataDic[Constant.type] = "onetime"
         } else {
@@ -289,7 +305,6 @@ extension ConfirmOrderViewController {
         mapController.delagate = self
         self.present(mapController, animated: true, completion: nil)
     }
-    
 }
 
 
@@ -305,6 +320,9 @@ extension ConfirmOrderViewController {
     func passCurrentLocation(data: LocationModel) {
         if isShippingAddress {
             self.addressTf.text = data.address
+            if isSameAsShipping {
+                self.billingAddressTf.text = data.address
+            }
         } else {
             self.billingAddressTf.text = data.address
         }
@@ -356,13 +374,12 @@ extension ConfirmOrderViewController {
             hud.dismiss(afterDelay: 2.5)
         }
     }
-    
 }
 
 //MARK:- WEBSERVICES METHOD'S
 extension ConfirmOrderViewController:WebServiceResponseDelegate {
     
-    func callWebService(_ url:webserviceUrl,hud: JGProgressHUD){
+    func callWebService(_ url:webserviceUrl,hud: JGProgressHUD) {
         let helper = WebServicesHelper(serviceToCall: url, withMethod: .post, havingParameters: self.dataDic, relatedViewController: self,hud: hud)
         
         helper.delegateForWebServiceResponse = self
@@ -372,7 +389,7 @@ extension ConfirmOrderViewController:WebServiceResponseDelegate {
     func webServiceDataParsingOnResponseReceived(url: webserviceUrl?, viewControllerObj: UIViewController?, dataDict: Any, hud: JGProgressHUD) {
         switch url {
         case .addpasteapurchyase:
-            if dataDict is NSDictionary{
+            if dataDict is NSDictionary {
                 
                 if let user = CommonHelper.getCachedUserData(){
                     if isSubscription {
