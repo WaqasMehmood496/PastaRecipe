@@ -10,15 +10,24 @@ import UIKit
 import Stripe
 import JGProgressHUD
 import FormTextField
+import iOSDropDown
 
 class AddMyNewCardTableViewCell: UITableViewCell {
-
+    
     @IBOutlet weak var DoneBtn: UIButton!
     @IBOutlet weak var CardNumberTextfield: FormTextField!
     @IBOutlet weak var ExpireDateTextfield: FormTextField!
     @IBOutlet weak var CVCTextfield: FormTextField!
     @IBOutlet weak var DefaultCardBtn: UIButton!
+    @IBOutlet weak var BillingAddressBtn: UIButton!
+    @IBOutlet weak var OpenMapBtn: UIButton!
     @IBOutlet weak var DefaultImage: UIImageView!
+    @IBOutlet weak var CheckMarkImage: UIImageView!
+    @IBOutlet weak var ZipCodeField: DropDown!
+    @IBOutlet weak var BillingAddressField: UITextField!
+    @IBOutlet weak var CountryField: UITextField!
+    @IBOutlet weak var StateField: UITextField!
+    @IBOutlet weak var CityField: UITextField!
     
     //VARIABLE'S
     let cvvImage = "credit-card-2"
@@ -41,14 +50,6 @@ class AddMyNewCardTableViewCell: UITableViewCell {
             else{
                 textField.textColor = .red
             }
-//            let arrow = UIImageView(image: UIImage(named: cvvImage))
-//            if let size = arrow.image?.size {
-//                arrow.frame = CGRect(x: 0.0, y: 0.0, width: size.width, height: size.height)
-//            }
-//            arrow.contentMode = .scaleAspectFit
-//            self.CardNumberTextfield.leftView = arrow
-//            self.CardNumberTextfield.leftViewMode = .always
-            
         case .mastercard:
             if STPCardValidator.validationState(forNumber: self.CardNumberTextfield.text!, validatingCardBrand: true) == .valid{
                 textField.textColor = .green
@@ -56,13 +57,6 @@ class AddMyNewCardTableViewCell: UITableViewCell {
             else{
                 textField.textColor = .red
             }
-//            let arrow = UIImageView(image: #imageLiteral(resourceName: "Warehouse"))
-//            if let size = arrow.image?.size {
-//                arrow.frame = CGRect(x: 0.0, y: 0.0, width: size.width, height: size.height)
-//            }
-//            arrow.contentMode = .scaleAspectFit
-//            self.CardNumberTextfield.leftView = arrow
-//            self.CardNumberTextfield.leftViewMode = .always
         case .amex:
             if STPCardValidator.validationState(forNumber: self.CardNumberTextfield.text!, validatingCardBrand: true) == .valid{
                 textField.textColor = .green
@@ -70,13 +64,6 @@ class AddMyNewCardTableViewCell: UITableViewCell {
             else{
                 textField.textColor = .red
             }
-//            let arrow = UIImageView(image: #imageLiteral(resourceName: "search"))
-//            if let size = arrow.image?.size {
-//                arrow.frame = CGRect(x: 0.0, y: 0.0, width: size.width, height: size.height)
-//            }
-//            arrow.contentMode = .scaleAspectFit
-//            self.CardNumberTextfield.leftView = arrow
-//            self.CardNumberTextfield.leftViewMode = .always
         case .dinersClub:
             if STPCardValidator.validationState(forNumber: self.CardNumberTextfield.text!, validatingCardBrand: true) == .valid{
                 textField.textColor = .green
@@ -84,13 +71,6 @@ class AddMyNewCardTableViewCell: UITableViewCell {
             else{
                 textField.textColor = .red
             }
-//            let arrow = UIImageView(image: #imageLiteral(resourceName: "play"))
-//            if let size = arrow.image?.size {
-//                arrow.frame = CGRect(x: 0.0, y: 0.0, width: size.width, height: size.height)
-//            }
-//            arrow.contentMode = .scaleAspectFit
-//            self.CardNumberTextfield.leftView = arrow
-//            self.CardNumberTextfield.leftViewMode = .always
         case .discover:
             if STPCardValidator.validationState(forNumber: self.CardNumberTextfield.text!, validatingCardBrand: true) == .valid{
                 textField.textColor = .green
@@ -98,13 +78,6 @@ class AddMyNewCardTableViewCell: UITableViewCell {
             else{
                 textField.textColor = .red
             }
-//            let arrow = UIImageView(image: #imageLiteral(resourceName: "play"))
-//            if let size = arrow.image?.size {
-//                arrow.frame = CGRect(x: 0.0, y: 0.0, width: size.width, height: size.height)
-//            }
-//            arrow.contentMode = .scaleAspectFit
-//            self.CardNumberTextfield.leftView = arrow
-//            self.CardNumberTextfield.leftViewMode = .always
         case .JCB:
             if STPCardValidator.validationState(forNumber: self.CardNumberTextfield.text!, validatingCardBrand: true) == .valid{
                 textField.textColor = .green
@@ -112,13 +85,6 @@ class AddMyNewCardTableViewCell: UITableViewCell {
             else{
                 textField.textColor = .red
             }
-//            let arrow = UIImageView(image: #imageLiteral(resourceName: "Award"))
-//            if let size = arrow.image?.size {
-//                arrow.frame = CGRect(x: 0.0, y: 0.0, width: size.width, height: size.height)
-//            }
-//            arrow.contentMode = .scaleAspectFit
-//            self.CardNumberTextfield.leftView = arrow
-//            self.CardNumberTextfield.leftViewMode = .always
         case .unionPay:
             if STPCardValidator.validationState(forNumber: self.CardNumberTextfield.text!, validatingCardBrand: true) == .valid{
                 textField.textColor = .green
@@ -126,13 +92,6 @@ class AddMyNewCardTableViewCell: UITableViewCell {
             else{
                 textField.textColor = .red
             }
-//            let arrow = UIImageView(image: #imageLiteral(resourceName: "play"))
-//            if let size = arrow.image?.size {
-//                arrow.frame = CGRect(x: 0.0, y: 0.0, width: size.width, height: size.height)
-//            }
-//            arrow.contentMode = .scaleAspectFit
-//            self.CardNumberTextfield.leftView = arrow
-//            self.CardNumberTextfield.leftViewMode = .always
         case .unknown:
             if STPCardValidator.validationState(forNumber: self.CardNumberTextfield.text!, validatingCardBrand: true) == .valid{
                 textField.textColor = .green
@@ -140,20 +99,13 @@ class AddMyNewCardTableViewCell: UITableViewCell {
             else{
                 textField.textColor = .red
             }
-//            let arrow = UIImageView(image: #imageLiteral(resourceName: "FillFavorite"))
-//            if let size = arrow.image?.size {
-//                arrow.frame = CGRect(x: 0.0, y: 0.0, width: size.width, height: size.height)
-//            }
-//            arrow.contentMode = .scaleAspectFit
-//            self.CardNumberTextfield.leftView = arrow
-//            self.CardNumberTextfield.leftViewMode = .always
         default:
             textField.textColor = .red
             break
         }
     }
     
-    @IBAction func expiryDateChnaged(_ textField:UITextField){
+    @IBAction func expiryDateChnaged(_ textField:UITextField) {
         if textField.text!.contains("/"){
             if let date = textField.text?.components(separatedBy: "/") as? [String]?{
                 if let month = date?[0],let year = date?[1]{
@@ -192,7 +144,7 @@ class AddMyNewCardTableViewCell: UITableViewCell {
         
     }
     
-    @IBAction func cvcNumberChnaged(_ textField:UITextField){
+    @IBAction func cvcNumberChnaged(_ textField:UITextField) {
         if STPCardValidator.validationState(forCVC: textField.text!, cardBrand: .visa) == .valid{
             textField.textColor = .green
         }
@@ -221,7 +173,7 @@ class AddMyNewCardTableViewCell: UITableViewCell {
             textField.textColor = .red
         }
     }
-    func tfcard(){
+    func tfcard() {
         self.CardNumberTextfield.inputType = .integer
         self.CardNumberTextfield.backgroundColor = UIColor(named: "Theam 2")!
         self.CardNumberTextfield.formatter = CardNumberFormatter()
@@ -236,7 +188,7 @@ class AddMyNewCardTableViewCell: UITableViewCell {
         self.CardNumberTextfield.inputValidator = inputValidator
     }
     
-    func tfdate(){
+    func tfdate() {
         self.ExpireDateTextfield.inputType = .integer
         self.ExpireDateTextfield.backgroundColor = UIColor(named: "Theam 2")!
         self.ExpireDateTextfield.formatter = CardExpirationDateFormatter()
@@ -247,7 +199,7 @@ class AddMyNewCardTableViewCell: UITableViewCell {
         self.ExpireDateTextfield.inputValidator = inputValidator
     }
     
-    func tfcvc(){
+    func tfcvc() {
         self.CVCTextfield.inputType = .integer
         self.CVCTextfield.backgroundColor = UIColor(named: "Theam 2")!
         self.CVCTextfield.placeholder = "CVC"
@@ -261,8 +213,6 @@ class AddMyNewCardTableViewCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
-
+    
 }

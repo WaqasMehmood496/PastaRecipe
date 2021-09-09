@@ -16,10 +16,16 @@ class MyAddressTableViewCell: UITableViewCell {
     @IBOutlet weak var StateLabel: UILabel!
     @IBOutlet weak var CityLabel: UILabel!
     @IBOutlet weak var AddressLabel: UILabel!
-    @IBOutlet weak var BillingAddress: UILabel!
     @IBOutlet weak var DefaultAddressLabel: UILabel!
     @IBOutlet weak var SetDefaultAddressBtn: UIButton!
     @IBOutlet weak var EditBtn: UIButton!
+    
+    @IBOutlet weak var BillingZipCodeLabel: UILabel!
+    @IBOutlet weak var BillingCountryLabel: UILabel!
+    @IBOutlet weak var BillingStateLabel: UILabel!
+    @IBOutlet weak var BillingCityLabel: UILabel!
+    @IBOutlet weak var BillingBillingAddressLabel: UILabel!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()

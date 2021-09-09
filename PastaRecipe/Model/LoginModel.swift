@@ -13,7 +13,6 @@ class LoginModel: Codable {
     var user_detail:UserDetailModel!
     var more_detail:MoreDetailModel!
     
-    
     init(user_detail: UserDetailModel? = nil,more_detail:MoreDetailModel? = nil) {
         
         self.user_detail = user_detail
@@ -104,16 +103,21 @@ class UserDetailModel: Codable {
 class MoreDetailModel: Codable {
     
     var address:AddressModel!
+    var billingAddress:AddressModel!
     var card:CardModel!
     
-    init(address: AddressModel? = nil,card:CardModel? = nil) {
+    init(address: AddressModel? = nil,billingAddress: AddressModel? = nil,card:CardModel? = nil) {
         self.address = address
+        self.billingAddress = billingAddress
         self.card = card
     }
     init?(dic:NSDictionary) {
         
         if let address = (dic as AnyObject).value(forKey: Constant.address) as? NSDictionary{
             self.address = AddressModel(dic: address)
+        }
+        if let billingAddress = (dic as AnyObject).value(forKey: Constant.billingAddress) as? NSDictionary {
+            self.billingAddress = AddressModel(dic: billingAddress)
         }
         if let card = (dic as AnyObject).value(forKey: Constant.card) as? NSDictionary{
             self.card = CardModel(dic: card)

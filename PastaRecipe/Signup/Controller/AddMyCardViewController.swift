@@ -12,12 +12,10 @@ import JGProgressHUD
 import FormTextField
 import AZTabBar
 
-class AddMyCardViewController: UIViewController {
+class AddMyCardViewController: UIViewController, PassDataDelegate {
     
     //IBOUTLET
     @IBOutlet weak var AddCardTableView: UITableView!
-    
-    //CONSTANT
     
     //VARIABLE
     var cardNumber = String()
@@ -25,20 +23,40 @@ class AddMyCardViewController: UIViewController {
     var cvc = String()
     var userData = LoginModel()
     var dataDic:[String:Any]!
-    
+    var isBillingAddressAdded = false
+    var billingAddress = AddressModel()
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
     }
     
+    func passCurrentLocation(data: LocationModel) {
+        let indexPath = IndexPath(row: 0, section: 0)
+        let cell = AddCardTableView.cellForRow(at: indexPath) as! AddMyNewCardTableViewCell
+        cell.BillingAddressField.text = data.address
+    }
 }
 
 //MARK:- HELPING METHODS EXTENSION
-extension AddMyCardViewController{
-    func signUpApi(){
+extension AddMyCardViewController {
+    
+    
+    func openMap() {
+        let storyboard = UIStoryboard (
+            name: Constant.mainStoryboard,
+            bundle: Bundle.main
+        )
+        let mapController = storyboard.instantiateViewController (
+            identifier: "MapsViewController"
+        ) as! MapsViewController
+        mapController.delagate = self
+        self.present(mapController, animated: true, completion: nil)
+    }
+    
+    
+    func signUpApi() {
         showHUDView(hudIV: .indeterminate, text: .process) { (hud) in
             hud.show(in: self.view, animated: true)
-            if Connectivity.isConnectedToNetwork(){
+            if Connectivity.isConnectedToNetwork() {
                 self.dataDic = [String:Any]()
                 self.dataDic[Constant.user_name] = self.userData.user_detail.user_name
                 self.dataDic[Constant.user_email] = self.userData.user_detail.user_email
@@ -46,7 +64,11 @@ extension AddMyCardViewController{
                 self.dataDic[Constant.user_type] = "user"
                 self.dataDic[Constant.zipcode] = self.userData.more_detail.address.zipcode
                 self.dataDic[Constant.address_main] = self.userData.more_detail.address.address_main
-                self.dataDic[Constant.billing_address] = self.userData.user_detail.billing_address                
+                if self.isBillingAddressAdded {
+                    self.dataDic[Constant.billing_address] = self.userData.more_detail.address.address_main
+                } else {
+                    self.dataDic[Constant.billing_address] = self.billingAddress.address_main
+                }
                 self.dataDic[Constant.country] = self.userData.more_detail.address.country
                 self.dataDic[Constant.state] = self.userData.more_detail.address.state
                 self.dataDic[Constant.city] = self.userData.more_detail.address.city
@@ -65,12 +87,14 @@ extension AddMyCardViewController{
 
 //MARK:- UITABLEVIEW METHOD'S EXTENSION
 extension AddMyCardViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AddMyNewCardTableViewCell") as! AddMyNewCardTableViewCell
+        
         cell.CardNumberTextfield.delegate = self
         cell.CardNumberTextfield.tag = 0
         cell.ExpireDateTextfield.delegate = self
@@ -78,13 +102,76 @@ extension AddMyCardViewController: UITableViewDelegate, UITableViewDataSource {
         cell.CVCTextfield.delegate = self
         cell.CVCTextfield.tag = 2
         cell.DoneBtn.addTarget(self, action: #selector(DoneBtn(_:)), for: .touchUpInside)
+        cell.CheckMarkImage.image = UIImage(named: "")
+        cell.BillingAddressBtn.addTarget(self, action: #selector(billingAddressBtnAction(_:)), for: .touchUpInside)
+        cell.OpenMapBtn.addTarget(self, action: #selector(OpenMapBtn(_:)), for: .touchUpInside)
+        
+        cell.ZipCodeField.optionArray = Constant.zipCodes
+        cell.ZipCodeField.text = Constant.zipCodes.first
+        cell.ZipCodeField.selectedIndex = 0
+        cell.ZipCodeField.didSelect { (selectedText , index , id) in
+            cell.ZipCodeField.text = selectedText
+        }
+        
+        cell.ZipCodeField.setLeftPaddingPoints(4)
+        cell.BillingAddressField.setLeftPaddingPoints(4)
+        cell.CountryField.setLeftPaddingPoints(4)
+        cell.StateField.setLeftPaddingPoints(4)
+        cell.CityField.setLeftPaddingPoints(4)
+        
+        cell.BillingAddressField.delegate = self
+        cell.ZipCodeField.delegate = self
+        cell.CountryField.delegate = self
+        cell.StateField.delegate = self
+        cell.CityField.delegate = self
+        
+        cell.ZipCodeField.tag = 3
+        cell.BillingAddressField.tag = 4
+        cell.CountryField.tag = 5
+        cell.StateField.tag = 6
+        cell.CityField.tag = 7
+        
         return cell
     }
     
     @objc func DoneBtn(_ sender:UIButton) {
-        signUpApi()
+        if isBillingAddressAdded {
+            signUpApi()
+        } else {
+            PopupHelper.alertWithOk(title: "Shipping Address", message: "Please confirm shipping address", controler: self)
+        }
     }
+    
+    @objc func billingAddressBtnAction(_ sender:UIButton) {
+        let indexPath = IndexPath(row: sender.tag, section: 0)
+        let cell = AddCardTableView.cellForRow(at: indexPath) as! AddMyNewCardTableViewCell
+        if isBillingAddressAdded {
+            isBillingAddressAdded = false
+            cell.CheckMarkImage.image = UIImage(named: "")
+            cell.ZipCodeField.text = ""
+            cell.BillingAddressField.text = ""
+            cell.CountryField.text = ""
+            cell.CityField.text = ""
+            cell.StateField.text = ""
+        } else {
+            isBillingAddressAdded = true
+            cell.CheckMarkImage.image = UIImage(named: "check")
+            cell.ZipCodeField.text = userData.more_detail.address.zipcode
+            if let address = userData.more_detail.address.address_main {
+                cell.BillingAddressField.text = address
+            }
+            cell.CountryField.text = userData.more_detail.address.country
+            cell.CityField.text = userData.more_detail.address.city
+            cell.StateField.text = userData.more_detail.address.state
+        }
+    }
+    
+    @objc func OpenMapBtn(_ sender:UIButton) {
+        openMap()
+    }
+    
 }
+
 
 extension AddMyCardViewController: STPAuthenticationContext {
     func authenticationPresentingViewController() -> UIViewController {
@@ -92,19 +179,30 @@ extension AddMyCardViewController: STPAuthenticationContext {
     }
 }
 
-extension AddMyCardViewController: UITextFieldDelegate{
+extension AddMyCardViewController: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        if textField.tag == 0{
+        if textField.tag == 0 {
             self.cardNumber = textField.text!
-        }else if textField.tag == 1{
+        } else if textField.tag == 1 {
             self.date = textField.text!
-        } else {
+        } else if textField.tag == 2 {
             self.cvc = textField.text!
+        } else if textField.tag == 3 {
+            self.billingAddress.zipcode = textField.text!
+        } else if textField.tag == 4 {
+            self.billingAddress.address_main = textField.text!
+        } else if textField.tag == 5 {
+            self.billingAddress.country = textField.text!
+        } else if textField.tag == 6 {
+            self.billingAddress.state = textField.text!
+        } else {
+            self.billingAddress.city = textField.text!
         }
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
+        
         switch textField.tag {
         case 0:
             self.cardNumber = textField.text!
@@ -112,6 +210,17 @@ extension AddMyCardViewController: UITextFieldDelegate{
             self.date = textField.text!
         case 2:
             self.cvc = textField.text!
+        case 3:
+            self.billingAddress.zipcode = textField.text!
+        case 4:
+            self.billingAddress.address_main = textField.text!
+        case 5:
+            self.billingAddress.country = textField.text!
+        case 6:
+            self.billingAddress.state = textField.text!
+        case 7:
+            self.billingAddress.city = textField.text!
+            self.isBillingAddressAdded = true
         default:
             break
         }
@@ -120,7 +229,7 @@ extension AddMyCardViewController: UITextFieldDelegate{
 
 
 // MARK:-Api Methods Extension
-extension AddMyCardViewController:WebServiceResponseDelegate{
+extension AddMyCardViewController:WebServiceResponseDelegate {
     
     func callWebService(_ url:webserviceUrl,hud: JGProgressHUD){
         let service = WebServicesHelper(serviceToCall: url, withMethod: .post, havingParameters: dataDic, relatedViewController: self,hud: hud)
@@ -131,9 +240,13 @@ extension AddMyCardViewController:WebServiceResponseDelegate{
     func webServiceDataParsingOnResponseReceived(url: webserviceUrl?, viewControllerObj: UIViewController?, dataDict: Any, hud: JGProgressHUD) {
         switch url {
         case .signup:
-            
-            if let data = dataDict as? Dictionary<String, Any>{
-                if let loginUser = LoginModel(dic: data as NSDictionary){
+            if let data = dataDict as? Dictionary<String, Any> {
+                if let loginUser = LoginModel(dic: data as NSDictionary) {
+                    if isBillingAddressAdded {
+                        loginUser.more_detail.billingAddress = loginUser.more_detail.address
+                    } else {
+                        loginUser.more_detail.billingAddress = self.billingAddress
+                    }
                     CommonHelper.saveCachedUserData(loginUser)
                     self.navigationController?.tabBarController?.selectedIndex = 0
                     defaults.set(true, forKey: Constant.userLoginStatusKey)
