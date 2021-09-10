@@ -47,7 +47,6 @@ class UserDetailModel: Codable {
     var user_type:String!
     var verified_status:String!
     var phone_number:String!
-    var billing_address:String!
     
     init(user_id: String? = nil,user_name:String? = nil,user_email:String? = nil,user_password:String? = nil,token_id:String? = nil,status:String? = nil,image_url: String? = nil,coins:String? = nil,plan_id:String? = nil,expired_date:String? = nil,user_type:String? = nil,verified_status:String? = nil,phone_number:String? = nil,billing_address:String? = nil) {
         
@@ -63,7 +62,6 @@ class UserDetailModel: Codable {
         self.user_type = user_type
         self.verified_status = verified_status
         self.phone_number = phone_number
-        self.billing_address = billing_address
         
     }
     init?(dic:NSDictionary) {
@@ -81,7 +79,6 @@ class UserDetailModel: Codable {
         let user_type = (dic as AnyObject).value(forKey: Constant.user_type) as? String
         let verified_status = (dic as AnyObject).value(forKey: Constant.verified_status) as? String
         let phone_number = (dic as AnyObject).value(forKey: Constant.phone_number) as? String
-        let billing_address = (dic as AnyObject).value(forKey: Constant.billing_address) as! String
         
         self.user_id = user_id
         self.user_name = user_name
@@ -95,7 +92,6 @@ class UserDetailModel: Codable {
         self.user_type = user_type
         self.verified_status = verified_status
         self.phone_number = phone_number
-        self.billing_address = billing_address
         
     }
 }
@@ -103,21 +99,17 @@ class UserDetailModel: Codable {
 class MoreDetailModel: Codable {
     
     var address:AddressModel!
-    var billingAddress:AddressModel!
     var card:CardModel!
     
     init(address: AddressModel? = nil,billingAddress: AddressModel? = nil,card:CardModel? = nil) {
         self.address = address
-        self.billingAddress = billingAddress
         self.card = card
     }
+    
     init?(dic:NSDictionary) {
         
         if let address = (dic as AnyObject).value(forKey: Constant.address) as? NSDictionary{
             self.address = AddressModel(dic: address)
-        }
-        if let billingAddress = (dic as AnyObject).value(forKey: Constant.billingAddress) as? NSDictionary {
-            self.billingAddress = AddressModel(dic: billingAddress)
         }
         if let card = (dic as AnyObject).value(forKey: Constant.card) as? NSDictionary{
             self.card = CardModel(dic: card)
@@ -137,8 +129,16 @@ class AddressModel: Codable {
     var lng:String!
     var bydefault:String!
     var user_id:String!
+    var type:String!
+    var bzipcode:String!
+    var baddress_main:String!
+    var bcountry:String!
+    var bstate:String!
+    var bcity:String!
+    var blat:String!
+    var blng:String!
     
-    init(adresss_id: String? = nil,zipcode:String? = nil,address_main:String? = nil,country:String? = nil,state:String? = nil,city:String? = nil,lat: String? = nil,lng:String? = nil,bydefault:String? = nil,user_id:String? = nil) {
+    init(adresss_id: String? = nil,zipcode:String? = nil,address_main:String? = nil,country:String? = nil,state:String? = nil,city:String? = nil,lat: String? = nil,lng:String? = nil,bydefault:String? = nil,user_id:String? = nil,type:String? = nil,bzipcode:String? = nil,baddress_main:String? = nil,bcountry:String? = nil,bstate: String? = nil,bcity:String? = nil,blat:String? = nil,blng:String? = nil) {
         
         self.adresss_id = adresss_id
         self.zipcode = zipcode
@@ -150,8 +150,16 @@ class AddressModel: Codable {
         self.lng = lng
         self.bydefault = bydefault
         self.user_id = user_id
-        
+        self.type = type
+        self.bzipcode = bzipcode
+        self.baddress_main = baddress_main
+        self.bcountry = bcountry
+        self.bstate = bstate
+        self.bcity = bcity
+        self.blat = blat
+        self.blng = blng
     }
+    
     init?(dic:NSDictionary) {
         
         let adresss_id = (dic as AnyObject).value(forKey: Constant.adresss_id) as? String
@@ -164,6 +172,14 @@ class AddressModel: Codable {
         let lng = (dic as AnyObject).value(forKey: Constant.lng) as? String
         let bydefault = (dic as AnyObject).value(forKey: Constant.bydefault) as? String
         let user_id = (dic as AnyObject).value(forKey: Constant.user_id) as? String
+        let type = (dic as AnyObject).value(forKey: Constant.type) as! String
+        let bzipcode = (dic as AnyObject).value(forKey: Constant.bzipcode) as! String
+        let baddress_main = (dic as AnyObject).value(forKey: Constant.baddress_main) as! String
+        let bcountry = (dic as AnyObject).value(forKey: Constant.bcountry) as? String
+        let bstate = (dic as AnyObject).value(forKey: Constant.bstate) as? String
+        let bcity = (dic as AnyObject).value(forKey: Constant.bcity) as? String
+        let blat = (dic as AnyObject).value(forKey: Constant.blat) as? String
+        let blng = (dic as AnyObject).value(forKey: Constant.blng) as? String
         
         self.adresss_id = adresss_id
         self.zipcode = zipcode
@@ -175,6 +191,14 @@ class AddressModel: Codable {
         self.lng = lng
         self.bydefault = bydefault
         self.user_id = user_id
+        self.type = type
+        self.bzipcode = bzipcode
+        self.baddress_main = baddress_main
+        self.bcountry = bcountry
+        self.bstate = bstate
+        self.bcity = bcity
+        self.blat = blat
+        self.blng = blng
         
         
     }

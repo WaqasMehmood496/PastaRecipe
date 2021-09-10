@@ -129,7 +129,7 @@ extension ConfirmOrderViewController {
         zipCodeSetupOnDropDown()
         setupPaddingOnFields(fileds: [NameTF,EmailTF,StateTF,CityTF,addressTf,billingAddressTf,detailstf])
         self.ZipCodeTF.setLeftPaddingPoints(4)
-        if let user = CommonHelper.getCachedUserData(){
+        if let user = CommonHelper.getCachedUserData() {
             NameTF.text = user.user_detail.user_name
             EmailTF.text = user.user_detail.user_email
             if let zipCode = user.more_detail.address.zipcode {
@@ -137,7 +137,7 @@ extension ConfirmOrderViewController {
             }
             StateTF.text = user.more_detail.address.state
             CityTF.text = user.more_detail.address.city
-            billingAddressTf.text = user.user_detail.billing_address
+            //billingAddressTf.text = user.user_detail.billing_address
         }
     }
     

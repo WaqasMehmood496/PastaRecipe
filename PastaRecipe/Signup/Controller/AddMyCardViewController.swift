@@ -24,7 +24,8 @@ class AddMyCardViewController: UIViewController, PassDataDelegate {
     var userData = LoginModel()
     var dataDic:[String:Any]!
     var isBillingAddressAdded = false
-    var billingAddress = AddressModel()
+    var isDefaultAddress = false
+    //var billingAddress = AddressModel()
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -61,22 +62,38 @@ extension AddMyCardViewController {
                 self.dataDic[Constant.user_email] = self.userData.user_detail.user_email
                 self.dataDic[Constant.user_password] = self.userData.user_detail.user_password
                 self.dataDic[Constant.user_type] = "user"
+                // Shipping Address Parameters
                 self.dataDic[Constant.zipcode] = self.userData.more_detail.address.zipcode
                 self.dataDic[Constant.address_main] = self.userData.more_detail.address.address_main
-                if self.isBillingAddressAdded {
-                    self.dataDic[Constant.billing_address] = self.userData.more_detail.address.address_main
-                } else {
-                    self.dataDic[Constant.billing_address] = self.billingAddress.address_main
-                }
                 self.dataDic[Constant.country] = self.userData.more_detail.address.country
                 self.dataDic[Constant.state] = self.userData.more_detail.address.state
                 self.dataDic[Constant.city] = self.userData.more_detail.address.city
+                self.dataDic[Constant.lat] = self.userData.more_detail.address.lat
+                self.dataDic[Constant.lng] = self.userData.more_detail.address.lng
+                // Card Parameters
                 self.dataDic[Constant.phone_number] = ""
                 self.dataDic[Constant.card_number] = self.cardNumber
                 self.dataDic[Constant.expired_date_c] = self.date
                 self.dataDic[Constant.cvc] = self.cvc
-                self.dataDic[Constant.lat] = self.userData.more_detail.address.lat
-                self.dataDic[Constant.lng] = self.userData.more_detail.address.lng
+                // Billing Address Parameters
+                if self.isDefaultAddress {
+                    self.dataDic[Constant.bzipcode] = self.userData.more_detail.address.zipcode
+                    self.dataDic[Constant.baddress_main] = self.userData.more_detail.address.address_main
+                    self.dataDic[Constant.bcountry] = self.userData.more_detail.address.country
+                    self.dataDic[Constant.bstate] = self.userData.more_detail.address.state
+                    self.dataDic[Constant.bcity] = self.userData.more_detail.address.city
+                    self.dataDic[Constant.blat] = self.userData.more_detail.address.lat
+                    self.dataDic[Constant.blng] = self.userData.more_detail.address.lng
+                } else {
+                    self.dataDic[Constant.bzipcode] = self.userData.more_detail.address.bzipcode
+                    self.dataDic[Constant.baddress_main] = self.userData.more_detail.address.baddress_main
+                    self.dataDic[Constant.bcountry] = self.userData.more_detail.address.bcountry
+                    self.dataDic[Constant.bstate] = self.userData.more_detail.address.bstate
+                    self.dataDic[Constant.bcity] = self.userData.more_detail.address.bcity
+                    self.dataDic[Constant.blat] = self.userData.more_detail.address.blat
+                    self.dataDic[Constant.blng] = self.userData.more_detail.address.blng
+                }
+                
                 self.callWebService(.signup, hud: hud)
             }
         }
@@ -137,8 +154,9 @@ extension AddMyCardViewController: UITableViewDelegate, UITableViewDataSource {
     @objc func billingAddressBtnAction(_ sender:UIButton) {
         let indexPath = IndexPath(row: sender.tag, section: 0)
         let cell = AddCardTableView.cellForRow(at: indexPath) as! AddMyNewCardTableViewCell
-        if isBillingAddressAdded {
+        if isDefaultAddress {
             isBillingAddressAdded = false
+            isDefaultAddress = false
             cell.CheckMarkImage.image = UIImage(named: "")
             cell.ZipCodeField.text = ""
             cell.BillingAddressField.text = ""
@@ -146,6 +164,7 @@ extension AddMyCardViewController: UITableViewDelegate, UITableViewDataSource {
             cell.CityField.text = ""
             cell.StateField.text = ""
         } else {
+            isDefaultAddress = true
             isBillingAddressAdded = true
             cell.CheckMarkImage.image = UIImage(named: "check")
             cell.ZipCodeField.text = userData.more_detail.address.zipcode
@@ -181,15 +200,15 @@ extension AddMyCardViewController: UITextFieldDelegate {
         } else if textField.tag == 2 {
             self.cvc = textField.text!
         } else if textField.tag == 3 {
-            self.billingAddress.zipcode = textField.text!
+            self.userData.more_detail.address.bzipcode = textField.text!
         } else if textField.tag == 4 {
-            self.billingAddress.address_main = textField.text!
+            self.userData.more_detail.address.baddress_main = textField.text!
         } else if textField.tag == 5 {
-            self.billingAddress.country = textField.text!
+            self.userData.more_detail.address.bcountry = textField.text!
         } else if textField.tag == 6 {
-            self.billingAddress.state = textField.text!
+            self.userData.more_detail.address.bstate = textField.text!
         } else {
-            self.billingAddress.city = textField.text!
+            self.userData.more_detail.address.bcity = textField.text!
         }
     }
     
@@ -203,15 +222,15 @@ extension AddMyCardViewController: UITextFieldDelegate {
         case 2:
             self.cvc = textField.text!
         case 3:
-            self.billingAddress.zipcode = textField.text!
+            self.userData.more_detail.address.bzipcode = textField.text!
         case 4:
-            self.billingAddress.address_main = textField.text!
+            self.userData.more_detail.address.baddress_main = textField.text!
         case 5:
-            self.billingAddress.country = textField.text!
+            self.userData.more_detail.address.bcountry = textField.text!
         case 6:
-            self.billingAddress.state = textField.text!
+            self.userData.more_detail.address.bstate = textField.text!
         case 7:
-            self.billingAddress.city = textField.text!
+            self.userData.more_detail.address.bcity = textField.text!
             self.isBillingAddressAdded = true
         default:
             break
@@ -234,11 +253,6 @@ extension AddMyCardViewController:WebServiceResponseDelegate {
         case .signup:
             if let data = dataDict as? Dictionary<String, Any> {
                 if let loginUser = LoginModel(dic: data as NSDictionary) {
-                    if isBillingAddressAdded {
-                        loginUser.more_detail.billingAddress = loginUser.more_detail.address
-                    } else {
-                        loginUser.more_detail.billingAddress = self.billingAddress
-                    }
                     CommonHelper.saveCachedUserData(loginUser)
                     self.navigationController?.tabBarController?.selectedIndex = 0
                     defaults.set(true, forKey: Constant.userLoginStatusKey)
@@ -250,8 +264,10 @@ extension AddMyCardViewController:WebServiceResponseDelegate {
                     }
                 }
                 hud.dismiss()
+            } else {
+                hud.dismiss()
             }
-            hud.dismiss()
+            
         default:
             hud.dismiss()
         }

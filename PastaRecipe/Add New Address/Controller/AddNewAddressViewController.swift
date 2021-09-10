@@ -35,13 +35,15 @@ class AddNewAddressViewController: UIViewController, PassDataDelegate {
     var isEditAddress = false
     var userLocation = LocationModel()
     var delegate:CardAndAddressViewController?
-    var myAddress = MyAddressModel()
-    var myBillingAddress = MyAddressModel()
+    var myAddress = AddressModel()
+    var isShippingMap = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
+        userLocation.address_lat = 0.0
+        userLocation.address_lng = 0.0
         initializeDropDown()
+        setupUI()
     }
     
     //IBACTION'S
@@ -59,15 +61,12 @@ class AddNewAddressViewController: UIViewController, PassDataDelegate {
     }
     
     @IBAction func openMapBtnAction(_ sender: Any) {
-        let storyboard = UIStoryboard (
-            name: Constant.mainStoryboard,
-            bundle: Bundle.main
-        )
-        let mapController = storyboard.instantiateViewController (
-            identifier: MapsVCIdentifier
-        ) as! MapsViewController
-        mapController.delagate = self
-        self.present(mapController, animated: true, completion: nil)
+        isShippingMap = true
+        openMap()
+    }
+    @IBAction func OpenBillingMapBtn(_ sender: Any) {
+        isShippingMap = false
+        openMap()
     }
     
     @IBAction func DefaultBtnAction(_ sender: Any) {
@@ -88,12 +87,30 @@ class AddNewAddressViewController: UIViewController, PassDataDelegate {
 extension AddNewAddressViewController {
     func passCurrentLocation(data: LocationModel) {
         userLocation = data
-        self.AddressTF.text = data.address
+        if isShippingMap {
+            self.AddressTF.text = data.address
+        } else {
+            self.BillingAddressTF.text = data.address
+        }
     }
 }
 
 //MARK: - HELPING METHODS EXTENSION
 extension AddNewAddressViewController {
+    
+    
+    func openMap()  {
+        let storyboard = UIStoryboard (
+            name: Constant.mainStoryboard,
+            bundle: Bundle.main
+        )
+        let mapController = storyboard.instantiateViewController (
+            identifier: MapsVCIdentifier
+        ) as! MapsViewController
+        mapController.delagate = self
+        self.present(mapController, animated: true, completion: nil)
+    }
+    
     func setupUI() {
         addPaddingOnFields()
         if isEditAddress {
@@ -102,18 +119,18 @@ extension AddNewAddressViewController {
             StateTF.text = myAddress.state
             CityTF.text = myAddress.city
             CountryTF.text = myAddress.country
-            
-            BillingAddressTF.text = myBillingAddress.address_main
-            BillingZipCodeTF.text = myBillingAddress.zipcode
-            BillingStateTF.text = myBillingAddress.state
-            BillingCityTF.text = myBillingAddress.city
-            BillingCountryTF.text = myBillingAddress.country
+            BillingZipCodeTF.text = myAddress.bzipcode
+            BillingAddressTF.text = myAddress.baddress_main
+            BillingCountryTF.text = myAddress.bcity
+            BillingStateTF.text = myAddress.bstate
+            BillingCityTF.text = myAddress.bcity
         }
     }
     
     func addPaddingOnFields() {
         ZipCodeTF.setLeftPaddingPoints(8)
-        setupPaddingOnFields(fileds: [AddressTF,CountryTF,StateTF,CityTF])
+        BillingZipCodeTF.setLeftPaddingPoints(8)
+        setupPaddingOnFields(fileds: [AddressTF,CountryTF,StateTF,CityTF,BillingAddressTF,BillingCityTF,BillingStateTF,BillingCountryTF])
     }
     
     func setupPaddingOnFields(fileds:[UITextField]) {
@@ -130,6 +147,13 @@ extension AddNewAddressViewController {
         ZipCodeTF.didSelect{(selectedText , index , id) in
             self.selectedZipCode = String(index + 1)
         }
+        
+        BillingZipCodeTF.optionArray = Constant.zipCodes
+        BillingZipCodeTF.selectedIndex = 0
+        BillingZipCodeTF.text = Constant.zipCodes.first
+        BillingZipCodeTF.didSelect{(selectedText , index , id) in
+            self.selectedZipCode = String(index + 1)
+        }
     }
     
     func validateFields() -> Bool {
@@ -142,12 +166,20 @@ extension AddNewAddressViewController {
     
     func addressApiParamerters(isEditProfile:Bool) {
         if let userId = CommonHelper.getCachedUserData()?.user_detail.user_id {
+            //Shipping Address
             dataDic[Constant.zipcode] = ZipCodeTF.text!
             dataDic[Constant.address_main] = AddressTF.text!
             dataDic[Constant.country] = CountryTF.text
             dataDic[Constant.state] = StateTF.text!
             dataDic[Constant.city] = CityTF.text!
+            //Billing Address
+            dataDic[Constant.bzipcode] = BillingZipCodeTF.text!
+            dataDic[Constant.baddress_main] = BillingAddressTF.text!
+            dataDic[Constant.bcountry] = BillingCountryTF.text
+            dataDic[Constant.bstate] = BillingStateTF.text!
+            dataDic[Constant.bcity] = BillingCityTF.text!
             dataDic[Constant.user_id] = Int(userId)
+            
             if isEditProfile {
                 dataDic[Constant.adresss_id] = myAddress.adresss_id
             }
@@ -158,6 +190,8 @@ extension AddNewAddressViewController {
             }
             dataDic[Constant.lat] = userLocation.address_lat
             dataDic[Constant.lng] = userLocation.address_lng
+            dataDic[Constant.blat] = userLocation.address_lat
+            dataDic[Constant.blng] = userLocation.address_lng
         }
     }
     
@@ -206,7 +240,7 @@ extension AddNewAddressViewController:WebServiceResponseDelegate {
             if let data = dataDict as? Dictionary<String, Any>{
                 if let address = data["default_adress"] as? NSDictionary {
                     hud.dismiss()
-                    myAddress = MyAddressModel(dic: address) ?? MyAddressModel()
+                    myAddress = AddressModel(dic: address) ?? AddressModel()
                     delegate?.upDateAddress(addressData: myAddress, isDefault: isDefault)
                     self.navigationController?.popViewController(animated: true)
                 } else {
@@ -219,7 +253,7 @@ extension AddNewAddressViewController:WebServiceResponseDelegate {
             if let data = dataDict as? Dictionary<String, Any>{
                 if let address = data["update_adress"] as? NSDictionary {
                     hud.dismiss()
-                    myAddress = MyAddressModel(dic: address) ?? MyAddressModel()
+                    myAddress = AddressModel(dic: address) ?? AddressModel()
                     self.delegate?.upDateAddress(addressData: myAddress, isDefault: isDefault)
                     self.navigationController?.popViewController(animated: true)
                 } else {

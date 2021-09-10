@@ -21,7 +21,7 @@ class CardAndAddressViewController: UIViewController {
     //VARIABLES
     var selectedType = false
     var dataDic:[String:Any]!
-    var myAddressArray = [MyAddressModel]()
+    var myAddressArray = [AddressModel]()
     var myCardArray = [MyCardModel]()
     
     override func viewDidLoad() {
@@ -45,7 +45,7 @@ class CardAndAddressViewController: UIViewController {
         if selectedType{
             showAddNewCardViewController(isEdit: false, selectedCard: MyCardModel())
         } else {
-            showAddNewAddressViewController(isEdit: false, myAddress: MyAddressModel())
+            showAddNewAddressViewController(isEdit: false, myAddress: AddressModel())
         }
     }
 }
@@ -67,21 +67,17 @@ extension CardAndAddressViewController {
         self.navigationController?.pushViewController(addCardViewController, animated: true)
     }
     
-    func showAddNewAddressViewController(isEdit:Bool, myAddress:MyAddressModel) {
+    func showAddNewAddressViewController(isEdit:Bool, myAddress:AddressModel) {
         let addAddressViewController = getViewController(identifier: "AddNewAddressViewController") as! AddNewAddressViewController
         addAddressViewController.delegate = self
         addAddressViewController.isEditAddress = isEdit
         if isEdit {
             addAddressViewController.myAddress = myAddress
-            if let myBillingAddress = CommonHelper.getCachedUserData()?.more_detail.billingAddress {
-                addAddressViewController.myBillingAddress = MyAddressModel(adresss_id: myBillingAddress.adresss_id, zipcode: myBillingAddress.zipcode, address_main: myBillingAddress.address_main, country: myBillingAddress.country, state: myBillingAddress.state, city: myBillingAddress.city, lat: myBillingAddress.lat, lng: myBillingAddress.lng, bydefault: myBillingAddress.bydefault, expired_date: "")
-            }
-            
         }
         self.navigationController?.pushViewController(addAddressViewController, animated: true)
     }
     
-    func updateUserCacheAddress(address:MyAddressModel) {
+    func updateUserCacheAddress(address:AddressModel) {
         if let user = CommonHelper.getCachedUserData() {
             user.more_detail.address.address_main = address.address_main
             user.more_detail.address.adresss_id = address.adresss_id
@@ -123,15 +119,16 @@ extension CardAndAddressViewController {
         CardAndAddressTableView.reloadData()
     }
     
-    func upDateAddress(addressData:MyAddressModel,isDefault:Bool) {
-        if isDefault {
-            for (_,value) in self.myAddressArray.enumerated() {
-                value.bydefault = "0"
-            }
-        }
-        updateUserCacheAddress(address: addressData)
-        myAddressArray.append(addressData)
-        CardAndAddressTableView.reloadData()
+    func upDateAddress(addressData:AddressModel,isDefault:Bool) {
+//        if isDefault {
+//            for (_,value) in self.myAddressArray.enumerated() {
+//                value.bydefault = "0"
+//            }
+//        }
+//        updateUserCacheAddress(address: addressData)
+//        myAddressArray.append(addressData)
+//        CardAndAddressTableView.reloadData()
+        getAllAddressApi()
     }
 }
 
@@ -277,14 +274,12 @@ extension CardAndAddressViewController:UITableViewDelegate,UITableViewDataSource
             cell.SetDefaultAddressBtn.addTarget(self, action: #selector(setDefaultAddressBtnAction(_:)), for: .touchUpInside)
             cell.EditBtn.tag = indexPath.row
             cell.SetDefaultAddressBtn.tag = indexPath.row
-            
-            if let userBillingAddress = CommonHelper.getCachedUserData()?.more_detail.billingAddress {
-                cell.BillingZipCodeLabel.text = userBillingAddress.zipcode
-                cell.BillingCountryLabel.text = userBillingAddress.country
-                cell.BillingStateLabel.text = userBillingAddress.state
-                cell.BillingCityLabel.text = userBillingAddress.city
-                cell.BillingBillingAddressLabel.text = userBillingAddress.address_main
-            }
+            //BILLING ADDRESS
+            cell.BillingZipCodeLabel.text = myAddressArray[indexPath.row].bzipcode
+            cell.BillingCountryLabel.text = myAddressArray[indexPath.row].bcountry
+            cell.BillingStateLabel.text = myAddressArray[indexPath.row].bstate
+            cell.BillingCityLabel.text = myAddressArray[indexPath.row].bcity
+            cell.BillingBillingAddressLabel.text = myAddressArray[indexPath.row].baddress_main
             return cell
         }
     }
@@ -354,11 +349,11 @@ extension CardAndAddressViewController:WebServiceResponseDelegate {
                         if let myaddress = address as? NSDictionary {
                             if let isDefault = myaddress ["bydefault"] as? String {
                                 if isDefault == "1" {
-                                    let defaultAddress = MyAddressModel(dic: address as! NSDictionary)
+                                    let defaultAddress = AddressModel(dic: address as! NSDictionary)
                                     self.updateUserCacheAddress(address: defaultAddress!)
                                 }
                             }
-                            myAddressArray.append(MyAddressModel(dic: myaddress) ?? MyAddressModel())
+                            myAddressArray.append(AddressModel(dic: myaddress) ?? AddressModel())
                         }
                     }
                     //Call Cards api
@@ -413,7 +408,7 @@ extension CardAndAddressViewController:WebServiceResponseDelegate {
                     self.myAddressArray.removeAll()
                     for address in addressList {
                         if let myaddress = address as? NSDictionary{
-                            myAddressArray.append(MyAddressModel(dic: myaddress) ?? MyAddressModel())
+                            myAddressArray.append(AddressModel(dic: myaddress) ?? AddressModel())
                         }
                     }
                     hud.dismiss()
