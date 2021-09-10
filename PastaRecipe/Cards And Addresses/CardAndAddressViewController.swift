@@ -73,6 +73,10 @@ extension CardAndAddressViewController {
         addAddressViewController.isEditAddress = isEdit
         if isEdit {
             addAddressViewController.myAddress = myAddress
+            if let myBillingAddress = CommonHelper.getCachedUserData()?.more_detail.billingAddress {
+                addAddressViewController.myBillingAddress = MyAddressModel(adresss_id: myBillingAddress.adresss_id, zipcode: myBillingAddress.zipcode, address_main: myBillingAddress.address_main, country: myBillingAddress.country, state: myBillingAddress.state, city: myBillingAddress.city, lat: myBillingAddress.lat, lng: myBillingAddress.lng, bydefault: myBillingAddress.bydefault, expired_date: "")
+            }
+            
         }
         self.navigationController?.pushViewController(addAddressViewController, animated: true)
     }

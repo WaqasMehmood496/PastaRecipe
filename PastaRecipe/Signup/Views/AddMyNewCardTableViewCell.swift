@@ -10,7 +10,6 @@ import UIKit
 import Stripe
 import JGProgressHUD
 import FormTextField
-import iOSDropDown
 
 class AddMyNewCardTableViewCell: UITableViewCell {
     
@@ -23,7 +22,7 @@ class AddMyNewCardTableViewCell: UITableViewCell {
     @IBOutlet weak var OpenMapBtn: UIButton!
     @IBOutlet weak var DefaultImage: UIImageView!
     @IBOutlet weak var CheckMarkImage: UIImageView!
-    @IBOutlet weak var ZipCodeField: DropDown!
+    @IBOutlet weak var ZipCodeField: UITextField!
     @IBOutlet weak var BillingAddressField: UITextField!
     @IBOutlet weak var CountryField: UITextField!
     @IBOutlet weak var StateField: UITextField!

@@ -52,7 +52,6 @@ extension AddMyCardViewController {
         self.present(mapController, animated: true, completion: nil)
     }
     
-    
     func signUpApi() {
         showHUDView(hudIV: .indeterminate, text: .process) { (hud) in
             hud.show(in: self.view, animated: true)
@@ -105,13 +104,6 @@ extension AddMyCardViewController: UITableViewDelegate, UITableViewDataSource {
         cell.CheckMarkImage.image = UIImage(named: "")
         cell.BillingAddressBtn.addTarget(self, action: #selector(billingAddressBtnAction(_:)), for: .touchUpInside)
         cell.OpenMapBtn.addTarget(self, action: #selector(OpenMapBtn(_:)), for: .touchUpInside)
-        
-        cell.ZipCodeField.optionArray = Constant.zipCodes
-        cell.ZipCodeField.text = Constant.zipCodes.first
-        cell.ZipCodeField.selectedIndex = 0
-        cell.ZipCodeField.didSelect { (selectedText , index , id) in
-            cell.ZipCodeField.text = selectedText
-        }
         
         cell.ZipCodeField.setLeftPaddingPoints(4)
         cell.BillingAddressField.setLeftPaddingPoints(4)
