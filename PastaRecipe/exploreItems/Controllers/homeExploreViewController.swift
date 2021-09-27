@@ -11,10 +11,12 @@ import JGProgressHUD
 import Kingfisher
 import AVFoundation
 import AZTabBar
+import AVKit
 
 class homeExploreViewController: UIViewController {
     
     @IBOutlet weak var ProductsTableView: UITableView!
+    @IBOutlet weak var VideoPlayerView: UIView!
     
     // CONSTANT'S
     let toSubcribeTypeSegue = "toSubcribeType"
@@ -30,9 +32,9 @@ class homeExploreViewController: UIViewController {
     var productsArray = [ProductsModel]()
     var recentlyAddedArray = [ProductsModel]()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -46,6 +48,18 @@ class homeExploreViewController: UIViewController {
         self.navigationController?.pushViewController(CardVC, animated: true)
     }
     
+    @IBAction func PlayVideoBtnAction(_ sender: UIButton) {
+        guard let path = Bundle.main.path(forResource: "CLIP", ofType:".mp4") else {
+            debugPrint("video.mp4 not found")
+            return
+        }
+        let player = AVPlayer(url: URL(fileURLWithPath: path))
+        let playerViewController = AVPlayerViewController()
+        playerViewController.player = player
+        self.present(playerViewController, animated: false) {
+            playerViewController.player!.play()
+        }
+    }
     
     // PREPARE FOR SEGUE COMPLETION METHOD
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -56,7 +70,6 @@ class homeExploreViewController: UIViewController {
         }
     }
 }
-
 
 
 //MARK:- HELPING METHOD'S

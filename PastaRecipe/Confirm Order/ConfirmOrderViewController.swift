@@ -305,6 +305,29 @@ extension ConfirmOrderViewController {
         mapController.delagate = self
         self.present(mapController, animated: true, completion: nil)
     }
+    
+    func addUserCoins(user:LoginModel) {
+        
+        if let stringPrice = selectedPlan.purchasingcoins {
+            
+            guard let price = Int(stringPrice) else { return }
+            var coins = UInt(user.user_detail.coins)!
+            
+            if price >= 10 && price < 15 {
+                coins = coins + 11
+            } else if price >= 15 && price < 20 {
+                coins = coins + 14
+            } else if price >= 20 && price < 24 {
+                coins = coins + 16
+            } else {
+                coins = coins + 20
+            }
+            
+            user.user_detail.coins = String(coins)
+            cartArray.removeAll()
+            CommonHelper.saveCachedUserData(user)
+        }
+    }
 }
 
 
@@ -390,21 +413,8 @@ extension ConfirmOrderViewController:WebServiceResponseDelegate {
         switch url {
         case .addpasteapurchyase:
             if dataDict is NSDictionary {
-                
-                if let user = CommonHelper.getCachedUserData(){
-                    if isSubscription {
-                        var coins = UInt(user.user_detail.coins)!
-                        coins = coins + 2
-                        user.user_detail.coins = String(coins)
-                        cartArray.removeAll()
-                        CommonHelper.saveCachedUserData(user)
-                    } else {
-                        var coins = UInt(user.user_detail.coins)!
-                        coins = coins + 1
-                        user.user_detail.coins = String(coins)
-                        cartArray.removeAll()
-                        CommonHelper.saveCachedUserData(user)
-                    }
+                if let user = CommonHelper.getCachedUserData() {
+                    addUserCoins(user: user)
                 }
                 self.navigationController?.popToRootViewController(animated: true)
             }

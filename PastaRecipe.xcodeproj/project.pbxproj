@@ -78,6 +78,7 @@
 		768417B526C3CC7000A6B4B6 /* MyCardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768417B426C3CC7000A6B4B6 /* MyCardModel.swift */; };
 		768417BD26C3DAFA00A6B4B6 /* AddNewCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768417BC26C3DAFA00A6B4B6 /* AddNewCardViewController.swift */; };
 		768417C426C3F15600A6B4B6 /* AddNewAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768417C326C3F15600A6B4B6 /* AddNewAddressViewController.swift */; };
+		7685A4742701E69900BB4364 /* CLIP.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7685A4702701E40A00BB4364 /* CLIP.mp4 */; };
 		768A022126BC175C00C9A90A /* AddMyCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768A022026BC175C00C9A90A /* AddMyCardViewController.swift */; };
 		768A026526BC1F4200C9A90A /* AddMyNewCardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768A026426BC1F4200C9A90A /* AddMyNewCardTableViewCell.swift */; };
 		76A9E30A26DCFB53001CA07C /* SelectedProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A9E30926DCFB53001CA07C /* SelectedProductTableViewCell.swift */; };
@@ -188,6 +189,7 @@
 		768417B426C3CC7000A6B4B6 /* MyCardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCardModel.swift; sourceTree = "<group>"; };
 		768417BC26C3DAFA00A6B4B6 /* AddNewCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewCardViewController.swift; sourceTree = "<group>"; };
 		768417C326C3F15600A6B4B6 /* AddNewAddressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewAddressViewController.swift; sourceTree = "<group>"; };
+		7685A4702701E40A00BB4364 /* CLIP.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = CLIP.mp4; sourceTree = "<group>"; };
 		768A022026BC175C00C9A90A /* AddMyCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMyCardViewController.swift; sourceTree = "<group>"; };
 		768A026426BC1F4200C9A90A /* AddMyNewCardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMyNewCardTableViewCell.swift; sourceTree = "<group>"; };
 		76A9E30926DCFB53001CA07C /* SelectedProductTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedProductTableViewCell.swift; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 				6BB8FEA3251F53F400A7C8C1 /* AppDelegate.swift */,
 				6BB8FEA7251F53F400A7C8C1 /* Main.storyboard */,
 				6BB8FEAD251F53F700A7C8C1 /* Assets.xcassets */,
+				7685A4702701E40A00BB4364 /* CLIP.mp4 */,
 				762AB4FC2630A52C002723D4 /* GoogleService-Info.plist */,
 				6BB8FEAF251F53F700A7C8C1 /* LaunchScreen.storyboard */,
 				6BB8FEB2251F53F700A7C8C1 /* Info.plist */,
@@ -1032,6 +1035,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7685A4742701E69900BB4364 /* CLIP.mp4 in Resources */,
 				76198C822630CE4400A832DA /* GoogleService-Info.plist in Resources */,
 				761681902631DF2600A08B1C /* Main.storyboard in Resources */,
 				6BB8FEB1251F53F700A7C8C1 /* LaunchScreen.storyboard in Resources */,

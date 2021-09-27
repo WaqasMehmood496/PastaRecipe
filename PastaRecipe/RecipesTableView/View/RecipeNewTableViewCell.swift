@@ -11,12 +11,11 @@ import UIKit
 class RecipeNewTableViewCell: UITableViewCell {
 
     @IBOutlet weak var giftLbl: UILabel!
-    
+    @IBOutlet weak var giftImage: UIImageView!
     @IBOutlet weak var subtitleLbl: UILabel!
-    
     @IBOutlet weak var coinLbl: UILabel!
-    
     @IBOutlet weak var redeemBtn: UIButton!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
